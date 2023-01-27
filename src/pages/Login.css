@@ -1,0 +1,83 @@
+.group {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 0 20px;
+  border: 0.3px solid #b9b8b8;
+  border-radius: 65px;
+}
+
+.input-icon {
+  margin-right: 1rem;
+  cursor: text;
+  color: #b1aeae;
+  font-size: 16.5px;
+}
+
+.eye-icon {
+  cursor: pointer;
+  font-size: 16.5px;
+  color: #afafaf;
+}
+
+input:focus {
+  outline: none;
+}
+
+.signup-left-image-container {
+  background-image: url(../assests/bg.jpg);
+  height: 100vh;
+  /* object-fit: scale-down; */
+  /* background-size:contain; */
+  /* background-repeat: no-repeat; */
+}
+
+
+.signup-right-container {
+  width: 93%;
+  padding: 4%;
+}
+
+.greeting-text {
+  font-weight: bold;
+  font-size: 28px;
+}
+
+.greeting-text-span {
+  color: #686565;
+}
+
+.hero-text {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  background: transparent;
+  font-weight: bold;
+}
+
+.hero-text-span {
+  width: 50%;
+  margin-top: 3%;
+}
+
+.signup-form {
+  padding: 3.5vh 5vw 2%;
+}
+
+.signup-form .form-inputs {
+  width: 100%;
+  height: 5.6vh;
+  outline: none;
+  border: none;
+  border-radius: 5%;
+}
+
+.signup-form .label {
+  font-weight: 700;
+}
+
+.signup-btn {
+  margin-top: 5vh;
+  height: 5.4vh;
+}

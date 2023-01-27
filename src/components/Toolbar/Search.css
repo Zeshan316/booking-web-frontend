@@ -1,0 +1,15 @@
+.dropdown {
+  width: 8rem;
+  height: 2.5rem;
+}
+
+.input{
+    width: 80%;
+    height:auto;
+    display: flex;
+}
+
+.input input::placeholder{
+    color: #ccc;
+}
+
