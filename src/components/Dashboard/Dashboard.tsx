@@ -3,7 +3,7 @@ import Toolbar from 'src/components/Toolbar/Toolbar'
 import Table from 'src/components/TabularView/Table'
 import Search from 'src/components/Toolbar/Search'
 
-export default function Dashboard() {
+export default function Dashboard(): JSX.Element {
 	return (
 		<Layout>
 			<Toolbar />
