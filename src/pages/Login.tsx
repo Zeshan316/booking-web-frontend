@@ -57,7 +57,7 @@ function Login(): JSX.Element {
 				<MDBCol className='col-lg-7 col-md-7 justify-content-center main-right-container'>
 					<div className='signup-right-container m-auto mt-5'>
 						<div>
-							<img src={img} />
+							<img src={img} alt={"..logo"}/>
 							<div style={{ marginTop: '1.5vh' }} className='mt-4'>
 								<div className='greeting-text'>Welcome</div>
 								{

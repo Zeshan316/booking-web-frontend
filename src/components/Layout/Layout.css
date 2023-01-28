@@ -1,17 +1,14 @@
-.main{
-    display: flex;
-    height: 100vh;
-    position: relative;
-    max-width:100%;
-  }
-  
-
+.main {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  max-width: 100%;
+}
 
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-
-  }
-
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 100%;
+  background-color: rgba(241, 236, 236, 0.945);
+}

@@ -1,45 +1,52 @@
-import React from 'react'
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
-import Login from './pages/Login'
-import Dashboard from './components/Dashboard/Dashboard'
-import ProtectedRoute from './routes/ProtectedRoute'
-import SysAdmin from './components/SysAdmin'
-import AppAdmin from './components/AppAdmin'
-import User from './components/User'
+import React from "react";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./components/Dashboard/Dashboard";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import SysAdmin from "./components/SysAdmin";
+import AppAdmin from "./components/AppAdmin";
+import User from "./components/User";
+import UserProfile from "./components/User/UserProfile";
+import RideHistory from "./components/User/RideHistory";
 
 function App(): JSX.Element {
-	React.useEffect(() => {}, [])
+  React.useEffect(() => {}, []);
 
-	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path='/home' element={<ProtectedRoute />}>
-					<Route path='' element={<Dashboard />} />
-				</Route>
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route path="" element={<Dashboard />} />
 
-				<Route path='/users' element={<ProtectedRoute />}>
-					{/* Should show all users in a table */}
-					<Route path='' element={<User />} />
-					{/* Should show form for to create a user */}
-					<Route path='add' element={<SysAdmin />} />
-					{/* Should show filled user data form */}
-					<Route path='edit' element={<SysAdmin />} />
-				</Route>
+		  <Route path="profile" element={<UserProfile/>} />
+		  	{/* Ride History */}
+			<Route path="history" element={<RideHistory />} />
+			
+        </Route>
 
-				<Route path='appadmin'>
-					<Route path='' element={<AppAdmin />} />
-				</Route>
+        <Route path="/users" element={<ProtectedRoute />}>
+          {/* Should show all users in a table */}
+          <Route path="" element={<User />} />
+          {/* Should show form to create a user */}
+          <Route path="add" element={<SysAdmin />} />
+          {/* Should show filled user data form */}
+          <Route path="edit" element={<SysAdmin />} />
+	
+        </Route>
 
-				<Route path='/login' element={<Login />} />
+        <Route path="appadmin">
+          <Route path="" element={<AppAdmin />} />
+        </Route>
 
-				<Route path='*' element={<h4>oops 404</h4>} />
-			</Routes>
-		</BrowserRouter>
-	)
+        <Route path="/login" element={<Login />} />
 
-	/* return (
+        <Route path="*" element={<h4>oops 404</h4>} />
+      </Routes>
+    </BrowserRouter>
+  );
+
+  /* return (
 		<BrowserRouter>
 			<Navbar />
 			<br />
@@ -86,4 +93,4 @@ function App(): JSX.Element {
 	) */
 }
 
-export default App
+export default App;

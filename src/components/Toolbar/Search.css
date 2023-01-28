@@ -4,9 +4,9 @@
 }
 
 .input{
-    width: 80%;
     height:auto;
     display: flex;
+    flex:1;
 }
 
 .input input::placeholder{

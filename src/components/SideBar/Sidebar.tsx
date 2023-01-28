@@ -1,31 +1,34 @@
-import React from 'react'
-import Header from '../Header/Header'
-import { Link } from 'react-router-dom'
-import './Sidebar.css'
+import React from "react";
+import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
 
 interface MenuItem {
-	text: string
-	path: string
+  text: string;
+  to?: string | any;
 }
 
-function Sidebar(): JSX.Element {
-	const menuItems: MenuItem[] = [
-		{ text: 'Home', path: '/home' },
-		{ text: 'Profile', path: '/profile' },
-		{ text: 'Users', path: '/users' },
-	]
 
-	return (
-		<div className={'side-nav-container'}>
-			<div className='nav-menu'>
-				{menuItems.map(({ text, path }) => (
-					<Link key={text} to={path} className={'menu-item'}>
-						<h5>{text}</h5>
-					</Link>
-				))}
-			</div>
-		</div>
-	)
-}
+const Sidebar = () => {
 
-export default Sidebar
+  const menuItems: MenuItem[] = [
+    { text: "Home", to:"/" },
+    { text: "Profile", to:"/profile" },
+    { text: "Ride History", to:"/history" },
+  ];
+
+  return (
+    <div className={"side-nav-container"}>
+      <div className="nav-menu">
+        {menuItems.map((item ) => (
+          <NavLink to={item.to}
+          key={item.text} className={"menu-item"} >
+            <h5>{item.text}</h5>
+          </NavLink>
+        ))}
+      </div>
+    </div>
+
+  );
+};
+
+export default Sidebar;
