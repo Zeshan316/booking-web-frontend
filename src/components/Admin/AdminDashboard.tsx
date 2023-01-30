@@ -1,12 +1,12 @@
 import Layout from "src/components/Layout/Layout";
-import CreateBooking from "src/components/Toolbar/CreateBooking";
+import CreateUser from "src/components/Toolbar/CreateUser";
 import Table from "src/components/TabularView/Table";
 import Search from "src/components/Toolbar/Search";
 
-export default function Dashboard(): JSX.Element {
+export default function UserDashboard(): JSX.Element {
   return (
     <Layout>
-      <CreateBooking />
+      <CreateUser />
       <Search />
       <Table />
     </Layout>

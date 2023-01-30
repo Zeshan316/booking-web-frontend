@@ -71,6 +71,7 @@ input:focus {
   outline: none;
   border: none;
   border-radius: 5%;
+  text-align: start;
 }
 
 .signup-form .label {

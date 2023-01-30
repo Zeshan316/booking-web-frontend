@@ -1,28 +1,33 @@
 import React from "react";
+import { MDBIcon } from "mdb-react-ui-kit";
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 
-interface MenuItem {
+interface Item {
   text: string;
-  to?: string | any;
+  to: string | any;
+  icon?: string;
 }
 
 
 const Sidebar = () => {
 
-  const menuItems: MenuItem[] = [
-    { text: "Home", to:"/" },
-    { text: "Profile", to:"/profile" },
-    { text: "Ride History", to:"/history" },
+  const userlinks: Item[] = [
+    { text: "Bookings", to:"/", icon: "car-side"},
+    { text: "Profile", to:"/profile", icon: "user" },
+    { text: "Ride History", to:"/history", icon: "history" },
   ];
+
+
 
   return (
     <div className={"side-nav-container"}>
       <div className="nav-menu">
-        {menuItems.map((item ) => (
+        {userlinks.map((item ) => (
           <NavLink to={item.to}
           key={item.text} className={"menu-item"} >
-            <h5>{item.text}</h5>
+            <MDBIcon className="px-2" size="lg" fas icon={item.icon} />
+            <span>{item.text}</span>
           </NavLink>
         ))}
       </div>

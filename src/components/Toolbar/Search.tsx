@@ -19,7 +19,7 @@ const Search: React.FC = () => {
         <MDBDropdownMenu>
           <MDBDropdownItem link>Last Name</MDBDropdownItem>
           <MDBDropdownItem link>First Name</MDBDropdownItem>
-          <MDBDropdownItem link>Something else here</MDBDropdownItem>
+          <MDBDropdownItem link>Email</MDBDropdownItem>
           <MDBDropdownItem divider />
           <MDBDropdownItem link>Separated link</MDBDropdownItem>
         </MDBDropdownMenu>

@@ -2,38 +2,67 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Dashboard from "./components/Dashboard/Dashboard";
+import UserDashboard from "./components/User/UserDashboard";
+import AdminDashboard from "./components/Admin/AdminDashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import SysAdmin from "./components/SysAdmin";
 import AppAdmin from "./components/AppAdmin";
 import User from "./components/User";
 import UserProfile from "./components/User/UserProfile";
 import RideHistory from "./components/User/RideHistory";
+import NotFound from "./components/NotFound/NotFound";
+import { ROLE } from "./roles";
 
 function App(): JSX.Element {
   React.useEffect(() => {}, []);
+	let role= 'Admin'
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ProtectedRoute />}>
-          <Route path="" element={<Dashboard />} />
+	{role === ROLE.User ? (
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute roles={[ROLE.User]}>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />) :
 
-		  <Route path="profile" element={<UserProfile/>} />
-		  	{/* Ride History */}
-			<Route path="history" element={<RideHistory />} />
-			
-        </Route>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute roles={[ROLE.Admin]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+	}
 
-        <Route path="/users" element={<ProtectedRoute />}>
-          {/* Should show all users in a table */}
-          <Route path="" element={<User />} />
-          {/* Should show form to create a user */}
-          <Route path="add" element={<SysAdmin />} />
-          {/* Should show filled user data form */}
-          <Route path="edit" element={<SysAdmin />} />
-	
-        </Route>
+
+
+
+        <Route path="profile" element={<UserProfile />} />
+        {/* Ride History */}
+        <Route path="history" element={<RideHistory />} />
+
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute roles={[ROLE.Admin]}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* <Route path="/users" element={<ProtectedRoute />}> */}
+        {/* Should show all users in a table */}
+        <Route path="" element={<User />} />
+        {/* Should show form to create a user */}
+        <Route path="add" element={<SysAdmin />} />
+        {/* Should show filled user data form */}
+        <Route path="edit" element={<SysAdmin />} />
 
         <Route path="appadmin">
           <Route path="" element={<AppAdmin />} />
@@ -41,7 +70,7 @@ function App(): JSX.Element {
 
         <Route path="/login" element={<Login />} />
 
-        <Route path="*" element={<h4>oops 404</h4>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

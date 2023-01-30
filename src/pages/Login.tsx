@@ -49,7 +49,7 @@ function Login(): JSX.Element {
 							Let us help you move!
 						</div>
 						<div className='text-center h6 position-absolute bottom-0'>
-							<span className='text-black'>Powered by</span>{' '}
+							<span>Powered by</span>{' '}
 							<b>DNA Micro Inc.</b>
 						</div>
 					</div>
@@ -73,7 +73,7 @@ function Login(): JSX.Element {
 							id='form'
 							className='signup-form col-lg-9 col-md-9 m-auto text-align-start'
 						>
-							<label className='label'>Email</label>
+							<label className='label p-2'>Email</label>
 
 							<div className='group'>
 								<MDBIcon far icon='envelope' className='input-icon' />
@@ -86,14 +86,14 @@ function Login(): JSX.Element {
 								/>
 							</div>
 
-							<label className='label mt-4'>Password</label>
+							<label className='label mt-4 p-2'>Password</label>
 							<div className='group'>
 								<MDBIcon fas icon='lock' className='input-icon' />
 								<input
 									type={showPassword ? 'text' : 'password'}
-									className='form-inputs mb-2'
+									className='form-inputs'
 									value={password}
-									placeholder='**********'
+									placeholder='*********'
 									onChange={handlePasswordChange}
 								/>
 								{showPassword ? (

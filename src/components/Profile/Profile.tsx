@@ -50,7 +50,7 @@ const ProfilePage = () => {
             <MDBRow className="mt-5 text-end">
               <MDBCol>
                 <MDBBtn color="primary" className="mb-3">
-                  Submit
+                  Update
                 </MDBBtn>
               </MDBCol>
             </MDBRow>

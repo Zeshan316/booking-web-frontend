@@ -68,9 +68,9 @@ const Table: React.FC = () => {
               <tr>
                 <th>Last Name</th>
                 <th>First Name</th>
-                <th>Email</th>
+                <th>Trip Date</th>
                 <th>Status</th>
-                <th>Position</th>
+                <th>Shift Time</th>
                 <th>Actions</th>
               </tr>
             </MDBTableHead>

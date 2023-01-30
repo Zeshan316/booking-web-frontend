@@ -10,11 +10,11 @@ import logo from "../../assests/shuttle-bus.png";
 const Header: React.FC = () => {
   return (
     <>
-      <MDBNavbar light className="px-5">
+      <MDBNavbar light className="px-3">
         <MDBContainer fluid>
           <MDBNavbarBrand>
             <img src={logo} height="40" alt="" loading="lazy" />
-            Cabby
+            DNA Cab Service
           </MDBNavbarBrand>
 
           <MDBBtn color="primary" type="button">
