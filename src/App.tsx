@@ -15,33 +15,30 @@ import { ROLE } from "./roles";
 
 function App(): JSX.Element {
   React.useEffect(() => {}, []);
-	let role= 'Admin'
+  let role = "User";
 
   return (
     <BrowserRouter>
       <Routes>
-	{role === ROLE.User ? (
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute roles={[ROLE.User]}>
-              <UserDashboard />
-            </ProtectedRoute>
-          }
-        />) :
-
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute roles={[ROLE.Admin]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-	}
-
-
-
+        {role === ROLE.User ? (
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute roles={[ROLE.User]}>
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
+        ) : (
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute roles={[ROLE.Admin]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+        )}
 
         <Route path="profile" element={<UserProfile />} />
         {/* Ride History */}

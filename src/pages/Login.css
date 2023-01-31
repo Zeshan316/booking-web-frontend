@@ -72,6 +72,9 @@ input:focus {
   border: none;
   border-radius: 5%;
   text-align: start;
+  font-weight: 500;
+  letter-spacing: 0.015rem;
+  font-size: 1.10rem;
 }
 
 .signup-form .label {
@@ -81,4 +84,7 @@ input:focus {
 .signup-btn {
   margin-top: 5vh;
   height: 5.4vh;
+  font-weight: bold;
+  font-size: 0.80rem;
+  letter-spacing: 0.025rem;
 }

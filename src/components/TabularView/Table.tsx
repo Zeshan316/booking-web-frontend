@@ -7,6 +7,7 @@ import {
   MDBBadge,
   MDBBtn,
   MDBIcon,
+  MDBTooltip,
 } from "mdb-react-ui-kit";
 
 const Table: React.FC = () => {
@@ -14,10 +15,11 @@ const Table: React.FC = () => {
     id: number;
     firstName: string;
     lastName: string;
-    email: string;
+    tripdate: string;
     status: string;
-    position: string;
+    shift_time: string;
     actions: string[] | JSX.Element[];
+    tooltip: string[] | JSX.Element[];
   }
 
   const data: TableData[] = [
@@ -25,56 +27,67 @@ const Table: React.FC = () => {
       id: 1,
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@gmail.com",
-      status: "Inactive",
-      position: "Senior",
+      tripdate: "31 Jan 2023",
+      status: "Awaiting",
+      shift_time: "8:00 AM",
       actions: [<MDBIcon icon="edit" />, <MDBIcon icon="trash" />],
+      tooltip: ["Edit your ride", "Delete your ride"],
     },
     {
       id: 2,
       firstName: "Mahnoor",
       lastName: "Ahmed",
-      email: "mahnoor@dnamicro.com",
-      status: "Active",
-      position: "Junior",
+      tripdate: "30 Jan 2023",
+      status: "Completed",
+      shift_time: "5:00 PM",
       actions: [<MDBIcon icon="edit" />, <MDBIcon icon="trash" />],
+      tooltip: ["Edit your ride", "Delete your ride"],
     },
     {
       id: 3,
       firstName: "Sara",
       lastName: "Khan",
-      email: "Sara.khan@outlook.com",
-      status: "Awaiting",
-      position: "Senior",
+      tripdate: "26 Jan 2023",
+      status: "Completed",
+      shift_time: "8:00 AM",
       actions: [<MDBIcon icon="edit" />, <MDBIcon icon="trash" />],
+      tooltip: ["Edit your ride", "Delete your ride"],
     },
     {
       id: 4,
       firstName: "Eva",
       lastName: "Green",
-      email: "Eva.blue@gmail.com",
-      status: "Disabled",
-      position: "Junior",
+      tripdate: "25 Jan 2023",
+      status: "Cancelled",
+      shift_time: "5:00 PM",
       actions: [<MDBIcon icon="edit" />, <MDBIcon icon="trash" />],
+      tooltip: ["Edit your ride", "Delete your ride"],
     },
   ];
 
   return (
     <MDBContainer fluid>
       <section>
-        <div className="shadow-4 rounded-4 overflow-hidden">
-          <MDBTable  hover>
-            <MDBTableHead >
+        <div className="shadow-4 rounded-4 overflow-hidden bg-light">
+          <MDBTable hover>
+            <MDBTableHead style={{ backgroundColor: "#f2f3f5" }}>
               <tr>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Trip Date</th>
-                <th>Status</th>
-                <th>Shift Time</th>
-                <th>Actions</th>
+                <th className="fw-bold">Last Name</th>
+                <th className="fw-bold">First Name</th>
+                <th className="fw-bold">Trip Date</th>
+                <th className="fw-bold">Status</th>
+                <th className="fw-bold">Shift Time</th>
+                <th className="fw-bold">Actions</th>
               </tr>
             </MDBTableHead>
-            <MDBTableBody style={{ verticalAlign: "middle" }}>
+            <MDBTableBody
+              style={{
+                verticalAlign: "middle",
+                fontSize: "1rem",
+                fontWeight: "600",
+                color: "darkslategray",
+              }}
+            >
               {data.map((item) => (
                 <tr key={item.id}>
                   <td>
@@ -92,19 +105,29 @@ const Table: React.FC = () => {
                     </div>
                   </td>
                   <td>
-                    <p className="fw-normal mb-1">{item.firstName}</p>
+                    <p className=" mb-1">{item.firstName}</p>
                   </td>
                   <td>
-                    <p className="text-muted mb-0">{item.email}</p>
+                    <p className="mb-0">{item.tripdate}</p>
                   </td>
                   <td>
-                    <MDBBadge light color="success" pill>
-                      {item.status}
-                    </MDBBadge>
+                    {item.status === "Awaiting" ? (
+                      <MDBBadge light color="warning" pill className="p-2">
+                        {item.status}
+                      </MDBBadge>
+                    ) : item.status === "Completed" ? (
+                      <MDBBadge light color="success" pill className="p-2">
+                        {item.status}
+                      </MDBBadge>
+                    ) : (
+                      <MDBBadge light color="danger" pill className="p-2">
+                        {item.status}
+                      </MDBBadge>
+                    )}
                   </td>
-                  <td>{item.position}</td>
+                  <td>{item.shift_time}</td>
                   <td>
-                    {item.actions.map((action) => (
+                    {item.actions.map((action, i) => (
                       <MDBBtn
                         className="fw-bold fs-6 p-2"
                         color="link"
@@ -112,7 +135,13 @@ const Table: React.FC = () => {
                         size="sm"
                         rippleColor="dark"
                       >
-                        <span key={item.id}>{action}</span>
+                        <MDBTooltip
+                          tag="a"
+                          wrapperProps={{ href: "#" }}
+                          title={item.tooltip[i]}
+                        >
+                          <span key={item.id}>{action}</span>
+                        </MDBTooltip>
                       </MDBBtn>
                     ))}
                   </td>
