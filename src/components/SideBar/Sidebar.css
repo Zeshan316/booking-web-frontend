@@ -1,8 +1,7 @@
 .side-nav-container {
-  background-color: #11698e;
-  width: 14%;
+  width: 15%;
   position: sticky;
-  height: 100vh;
+  
 }
 
 .nav-menu {
@@ -10,26 +9,41 @@
   flex-direction: column;
   align-items: flex-start;
   /* margin-left: 2rem; */
-  margin-top: 2rem;
+  margin-top: 2.70rem;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 2rem 2rem;
   list-style: none;
   height: 3.75rem;
   width: 100%;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: #fff;
   transition: 0.2s ease-in-out;
   cursor: pointer;
 }
 
 .menu-item:hover {
-  background-color: #ffffff21;
+  opacity: 0.6;
   color: white;
   border-radius: 3%;
 }
 
+.menu-item.active {
+  background-color: #79def079;
+  color: white;
+  border-radius: 3%;
+}
+
+.menu-text{
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.icon {
+width: 3rem;
+font-size: 1.65rem;
+}

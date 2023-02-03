@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MDBContainer,
   MDBTable,
@@ -9,8 +9,14 @@ import {
   MDBIcon,
   MDBTooltip,
 } from "mdb-react-ui-kit";
+import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+import "./RideDetails.css";
+import RideDetails from "./RideDetails";
 
 const Table: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   interface TableData {
     id: number;
     firstName: string;
@@ -21,6 +27,8 @@ const Table: React.FC = () => {
     actions: string[] | JSX.Element[];
     tooltip: string[] | JSX.Element[];
   }
+
+  const navigate = useNavigate();
 
   const data: TableData[] = [
     {
@@ -70,26 +78,27 @@ const Table: React.FC = () => {
       <section>
         <div className="shadow-4 rounded-4 overflow-hidden bg-light">
           <MDBTable hover>
-            <MDBTableHead style={{ backgroundColor: "#f2f3f5" }}>
+            <MDBTableHead className="bg-info">
               <tr>
-                <th className="fw-bold">Last Name</th>
-                <th className="fw-bold">First Name</th>
-                <th className="fw-bold">Trip Date</th>
-                <th className="fw-bold">Status</th>
-                <th className="fw-bold">Shift Time</th>
-                <th className="fw-bold">Actions</th>
+                <th className="fw-bold text-white h6">Last Name</th>
+                <th className="fw-bold text-white h6">First Name</th>
+                <th className="fw-bold text-white h6">Trip Date</th>
+                <th className="fw-bold text-white h6">Status</th>
+                <th className="fw-bold text-white h6">Shift Time</th>
+                <th className="fw-bold text-white h6">Actions</th>
               </tr>
             </MDBTableHead>
             <MDBTableBody
               style={{
                 verticalAlign: "middle",
-                fontSize: "1rem",
-                fontWeight: "600",
-                color: "darkslategray",
               }}
             >
               {data.map((item) => (
-                <tr key={item.id}>
+                <tr
+                  key={item.id}
+                  onClick={() => setIsOpen(true)}
+                  className="items"
+                >
                   <td>
                     <div className="d-flex align-items-center">
                       <img
@@ -129,17 +138,13 @@ const Table: React.FC = () => {
                   <td>
                     {item.actions.map((action, i) => (
                       <MDBBtn
-                        className="fw-bold fs-6 p-2"
-                        color="link"
-                        rounded
+                        key={i}
+                        className="fs-6 p-2"
+                        color="light"
                         size="sm"
                         rippleColor="dark"
                       >
-                        <MDBTooltip
-                          tag="a"
-                          wrapperProps={{ href: "#" }}
-                          title={item.tooltip[i]}
-                        >
+                        <MDBTooltip tag="a" title={item.tooltip[i]}>
                           <span key={item.id}>{action}</span>
                         </MDBTooltip>
                       </MDBBtn>
@@ -149,7 +154,38 @@ const Table: React.FC = () => {
               ))}
             </MDBTableBody>
           </MDBTable>
+
+          {isOpen && (
+            <RideDetails show={isOpen} setShow={() => setIsOpen(!isOpen)} />
+          )}
         </div>
+
+        {/* <div className="d-flex justify-content-center p-2 mt-4 bg-light">
+          <span className="fw-light">Rows per page: </span> */}
+        {/* <MDBSelect className="ms-3">
+            <MDBInput selected="10" />
+            <MDBSelectOptions>
+              <MDBSelectOption value="10">10</MDBSelectOption>
+              <MDBSelectOption value="20">20</MDBSelectOption>
+              <MDBSelectOption value="30">30</MDBSelectOption>
+              <MDBSelectOption value="40">40</MDBSelectOption>
+              <MDBSelectOption value="50">50</MDBSelectOption>
+            </MDBSelectOptions>
+          </MDBSelect> */}
+
+        {/* <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            breakClassName={"page-link"}
+            pageCount={5}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={() => console.log("page changed")}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          /> */}
+        {/* </div> */}
       </section>
     </MDBContainer>
   );

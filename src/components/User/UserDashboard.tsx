@@ -11,7 +11,7 @@ export default function UserDashboard(): JSX.Element {
       <MDBRow className="mt-5 px-3 py-2 text-start bg-light">
         <MDBCol>
           <ModalButton
-            modalTitle="Create Ride"
+            modalTitle="Create a Ride"
             iconname={"bus"}
             modalBody={<CreateRide />}
           >

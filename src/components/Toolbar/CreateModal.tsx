@@ -17,7 +17,7 @@ export default function CreateModal(): JSX.Element {
           Create Ride
         </ModalButton>
       </MDBCol>
-      <MDBCol className="">
+      <MDBCol className="text-start">
         <ModalButton
           modalTitle="Create User"
           iconname={"user-plus"}

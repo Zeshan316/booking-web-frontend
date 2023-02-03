@@ -11,21 +11,23 @@ import "./Search.css";
 
 const Search: React.FC = () => {
   return (
-    <MDBInputGroup
-      className="mb-3 d-flex justify-content-center mt-3 p-3">
-      <MDBBtn outline>Search By</MDBBtn>
+    <MDBInputGroup className="mb-3 d-flex justify-content-center mt-3 p-3">
+      <MDBBtn color="info" className="buttonstyle border-info" outline>
+        Search By
+      </MDBBtn>
       <MDBDropdown>
-        <MDBDropdownToggle className="dropdown">Choose</MDBDropdownToggle>
+        <MDBDropdownToggle color="info" className="buttonstyle drop_down">
+          Choose
+        </MDBDropdownToggle>
         <MDBDropdownMenu>
           <MDBDropdownItem link>Last Name</MDBDropdownItem>
           <MDBDropdownItem link>First Name</MDBDropdownItem>
-          <MDBDropdownItem link>Email</MDBDropdownItem>
-          <MDBDropdownItem divider />
-          <MDBDropdownItem link>Separated link</MDBDropdownItem>
+          <MDBDropdownItem link>Trip Date</MDBDropdownItem>
+          <MDBDropdownItem link>Status</MDBDropdownItem>
         </MDBDropdownMenu>
       </MDBDropdown>
 
-      <form className="input ms-2">
+      <form className="input ms-1">
         <input
           type="search"
           className="form-control rounded"
@@ -33,8 +35,8 @@ const Search: React.FC = () => {
           aria-label="Search"
           aria-describedby="search-addon"
         />
-        <MDBBtn type="button" className="btn btn-primary ms-1">
-          search
+        <MDBBtn color="info" className="buttonstyle ms-1">
+          Search
         </MDBBtn>
       </form>
     </MDBInputGroup>

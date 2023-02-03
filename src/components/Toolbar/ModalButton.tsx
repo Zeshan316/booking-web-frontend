@@ -4,11 +4,11 @@ import {
   MDBModalHeader,
   MDBModalTitle,
   MDBIcon,
-  MDBModalFooter,
   MDBBtn,
   MDBModalDialog,
   MDBModalContent,
 } from "mdb-react-ui-kit";
+import "./CreateRide.css";
 
 interface Props {
   children: React.ReactNode;
@@ -31,15 +31,17 @@ const ModalButton: React.FC<Props> = ({
 
   return (
     <>
-      <MDBBtn onClick={toggleModal}>{children}</MDBBtn>
+      <MDBBtn color="info" className="button_style" onClick={toggleModal}>
+        {children}
+      </MDBBtn>
       <MDBModal show={isOpen} setShow={setIsOpen}>
         <MDBModalDialog>
           <MDBModalContent>
             <MDBModalHeader>
-              <MDBModalTitle>
+              <MDBModalTitle className="fw-bold">
                 <MDBIcon
                   size="xl"
-                  color="dark"
+                  color="info"
                   className="px-2"
                   fas
                   icon={iconname}

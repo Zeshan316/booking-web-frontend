@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { MDBBtn, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
+import { MDBModalBody } from "mdb-react-ui-kit";
 import "./CreateRide.css";
 
 export default function CreateUser(): JSX.Element {
-  const [userModal, setUserModal] = useState(false);
-
   return (
     <>
       <MDBModalBody className="mx-4">
@@ -57,13 +55,6 @@ export default function CreateUser(): JSX.Element {
           </div>
         </form>
       </MDBModalBody>
-
-      <MDBModalFooter>
-        <MDBBtn color="secondary" onClick={() => setUserModal(!userModal)}>
-          Close
-        </MDBBtn>
-        <MDBBtn>Save changes</MDBBtn>
-      </MDBModalFooter>
     </>
   );
 }

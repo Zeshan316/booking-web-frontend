@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBBtn, MDBIcon, MDBRow, MDBCol } from "mdb-react-ui-kit";
-import img from "../assests/shuttle-bus.png";
+import img from "../assets/bus.png";
 import "./Login.css";
 
 function Login(): JSX.Element {
@@ -33,13 +33,7 @@ function Login(): JSX.Element {
     <div className="col-12 overflow-hidden">
       <MDBRow>
         <MDBCol className="signup-left-image-container bg-image col-lg-5 col-md-5 d-sm-none d-md-block">
-          <div className="hero-text text-center d-flex justify-content-center text-white h1 fw-light">
-            <img
-              src={img}
-              object-fit="contain"
-              className="img-fluid"
-              alt="..."
-            />
+          <div className="hero-text text-center d-flex justify-content-center h1 ">
             DNA-Cab Service <br />
             <div className="hero-text-span h5 fw-bold">
               Let us help you move!
@@ -53,10 +47,10 @@ function Login(): JSX.Element {
           <div className="signup-right-container m-auto mt-5">
             <div>
               <img src={img} alt={"..logo"} />
-              <div style={{ marginTop: "1.5vh" }} className="mt-4">
+              <div className="mt-1">
                 <div className="greeting-text">Welcome</div>
                 {
-                  <span className="greeting-text-span h5">
+                  <span className="greeting-text-span">
                     Ready to get started?
                   </span>
                 }
@@ -77,6 +71,7 @@ function Login(): JSX.Element {
                   className="form-inputs"
                   value={email}
                   placeholder="Enter Email"
+                  required
                   onChange={handleEmailChange}
                 />
               </div>
@@ -89,6 +84,7 @@ function Login(): JSX.Element {
                   className="form-inputs"
                   value={password}
                   placeholder="*********"
+                  required
                   onChange={handlePasswordChange}
                 />
                 {showPassword ? (

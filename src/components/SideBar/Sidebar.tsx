@@ -10,23 +10,24 @@ interface Item {
 }
 
 let role: string = "User";
+let links: Item[] = [];
 
 const Sidebar = () => {
   const userlinks: Item[] = [
     { text: "Rides", to: "/", icon: "car-side" },
-    { text: "Profile", to: "/profile", icon: "user" },
+    { text: "Profile", to: "/profile", icon: "user-circle" },
   ];
 
   const adminlinks: Item[] = [
     { text: "Users", to: "/users", icon: "users" },
     { text: "My Rides", to: "/", icon: "car-side" },
     { text: "User Rides", to: "/userRides", icon: "car-side" },
-    { text: "Profile", to: "/profile", icon: "user" },
+    { text: "Profile", to: "/profile", icon: "user-circle" },
   ];
 
   const driverlinks: Item[] = [
     { text: "Booked Rides", to: "/", icon: "car-side" },
-    { text: "Profile", to: "/profile", icon: "user" },
+    { text: "Profile", to: "/profile", icon: "user-circle" },
   ];
 
   const sysadminlinks: Item[] = [
@@ -34,37 +35,28 @@ const Sidebar = () => {
     { text: "Rides", to: "/", icon: "car-side" },
   ];
 
+  if (role === "User") {
+    links = userlinks;
+  }
+  if (role === "Admin") {
+    links = adminlinks;
+  }
+  if (role === "Driver") {
+    links = driverlinks;
+  }
+  if (role === "SysAdmin") {
+    links = sysadminlinks;
+  }
+
   return (
-    <div className={"side-nav-container"}>
+    <div className="side-nav-container bg-info">
       <div className="nav-menu">
-        {role === "User" &&
-          userlinks.map((item) => (
-            <NavLink to={item.to} key={item.text} className={"menu-item"}>
-              <MDBIcon className="px-2" size="lg" fas icon={item.icon} />
-              <span>{item.text}</span>
-            </NavLink>
-          ))}
-        {role === "Admin" &&
-          adminlinks.map((item) => (
-            <NavLink to={item.to} key={item.text} className={"menu-item"}>
-              <MDBIcon className="px-2" size="lg" fas icon={item.icon} />
-              <span>{item.text}</span>
-            </NavLink>
-          ))}
-        {role === "Driver" &&
-          driverlinks.map((item) => (
-            <NavLink to={item.to} key={item.text} className={"menu-item"}>
-              <MDBIcon className="px-2" size="lg" fas icon={item.icon} />
-              <span>{item.text}</span>
-            </NavLink>
-          ))}
-        {role === "SysAdmin" &&
-          sysadminlinks.map((item) => (
-            <NavLink to={item.to} key={item.text} className={"menu-item"}>
-              <MDBIcon className="px-2" size="lg" fas icon={item.icon} />
-              <span>{item.text}</span>
-            </NavLink>
-          ))}
+        {links.map((item) => (
+          <NavLink to={item.to} key={item.text} className="menu-item">
+            <MDBIcon className="icon" fas icon={item.icon} />
+            <span className="menu-text">{item.text}</span>
+          </NavLink>
+        ))}
       </div>
     </div>
   );

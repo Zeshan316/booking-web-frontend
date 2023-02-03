@@ -1,4 +1,4 @@
-.dropdown {
+.drop_down {
   width: 8rem;
   height: 2.5rem;
 }
@@ -13,3 +13,12 @@
     color: #ccc;
 }
 
+.buttonstyle{
+  border: 1px solid #bdbdbd;
+  border-radius: 0.25rem;
+  /* padding: 0.375rem 0.75rem; */
+  font-size: 16px;
+  outline: none;
+  text-transform: none;
+  font-weight: 600;
+}

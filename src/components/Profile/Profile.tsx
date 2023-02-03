@@ -25,14 +25,14 @@ const ProfilePage = () => {
   };
 
   return (
-    <MDBContainer className="mt-5 w-50">
+    <MDBContainer className="mt-4 w-50">
       <MDBCard className="card">
         <MDBCardBody className="card-body p-4 p-md-5">
-          <h3 className="fw-bold mb-4 pb-2">Profile Details</h3>
+          <h3 className="fw-normal mb-2 pb-2">Profile Details</h3>
           <img
             src="https://mdbootstrap.com/img/new/avatars/8.jpg"
             alt=""
-            className="rounded-circle align img-fluid w-25 mx-auto d-block mb-4"
+            className="rounded-circle align img-fluid w-25 mx-auto d-block"
           />
           <form className="col-lg-9 col-md-9 m-auto text-align-start">
             <label className="fw-bold">First Name</label>
@@ -45,11 +45,17 @@ const ProfilePage = () => {
             <MDBInput type={"email"} label="Email" className="mb-3" />
 
             <label className="fw-bold">Phone no.</label>
-            <MDBInput type={"number"} label="Phone no." />
+            <MDBInput type={"number"} className="mb-3" label="Phone no." />
 
-            <MDBRow className="mt-5 text-end">
+            <label className="fw-bold">Profile Image URL</label>
+            <MDBInput type={"url"} className="mb-3" label="Profile Image URL" />
+
+            <label className="fw-bold">Department</label>
+            <MDBInput type={"text"} className="mb-1" label="Department" />
+
+            <MDBRow className="mt-3 text-end">
               <MDBCol>
-                <MDBBtn color="primary" className="mb-3">
+                <MDBBtn color="info" className="fw-bold">
                   Update
                 </MDBBtn>
               </MDBCol>
