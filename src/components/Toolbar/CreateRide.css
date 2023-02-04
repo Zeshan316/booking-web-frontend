@@ -44,3 +44,9 @@
 .timepicker-hour-mode{
     font-weight: 600;
 }
+
+.error_msg{
+    color: red;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
