@@ -9,6 +9,11 @@
     text-transform: none;
 }
 
+.sort-icon{
+    font-size: 1rem;
+    cursor: pointer;
+}
+
 .back_btn{
     font-size: 28px;
     color: #4f4f4f;
@@ -22,10 +27,19 @@
     opacity: 0.7;
 }
 
+.status{
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: #696767;
+    text-transform: none;
+}
+
+
 .items{
 font-weight: 500;
 font-size: 1.05rem;
 }
+
 
 .items:hover{
     cursor: pointer;

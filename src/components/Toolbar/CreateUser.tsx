@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MDBModalBody } from "mdb-react-ui-kit";
+import { MDBModalBody, MDBModalFooter, MDBBtn } from "mdb-react-ui-kit";
 import "./CreateRide.css";
 
 export default function CreateUser(): JSX.Element {
@@ -54,6 +54,23 @@ export default function CreateUser(): JSX.Element {
             </select>
           </div>
         </form>
+
+        <MDBModalFooter>
+          <MDBBtn
+            color="secondary"
+            className="button_style px-4 border-0"
+            // onClick={() => setToggleModal(!toggleModal)}
+          >
+            Close
+          </MDBBtn>
+          <MDBBtn
+            color="info"
+            className="button_style px-4"
+            // onClick={(e: any) => submitRide(e)}
+          >
+            Save
+          </MDBBtn>
+        </MDBModalFooter>
       </MDBModalBody>
     </>
   );

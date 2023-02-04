@@ -31,7 +31,7 @@ const ModalButton: React.FC<Props> = ({
 
   return (
     <>
-      <MDBBtn color="info" className="button_style" onClick={toggleModal}>
+      <MDBBtn color="info" className="button_style me-3" onClick={toggleModal}>
         {children}
       </MDBBtn>
       <MDBModal show={isOpen} setShow={setIsOpen}>

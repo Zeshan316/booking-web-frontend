@@ -6,6 +6,7 @@ import {
   MDBTableBody,
   MDBBadge,
   MDBBtn,
+  MDBRow,
   MDBIcon,
   MDBTooltip,
 } from "mdb-react-ui-kit";
@@ -14,21 +15,24 @@ import ReactPaginate from "react-paginate";
 import "./RideDetails.css";
 import RideDetails from "./RideDetails";
 
+interface TableData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  tripdate: string;
+  status: string;
+  shift_time: string;
+  actions: string[] | JSX.Element[];
+  tooltip: string[] | JSX.Element[];
+}
+
 const Table: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  interface TableData {
-    id: number;
-    firstName: string;
-    lastName: string;
-    tripdate: string;
-    status: string;
-    shift_time: string;
-    actions: string[] | JSX.Element[];
-    tooltip: string[] | JSX.Element[];
-  }
+  const [isAscending, setIsAscending] = useState(true);
 
   const navigate = useNavigate();
+
+  const role: string = "Admin";
 
   const data: TableData[] = [
     {
@@ -48,7 +52,11 @@ const Table: React.FC = () => {
       tripdate: "30 Jan 2023",
       status: "Completed",
       shift_time: "5:00 PM",
-      actions: [<MDBIcon icon="edit" />, <MDBIcon icon="trash" />],
+      actions: [
+        <MDBIcon icon="edit" />,
+        <MDBIcon icon="trash" />,
+        // <MDBIcon icon="lock" />,
+      ],
       tooltip: ["Edit your ride", "Delete your ride"],
     },
     {
@@ -76,16 +84,48 @@ const Table: React.FC = () => {
   return (
     <MDBContainer fluid>
       <section>
-        <div className="shadow-4 rounded-4 overflow-hidden bg-light">
+        <div className="shadow-4 rounded-4 overflow-hidden bg-light ">
           <MDBTable hover>
             <MDBTableHead className="bg-info">
               <tr>
-                <th className="fw-bold text-white h6">Last Name</th>
-                <th className="fw-bold text-white h6">First Name</th>
-                <th className="fw-bold text-white h6">Trip Date</th>
+                <th className="fw-bold text-white h6">
+                  <MDBIcon
+                    icon={isAscending ? "sort-up" : "sort-down"}
+                    className="sort-icon me-2"
+                    onClick={() => setIsAscending(!isAscending)}
+                  />
+                  Last Name
+                </th>
+                <th className="fw-bold text-white h6">
+                  <MDBIcon
+                    icon={isAscending ? "sort-up" : "sort-down"}
+                    className="sort-icon me-2"
+                    onClick={() => setIsAscending(!isAscending)}
+                  />
+                  First Name
+                </th>
+                <th className="fw-bold text-white h6">
+                  <MDBIcon
+                    icon={isAscending ? "sort-up" : "sort-down"}
+                    className="sort-icon me-2"
+                    onClick={() => setIsAscending(!isAscending)}
+                  />
+                  Trip Date
+                </th>
                 <th className="fw-bold text-white h6">Status</th>
-                <th className="fw-bold text-white h6">Shift Time</th>
+                <th className="fw-bold text-white h6">
+                  <MDBIcon
+                    icon={isAscending ? "sort-up" : "sort-down"}
+                    className="sort-icon me-2"
+                    onClick={() => setIsAscending(!isAscending)}
+                  />
+                  Shift Time
+                </th>
                 <th className="fw-bold text-white h6">Actions</th>
+
+                {role === "Admin" && (
+                  <th className="fw-bold text-white h6"></th>
+                )}
               </tr>
             </MDBTableHead>
             <MDBTableBody
@@ -121,15 +161,15 @@ const Table: React.FC = () => {
                   </td>
                   <td>
                     {item.status === "Awaiting" ? (
-                      <MDBBadge light color="warning" pill className="p-2">
+                      <MDBBadge light color="warning" pill className="status">
                         {item.status}
                       </MDBBadge>
                     ) : item.status === "Completed" ? (
-                      <MDBBadge light color="success" pill className="p-2">
+                      <MDBBadge light color="success" pill className="status">
                         {item.status}
                       </MDBBadge>
                     ) : (
-                      <MDBBadge light color="danger" pill className="p-2">
+                      <MDBBadge light color="danger" pill className="status">
                         {item.status}
                       </MDBBadge>
                     )}
@@ -145,10 +185,22 @@ const Table: React.FC = () => {
                         rippleColor="dark"
                       >
                         <MDBTooltip tag="a" title={item.tooltip[i]}>
-                          <span key={item.id}>{action}</span>
+                          <span key={item.id}>{item.actions[i]}</span>
                         </MDBTooltip>
                       </MDBBtn>
                     ))}
+                  </td>
+                  <td>
+                    <MDBBtn
+                      className="fs-6 p-0"
+                      color="light"
+                      size="sm"
+                      rippleColor="dark"
+                    >
+                      <MDBTooltip tag="a" title="unlock user">
+                        <MDBIcon icon="lock" color="muted" />
+                      </MDBTooltip>
+                    </MDBBtn>
                   </td>
                 </tr>
               ))}

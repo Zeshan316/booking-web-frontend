@@ -34,7 +34,7 @@ const ProtectedRoute = ({
   const loading = false;
   const user = {
     username: "username", //from session storage; data.username
-    role: ROLE.User, //from session storage; data.role
+    role: ROLE.Admin, //from session storage; data.role
   };
 
   if (loading) {

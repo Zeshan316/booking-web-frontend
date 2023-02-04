@@ -79,7 +79,7 @@ export default function CreateRide(): JSX.Element {
               inputClasses="fw-bold mb-2 text-dark"
             />
 
-            <label className="fw-bold py-1"> Shuttle Route Direction</label>
+            <label className="fw-bold py-1"> Shuttle Direction</label>
             <MDBSelect
               data={[
                 {

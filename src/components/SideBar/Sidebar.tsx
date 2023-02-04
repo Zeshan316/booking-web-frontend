@@ -9,7 +9,7 @@ interface Item {
   icon?: string;
 }
 
-let role: string = "User";
+let role: string = "Admin";
 let links: Item[] = [];
 
 const Sidebar = () => {
@@ -20,8 +20,8 @@ const Sidebar = () => {
 
   const adminlinks: Item[] = [
     { text: "Users", to: "/users", icon: "users" },
-    { text: "My Rides", to: "/", icon: "car-side" },
-    { text: "User Rides", to: "/userRides", icon: "car-side" },
+    { text: "My Rides", to: "/myrides", icon: "car-side" },
+    { text: "User Rides", to: "/", icon: "car-side" },
     { text: "Profile", to: "/profile", icon: "user-circle" },
   ];
 

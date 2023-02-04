@@ -7,8 +7,8 @@ import "./CreateRide.css";
 
 export default function CreateModal(): JSX.Element {
   return (
-    <MDBRow className="mt-5 px-3 py-2 text-start bg-light ">
-      <MDBCol>
+    <MDBRow className="mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 ">
+      <MDBCol className="">
         <ModalButton
           modalTitle="Create Ride"
           iconname={"bus"}
@@ -16,8 +16,6 @@ export default function CreateModal(): JSX.Element {
         >
           Create Ride
         </ModalButton>
-      </MDBCol>
-      <MDBCol className="text-start">
         <ModalButton
           modalTitle="Create User"
           iconname={"user-plus"}

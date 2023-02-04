@@ -15,7 +15,7 @@ import { ROLE } from "./roles";
 
 function App(): JSX.Element {
   React.useEffect(() => {}, []);
-  let role = "User";
+  let role = "Admdin";
 
   return (
     <BrowserRouter>
