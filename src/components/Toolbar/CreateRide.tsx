@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import {
-  MDBBtn,
-  MDBModalBody,
-  MDBSelect,
-  MDBTimepicker,
-  MDBModalFooter,
-} from "mdb-react-ui-kit";
+import { MDBBtn, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
 import "./CreateRide.css";
 
 export default function CreateRide(): JSX.Element {
   const [toggleModal, setToggleModal] = useState(false);
   const [time, setTime] = useState("");
   const [shuttle_type, setShuttle_type] =
+    useState<React.SetStateAction<string>>("");
+  const [pickup, setPickup] = useState<React.SetStateAction<string>>("");
+  const [destination, setDestination] =
     useState<React.SetStateAction<string>>("");
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,68 +63,102 @@ export default function CreateRide(): JSX.Element {
             <input
               type="date"
               name="date"
-              className="form-control mb-2 fw-bold"
+              className="form-control mb-2 "
               placeholder="Enter Date"
             />
 
-            <label className="fw-bold py-1">Shift Time </label>
+            <label className="form-check-label py-1 ">Shift Time </label>
 
-            <MDBTimepicker
+            {/* <MDBTimepicker
               inline
               inputLabel="hh:mm"
               format="12h"
               inputClasses="fw-bold mb-2 text-dark"
-            />
+            /> */}
 
-            <label className="fw-bold py-1"> Shuttle Direction</label>
-            <MDBSelect
-              data={[
-                {
-                  text: "North",
-                  value: 1,
-                },
-                {
-                  text: "South",
-                  value: 2,
-                },
-              ]}
-              inputClassName="fw-bold mb-2"
-              placeholder="Choose"
-              onValueChange={(item: any) => {
-                setShuttle_type(item.text);
-              }}
-            />
+            <select className="form-select" aria-label="Default select example">
+              <option>10:00</option>
+              <option>11:00</option>
+              <option>12:00</option>
+              <option>01:00</option>
+              <option>02:00</option>
+              <option>03:00</option>
+              <option>04:00</option>
+            </select>
 
-            <label className="fw-bold py-1"> Pick-up point</label>
-            {shuttle_type === "North" ? (
-              <MDBSelect
-                data={NorthPoints}
-                inputClassName="fw-bold mb-2"
-                placeholder="Choose"
-                onValueChange={(e) => {
-                  console.log(e);
-                }}
+            <label className="form-check-label py-1 d-block mt-2">
+              {" "}
+              Shuttle Direction
+            </label>
+
+            <div className="form-check form-check-inline mb-2">
+              <input
+                type="radio"
+                className="form-check-input"
+                name="Direction"
+                onChange={(e) => setShuttle_type(e.target.value)}
+                value="North"
               />
-            ) : (
-              <MDBSelect
-                data={SouthPoints}
-                inputClassName="fw-bold mb-2"
-                placeholder="Choose"
-                onValueChange={(e) => {
-                  console.log(e);
-                }}
+              <label className="fw-normal">North</label>
+            </div>
+            <div className="form-check form-check-inline mb-2">
+              <input
+                type="radio"
+                className="form-check-input"
+                name="Direction"
+                onChange={(e) => setShuttle_type(e.target.value)}
+                value="South"
               />
-            )}
+              <label className="fw-normal">South</label>
+            </div>
+
+            <label className="fw-bold py-1 d-block"> Pick-up point</label>
+            <select
+              className="form-select mb-2"
+              aria-label="Default select example"
+              onChange={(e) => setPickup(e.target.value)}
+            >
+              {shuttle_type === "North"
+                ? NorthPoints.map((point) => (
+                    <option key={point.value} value={point.text}>
+                      {point.text}
+                    </option>
+                  ))
+                : SouthPoints.map((point) => (
+                    <option key={point.value} value={point.text}>
+                      {point.text}
+                    </option>
+                  ))}
+            </select>
 
             <label className="fw-bold py-1"> Destination</label>
-            <MDBSelect
-              data={SouthPoints}
-              inputClassName="fw-bold"
-              placeholder="Choose"
-              onValueChange={(e) => {
-                console.log(e);
-              }}
-            />
+
+            {pickup === "DNA Micro" ? (
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                onChange={(e) => setDestination(e.target.value)}
+              >
+                {shuttle_type === "North"
+                  ? NorthPoints.map((point) => (
+                      <option key={point.value} value={point.text}>
+                        {point.text}
+                      </option>
+                    ))
+                  : SouthPoints.map((point) => (
+                      <option key={point.value} value={point.text}>
+                        {point.text}
+                      </option>
+                    ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                className="form-control mb-2"
+                defaultValue={"DNA Micro"}
+                disabled
+              />
+            )}
           </div>
         </form>
         <MDBModalFooter>
