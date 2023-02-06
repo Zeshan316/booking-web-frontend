@@ -137,7 +137,7 @@ export default function CreateUser(): JSX.Element {
                   </span>
                 )}
 
-                <label className="fw-bold py-1"> Role</label>
+                <label className="fw-bold py-1 d-block"> Role</label>
                 <select className="form-select mb-2" {...register("role")}>
                   <option value="User">User</option>
                   <option value="App Admin">App Admin</option>

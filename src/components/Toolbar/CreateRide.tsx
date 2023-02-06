@@ -76,8 +76,6 @@ export default function CreateRide(edit: any): JSX.Element {
 
   return (
     <>
-      {/* <MDBRow className="mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 ">
-        <MDBCol className=""> */}
       <ModalButton
         isOpen={isOpen}
         handleOpenModal={handleOpenModal}
@@ -85,7 +83,6 @@ export default function CreateRide(edit: any): JSX.Element {
         iconname={"bus"}
         modalBody={
           <MDBModalBody className="mx-3">
-            {/* create user form */}
             <form className="mb-4">
               <div className="fw-bold">
                 <label className="fw-bold py-1">Trip Date</label>
@@ -218,9 +215,6 @@ export default function CreateRide(edit: any): JSX.Element {
       >
         Create Ride
       </ModalButton>
-
-      {/* </MDBCol>
-      </MDBRow> */}
     </>
   );
 }
