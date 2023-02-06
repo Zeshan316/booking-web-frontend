@@ -1,0 +1,22 @@
+.container_{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    color: aliceblue;
+    background-color: #54b4d3;
+}
+.heading{
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+
+.text{
+    font-size: 10rem;
+    font-weight: 600;
+}
+

@@ -10,9 +10,26 @@ export default function CreateRide(): JSX.Element {
   const [pickup, setPickup] = useState<React.SetStateAction<string>>("");
   const [destination, setDestination] =
     useState<React.SetStateAction<string>>("");
-
+  const [selectedTime, setSelectedTime] = useState<Date>(new Date());
+  const now = new Date();
+  const [error, setError] = useState("");
+  {
+    /* user can only select time after current time */
+  }
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTime(e.target.value);
+    const time = e.target.value;
+    const currentDate = `${now.getFullYear()}-${(
+      "0" +
+      (now.getMonth() + 1)
+    ).slice(-2)}-${("0" + now.getDate()).slice(-2)}`;
+    const selected = new Date(`${currentDate}T${time}:00`);
+    if (selected > now) {
+      setSelectedTime(selected);
+      setError("");
+    } else {
+      setError("Invalid time, please select a time after the current time.");
+      console.log(time);
+    }
   };
 
   const submitRide = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,7 +67,7 @@ export default function CreateRide(): JSX.Element {
     { text: "Waiting Shed, Suba, Pasil", value: 6 },
     { text: "T.Padilla Bgy Hall", value: 7 },
     { text: "Baseline, Juana Osmena", value: 8 },
-    { text: "Dna Micro", value: 9 },
+    { text: "DNA Micro", value: 9 },
   ];
 
   return (
@@ -63,28 +80,31 @@ export default function CreateRide(): JSX.Element {
             <input
               type="date"
               name="date"
+              min={new Date().toISOString().split("T")[0]}
+              // value={new Date().toISOString().split("T")[0]}
+              max={
+                new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+                  .toISOString()
+                  .split("T")[0]
+              }
+              onChange={(e) => console.log(e.target.value)}
               className="form-control mb-2 "
               placeholder="Enter Date"
             />
 
             <label className="form-check-label py-1 ">Shift Time </label>
 
-            {/* <MDBTimepicker
-              inline
-              inputLabel="hh:mm"
-              format="12h"
-              inputClasses="fw-bold mb-2 text-dark"
-            /> */}
-
-            <select className="form-select" aria-label="Default select example">
-              <option>10:00</option>
-              <option>11:00</option>
-              <option>12:00</option>
-              <option>01:00</option>
-              <option>02:00</option>
-              <option>03:00</option>
-              <option>04:00</option>
-            </select>
+            <input
+              type="time"
+              name="time"
+              className="form-control mb-2"
+              placeholder="Enter Time"
+              value={
+                selectedTime ? selectedTime.toTimeString().slice(0, 5) : ""
+              }
+              onChange={handleTimeChange}
+            />
+            {error && <span className="error_msg">{error}</span>}
 
             <label className="form-check-label py-1 d-block mt-2">
               {" "}
@@ -140,12 +160,16 @@ export default function CreateRide(): JSX.Element {
                 onChange={(e) => setDestination(e.target.value)}
               >
                 {shuttle_type === "North"
-                  ? NorthPoints.map((point) => (
+                  ? NorthPoints.filter(
+                      (point) => point.text !== "DNA Micro"
+                    ).map((point) => (
                       <option key={point.value} value={point.text}>
                         {point.text}
                       </option>
                     ))
-                  : SouthPoints.map((point) => (
+                  : SouthPoints.filter(
+                      (point) => point.text !== "DNA Micro"
+                    ).map((point) => (
                       <option key={point.value} value={point.text}>
                         {point.text}
                       </option>

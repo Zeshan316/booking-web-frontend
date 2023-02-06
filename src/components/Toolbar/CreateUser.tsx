@@ -1,5 +1,10 @@
 import React, { useRef } from "react";
-import { MDBBtn, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
+import {
+  MDBBtn,
+  MDBModalBody,
+  MDBModalFooter,
+  MDBTooltip,
+} from "mdb-react-ui-kit";
 import { useForm } from "react-hook-form";
 import "./CreateRide.css";
 
@@ -29,10 +34,10 @@ export default function CreateUser(): JSX.Element {
   };
   return (
     <div>
-      <MDBModalBody>
+      <MDBModalBody className="mx-3">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
-            <label>First Name</label>
+            <label className="fw-bold py-1 d-block">First Name</label>
             <input
               placeholder="First Name"
               type="text"
@@ -41,10 +46,10 @@ export default function CreateUser(): JSX.Element {
             />
 
             {errors.firstName && (
-              <p className="error_msg">Please check the First Name</p>
+              <span className="error_msg">Please enter user's first Name</span>
             )}
 
-            <label>Last Name</label>
+            <label className="fw-bold py-1 d-block">Last Name</label>
             <input
               placeholder="Last Name"
               type="text"
@@ -53,10 +58,10 @@ export default function CreateUser(): JSX.Element {
             />
 
             {errors.lastName && (
-              <p className="error_msg">Please check the Last Name</p>
+              <span className="error_msg">Please enter user's last name</span>
             )}
 
-            <label>Email</label>
+            <label className="fw-bold py-1 d-block">Email</label>
             <input
               placeholder="Email"
               type="email"
@@ -69,25 +74,31 @@ export default function CreateUser(): JSX.Element {
             />
 
             {errors.email && (
-              <p className="error_msg">Please check the Email</p>
+              <span className="error_msg">Please enter user's email</span>
             )}
 
-            <label>Password</label>
-            <input
-              placeholder="Password"
-              type="password"
-              className="form-control mb-2"
-              {...register("password", {
-                required: true,
-                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
-              })}
-            />
+            <label className="fw-bold py-1 d-block">Password</label>
+            <MDBTooltip
+              placement="right"
+              tag="span"
+              title="Password must be 6-15 characters long, contain at least one numeric digit, one uppercase and one lowercase letter"
+            >
+              <input
+                placeholder="Password"
+                type="password"
+                className="form-control mb-2"
+                {...register("password", {
+                  required: true,
+                  pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
+                })}
+              />
+            </MDBTooltip>
 
             {errors.password && (
-              <p className="error_msg">Please check the Password</p>
+              <span className="error_msg">Please set user's password</span>
             )}
 
-            <label>Retype Password</label>
+            <label className="fw-bold py-1 d-block">Retype Password</label>
             <input
               type="password"
               className="form-control mb-2"
@@ -98,11 +109,11 @@ export default function CreateUser(): JSX.Element {
               })}
             />
             {errors.repeatPassword && (
-              <p className="error_msg">{errors.repeatPassword.message}</p>
+              <span className="error_msg">{errors.repeatPassword.message}</span>
             )}
 
-            <label> Role</label>
-            <select className="form-control mb-2" {...register("role")}>
+            <label className="fw-bold py-1"> Role</label>
+            <select className="form-select mb-2" {...register("role")}>
               <option value="User">User</option>
               <option value="App Admin">App Admin</option>
               <option value="System Admin">System Admin</option>

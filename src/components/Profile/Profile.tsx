@@ -55,7 +55,15 @@ const ProfilePage = () => {
 
             <MDBRow className="mt-3 text-end">
               <MDBCol>
-                <MDBBtn color="info" className="fw-bold">
+                <MDBBtn
+                  color="info"
+                  style={{
+                    textTransform: "capitalize",
+                    fontWeight: "700",
+                    fontSize: "0.85rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   Update
                 </MDBBtn>
               </MDBCol>
