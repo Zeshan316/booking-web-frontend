@@ -17,6 +17,7 @@ interface Props {
   iconname?: string;
   handleOpenModal: () => void;
   isOpen: boolean;
+  edit?: boolean;
 }
 
 const ModalButton: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const ModalButton: React.FC<Props> = ({
   modalBody,
   handleOpenModal,
   isOpen,
+  edit,
 }) => {
   return (
     <>

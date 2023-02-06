@@ -26,7 +26,7 @@ const Sidebar = () => {
   ];
 
   const driverlinks: Item[] = [
-    { text: "Booked Rides", to: "/", icon: "car-side" },
+    { text: "Rides", to: "/", icon: "car-side" },
     { text: "Profile", to: "/profile", icon: "user-circle" },
   ];
 

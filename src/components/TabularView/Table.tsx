@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import "./RideDetails.css";
 import RideDetails from "./RideDetails";
+import CreateRide from "../Toolbar/CreateRide";
 
 interface TableData {
   id: number;
@@ -29,6 +30,7 @@ interface TableData {
 const Table: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAscending, setIsAscending] = useState(true);
+  const [edit, setEdit] = useState(false);
 
   const navigate = useNavigate();
 
@@ -136,8 +138,8 @@ const Table: React.FC = () => {
               {data.map((item) => (
                 <tr
                   key={item.id}
-                  onClick={() => setIsOpen(true)}
                   className="items"
+                  onClick={() => setIsOpen(true)}
                 >
                   <td>
                     <div className="d-flex align-items-center">
@@ -185,11 +187,14 @@ const Table: React.FC = () => {
                         rippleColor="dark"
                       >
                         <MDBTooltip tag="a" title={item.tooltip[i]}>
-                          <span key={item.id}>{item.actions[i]}</span>
+                          <span key={item.id} onClick={() => setEdit(true)}>
+                            {item.actions[i]}
+                          </span>
                         </MDBTooltip>
                       </MDBBtn>
                     ))}
                   </td>
+                  {/* {edit && <CreateRide edit />} */}
                   <td>
                     <MDBBtn
                       className="fs-6 p-0"

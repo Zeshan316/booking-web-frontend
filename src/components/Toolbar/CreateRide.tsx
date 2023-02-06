@@ -3,7 +3,7 @@ import { MDBBtn, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
 import ModalButton from "./ModalButton";
 import "./CreateRide.css";
 
-export default function CreateRide(): JSX.Element {
+export default function CreateRide(edit: any): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState("");
   const [shuttle_type, setShuttle_type] =

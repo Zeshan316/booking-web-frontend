@@ -25,6 +25,7 @@ export default function CreateUser(): JSX.Element {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
 
@@ -35,7 +36,12 @@ export default function CreateUser(): JSX.Element {
     setIsOpen(!isOpen);
   };
 
-  const onSubmit = (data: any) => {
+  const handleOnClose = () => {
+    setIsOpen(!isOpen);
+    reset({});
+  };
+
+  const onSubmit = (data: FormValues) => {
     console.log(data);
   };
   return (
@@ -143,7 +149,8 @@ export default function CreateUser(): JSX.Element {
                 <MDBBtn
                   color="secondary"
                   className="button_style px-4 border-0"
-                  onClick={() => setIsOpen(false)}
+                  type="button"
+                  onClick={handleOnClose}
                 >
                   Close
                 </MDBBtn>
@@ -151,7 +158,7 @@ export default function CreateUser(): JSX.Element {
                   color="info"
                   className="button_style px-4"
                   type="submit"
-                  // onClick={(e: any) => submitRide(e)}
+                  // onClick={handleSubmit(onSubmit)}
                 >
                   Save
                 </MDBBtn>

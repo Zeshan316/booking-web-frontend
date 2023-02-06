@@ -41,41 +41,47 @@ const RideDetails: React.FC<ModalProps> = (props) => {
                 </MDBCol>
 
                 <MDBCol>
-                  <h5 className="fw-bold">Trip Date</h5>
-                  <p className="text-style">2021-08-01</p>
+                  <h5 className="fw-bold">Phone no.</h5>
+                  <p className="text-style">+96 778 122</p>
                 </MDBCol>
               </MDBRow>
 
               <MDBRow className="mb-4">
+                <MDBCol>
+                  <h5 className="fw-bold">Trip Date</h5>
+                  <p className="text-style">2021-08-01</p>
+                </MDBCol>
+
                 <MDBCol>
                   <h5 className="fw-bold">Shift Time</h5>
                   <p className="text-style">7:00 AM</p>
                 </MDBCol>
+              </MDBRow>
 
+              <MDBRow className="mb-4">
                 <MDBCol>
                   <h5 className="fw-bold">Shuttle Direction </h5>
                   <p className="text-style">North</p>
                 </MDBCol>
+                <MDBCol>
+                  <h5 className="fw-bold">Pickup Location</h5>
+                  <p className="text-style">DNA Micro</p>
+                </MDBCol>
               </MDBRow>
 
               <MDBRow className="mb-4">
-                <MDBCol>
-                  <h5 className="fw-bold">Pickup Location</h5>
-                  <p className="text-style">1234 Main St, Anytown, USA</p>
-                </MDBCol>
-
                 <MDBCol>
                   <h5 className="fw-bold">Dropoff Location</h5>
                   <p className="text-style">DNA Micro.</p>
                 </MDBCol>
-              </MDBRow>
 
-              <MDBRow className="mb-4">
                 <MDBCol>
                   <h5 className="fw-bold">Status</h5>
                   <p className="text-style">Completed</p>
                 </MDBCol>
+              </MDBRow>
 
+              <MDBRow className="mb-4">
                 <MDBCol>
                   <h5 className="fw-bold">Driver Name</h5>
                   <p className="text-style">John Doe</p>

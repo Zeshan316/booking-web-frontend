@@ -4,6 +4,10 @@ import {
   MDBNavbar,
   MDBNavbarBrand,
   MDBBtn,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
 } from "mdb-react-ui-kit";
 import logo from "../../assets/bus.png";
 
@@ -20,7 +24,7 @@ const Header: React.FC = () => {
           <MDBBtn
             color="info"
             type="button"
-            className="fw-bold text-capitalize"
+            className="fw-bold fs-6  text-capitalize"
           >
             Logout
           </MDBBtn>
