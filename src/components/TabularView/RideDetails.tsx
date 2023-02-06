@@ -31,7 +31,7 @@ const RideDetails: React.FC<ModalProps> = (props) => {
         modalTitle="Ride Details"
         iconname={"bus"}
         modalBody={
-          <MDBModalBody className="mx-3 mt-1">
+          <MDBModalBody className="px-4 mx-3 mt-1">
             {/* create user form */}
             <MDBCol>
               <MDBRow className="mb-4">
@@ -64,8 +64,15 @@ const RideDetails: React.FC<ModalProps> = (props) => {
                   <p className="text-style">North</p>
                 </MDBCol>
                 <MDBCol>
+                  <h5 className="fw-bold">Status</h5>
+                  <p className="text-style">Completed</p>
+                </MDBCol>
+              </MDBRow>
+
+              <MDBRow className="mb-4">
+                <MDBCol>
                   <h5 className="fw-bold">Pickup Location</h5>
-                  <p className="text-style">DNA Micro</p>
+                  <p className="text-style">Marigondon Crossing</p>
                 </MDBCol>
               </MDBRow>
 
@@ -74,19 +81,12 @@ const RideDetails: React.FC<ModalProps> = (props) => {
                   <h5 className="fw-bold">Dropoff Location</h5>
                   <p className="text-style">DNA Micro.</p>
                 </MDBCol>
-
-                <MDBCol>
-                  <h5 className="fw-bold">Status</h5>
-                  <p className="text-style">Completed</p>
-                </MDBCol>
               </MDBRow>
 
-              <MDBRow className="mb-4">
-                <MDBCol>
-                  <h5 className="fw-bold">Driver Name</h5>
-                  <p className="text-style">John Doe</p>
-                </MDBCol>
-              </MDBRow>
+              <MDBCol>
+                <h5 className="fw-bold">Driver Name</h5>
+                <p className="text-style">John Doe</p>
+              </MDBCol>
             </MDBCol>
 
             <MDBModalFooter>
