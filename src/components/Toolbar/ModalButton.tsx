@@ -11,10 +11,12 @@ import {
 import "./CreateRide.css";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   modalTitle: string;
   modalBody: React.ReactNode;
   iconname?: string;
+  handleOpenModal: () => void;
+  isOpen: boolean;
 }
 
 const ModalButton: React.FC<Props> = ({
@@ -22,19 +24,21 @@ const ModalButton: React.FC<Props> = ({
   modalTitle,
   iconname,
   modalBody,
+  handleOpenModal,
+  isOpen,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <>
-      <MDBBtn color="info" className="button_style me-3" onClick={toggleModal}>
-        {children}
-      </MDBBtn>
-      <MDBModal show={isOpen} setShow={setIsOpen}>
+      {children ? (
+        <MDBBtn
+          color="info"
+          className="button_style me-3"
+          onClick={handleOpenModal}
+        >
+          {children}
+        </MDBBtn>
+      ) : null}
+      <MDBModal show={isOpen}>
         <MDBModalDialog>
           <MDBModalContent>
             <MDBModalHeader>
@@ -51,7 +55,7 @@ const ModalButton: React.FC<Props> = ({
               <MDBBtn
                 className="btn-close"
                 color="none"
-                onClick={toggleModal}
+                onClick={handleOpenModal}
               ></MDBBtn>
             </MDBModalHeader>
             {modalBody}
