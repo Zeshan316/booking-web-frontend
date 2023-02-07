@@ -55,7 +55,10 @@ export default function CreateUser(): JSX.Element {
           <MDBModalBody className="mx-3">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
-                <label className="fw-bold py-1 d-block">First Name</label>
+                <label className="fw-bold py-1 d-block">
+                  First Name
+                  <span className="text-danger">*</span>
+                </label>
                 <input
                   placeholder="First Name"
                   type="text"
@@ -83,23 +86,35 @@ export default function CreateUser(): JSX.Element {
                   </span>
                 )}
 
-                <label className="fw-bold py-1 d-block">Email</label>
-                <input
-                  placeholder="Email"
-                  type="email"
-                  className="form-control mb-2"
-                  {...register("email", {
-                    required: true,
-                    pattern:
-                      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  })}
-                />
+                <label className="fw-bold py-1 d-block">
+                  Email
+                  <span className="text-danger">*</span>
+                </label>
+                <MDBTooltip
+                  placement="right"
+                  tag="span"
+                  title="Email must be in the format of one or more characters followed by @ followed by one or more characters followed by . followed by one or more characters"
+                >
+                  <input
+                    placeholder="Email"
+                    type="email"
+                    className="form-control mb-2"
+                    {...register("email", {
+                      required: true,
+                      pattern:
+                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    })}
+                  />
+                </MDBTooltip>
 
                 {errors.email && (
                   <span className="error_msg">Please enter user's email</span>
                 )}
 
-                <label className="fw-bold py-1 d-block">Password</label>
+                <label className="fw-bold py-1 d-block">
+                  Password
+                  <span className="text-danger">*</span>
+                </label>
                 <MDBTooltip
                   placement="right"
                   tag="span"
@@ -150,7 +165,7 @@ export default function CreateUser(): JSX.Element {
                   color="secondary"
                   className="button_style px-4 border-0"
                   type="button"
-                  onClick={handleOnClose}
+                  onClick={() => setIsOpen(false)}
                 >
                   Close
                 </MDBBtn>
