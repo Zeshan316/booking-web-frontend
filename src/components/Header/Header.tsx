@@ -1,37 +1,52 @@
-import React from "react";
+import React from 'react'
 import {
-  MDBContainer,
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBBtn,
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
-} from "mdb-react-ui-kit";
-import logo from "../../assets/bus.png";
+	MDBContainer,
+	MDBNavbar,
+	MDBNavbarBrand,
+	MDBBtn,
+} from 'mdb-react-ui-kit'
+import { useSelector } from 'react-redux'
+import logo from '../../assets/bus.png'
+import { RootState } from '../../../src/store'
+import { clearUserData } from '../../store/reducers/auth-reducer'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-const Header: React.FC = () => {
-  return (
-    <>
-      <MDBNavbar light className="px-3">
-        <MDBContainer fluid>
-          <MDBNavbarBrand className="fs-4 fw-normal">
-            <img src={logo} height="50" alt="brand" loading="lazy" />
-            DNA Cab Service
-          </MDBNavbarBrand>
+const Header = (): JSX.Element => {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
-          <MDBBtn
-            color="info"
-            type="button"
-            className="fw-bold fs-6  text-capitalize"
-          >
-            Logout
-          </MDBBtn>
-        </MDBContainer>
-      </MDBNavbar>
-    </>
-  );
-};
+	const authData = useSelector((state: RootState) => state.auth)
 
-export default Header;
+	function handleLogout() {
+		dispatch(clearUserData())
+		navigate('/login')
+	}
+
+	return (
+		<>
+			<MDBNavbar light className='px-3'>
+				<MDBContainer fluid>
+					<MDBNavbarBrand className='fs-4 fw-normal'>
+						<img src={logo} height='50' alt='brand' loading='lazy' />
+						DNA Cab Service{' asd '}
+						{authData?.user?.firstName +
+							' ' +
+							authData?.user?.lastName}
+					</MDBNavbarBrand>
+
+					<MDBBtn
+						color='info'
+						type='button'
+						className='fw-bold fs-6  text-capitalize'
+						onClick={handleLogout}
+					>
+						Logout
+					</MDBBtn>
+				</MDBContainer>
+			</MDBNavbar>
+		</>
+	)
+}
+
+export default Header

@@ -2,11 +2,6 @@ import { AxiosResponse } from 'axios'
 import { TicketingAxios } from '../common/TicketingAxios'
 import { AUTH } from '../common/apiRoutes'
 
-/* export interface AuthResponse {
-	user: User
-	jwtToken: string
-} */
-
 export default class AuthService {
 	public static async login(
 		email: string,
@@ -18,11 +13,13 @@ export default class AuthService {
 				password,
 			})
 
-			const data = this.formatResponse(response)
+			console.log('response', response)
 
-			this.storeData()
+			const { data = {} } = response
 
-			return data
+			const authData = this.formatResponse(data)
+
+			return authData
 		} catch (error: any) {
 			return error?.response?.data?.message
 		}
@@ -37,21 +34,24 @@ export default class AuthService {
 		}
 	}
 
-	public static storeData(): any {
-		// store data in reducer
-		//store data in session storage
-	}
-
 	public static async getCurrentUser(): Promise<any> {
 		try {
-			const response = await TicketingAxios.post(AUTH.login)
+			const token = sessionStorage.getItem('token')
 
-			const data = this.formatResponse(response)
+			if (!token) {
+				window.location.href = '/login'
+				return
+			}
+			const response = await TicketingAxios.get(AUTH.login)
 
-			this.storeData()
+			const { data = {} } = response
+			const authData = this.formatResponse(data)
 
-			return data
+			return authData
 		} catch (error: any) {
+			console.log('error', error)
+			if (error?.response?.status === 401) {
+			}
 			return error?.response?.data?.message
 		}
 	}

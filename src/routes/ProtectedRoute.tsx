@@ -1,12 +1,20 @@
-import React from "react";
-import { ROLE } from "src/roles";
-import { Navigate, Route, useLocation } from "react-router-dom";
+import React from 'react'
+import {
+	Navigate,
+	Outlet,
+	Route,
+	useLocation,
+	useNavigate,
+} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from 'src/store'
+import jwtDecode from 'jwt-decode'
 
 export type ProtectedRouteProps = {
-  isAuthenticated?: boolean;
-  authenticationPath?: string;
-  children: JSX.Element;
-};
+	isAuthenticated?: boolean
+	authenticationPath?: string
+	children: JSX.Element
+}
 
 // const ProtectedRoute = () => {
 // 	// Fetch token from session storage parse it to validate the tocken,
@@ -22,38 +30,67 @@ export type ProtectedRouteProps = {
 // export default ProtectedRoute
 
 const ProtectedRoute = ({
-  children,
-  roles,
+	children,
+	roles,
 }: {
-  children: JSX.Element;
-  roles: Array<ROLE>;
+	children: JSX.Element
+	roles: Array<ROLE>
 }) => {
-  let location = useLocation();
+	let location = useLocation()
 
-  const isAuthenticated = true;
-  const loading = false;
-  const user = {
-    username: "username", //from session storage; data.username
-    role: ROLE.Admin, //from session storage; data.role
-  };
+	const authData = useSelector((state: RootState) => state.auth)
+	const token = sessionStorage.getItem('token') as string
 
-  if (loading) {
-    return <p>Checking authenticaton..</p>;
-  }
+	if (!token)
+		return (
+			<Navigate
+				to='/login'
+				state={{ from: location }}
+				replace={true}
+			/>
+		)
 
-  const hasRole = user && roles.includes(user?.role);
+	const decodedToken: GenericObject = jwtDecode(token)
 
-  console.log("hasRole", hasRole, user.role, roles);
+	console.log(
+		decodedToken?.exp,
+		Math.floor(Date.now() / 1000),
+		decodedToken?.exp < Math.floor(Date.now() / 1000)
+	)
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace={true} />;
-  }
+	// do it later !authData?.isLoggedIn
+	if (
+		decodedToken?.exp < Math.floor(Date.now() / 1000) ||
+		!authData?.isLoggedIn
+	) {
+		alert('token expired')
+		return (
+			<Navigate
+				to='/login'
+				state={{ from: location }}
+				replace={true}
+			/>
+		)
+	}
 
-  if (isAuthenticated && !hasRole) {
-    return <p>Access Denied</p>; //TODO: create a component for this
-  }
+	return children
+	/* const isAuthenticated = true
+	const loading = false
+	const user = {
+		username: 'username', //from session storage; data.username
+		role: ROLE.Admin, //from session storage; data.role
+	} */
 
-  return children;
-};
+	/* if (loading) {
+		return <p>Checking authenticaton..</p>
+	}
+ */
+	// const hasRole = user && roles.includes(user?.role)
+	// console.log('hasRole', hasRole, user.role, roles)
 
-export default ProtectedRoute;
+	/* if (isAuthenticated && !hasRole) {
+		return <p>Access Denied</p> //TODO: create a component for this
+	} */
+}
+
+export default ProtectedRoute

@@ -22,8 +22,7 @@ export default function AllArticle(): JSX.Element {
 	}
 
 	const name = useSelector((state: RootState) => {
-		console.log(state.auth)
-		return state.auth.firstName
+		return state.auth.user.firstName
 	})
 
 	React.useEffect(() => {

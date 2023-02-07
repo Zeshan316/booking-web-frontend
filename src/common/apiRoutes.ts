@@ -1,3 +1,3 @@
 export const AUTH = {
-	login: 'api/login',
+	login: 'api/auth',
 }

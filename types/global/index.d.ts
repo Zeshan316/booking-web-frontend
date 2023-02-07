@@ -19,13 +19,24 @@ type ArticleAction = {
 
 // type DispatchType = (args: ArticleAction) => ArticleAction
 type User = {
+	id?: string
+	isActive?: boolean
 	firstName: string
 	lastName: string
 	email: string
-	profileImage: string
+	role: string
+	phoneNumber?: string
+	profileImgUrl?: string
 }
 
 type AuthResponse = {
 	user: User
 	jwtToken: string
+}
+
+enum ROLE {
+	Admin = 'App Administrator',
+	User = 'User',
+	Driver = 'Driver',
+	SysAdmin = 'System Administrator',
 }

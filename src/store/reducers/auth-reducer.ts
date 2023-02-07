@@ -1,16 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { json } from 'stream/consumers'
 
-type AuthUser = {
-	IsLoggedIn: boolean
+declare type AuthUser = {
+	isLoggedIn: boolean
 	jwtToken: string
-} & User
+	user: User
+}
 
 const initialState: AuthUser = {
-	firstName: '',
-	lastName: '',
-	email: '',
-	profileImage: '',
-	IsLoggedIn: false,
+	user: {
+		id: '',
+		firstName: '',
+		lastName: '',
+		email: '',
+		profileImgUrl: '',
+		role: '',
+	},
+	isLoggedIn: false,
 	jwtToken: '',
 }
 
@@ -20,14 +26,26 @@ const authSlicer = createSlice({
 	reducers: {
 		setUserData: (state, action: PayloadAction<any>) => {
 			const { payload } = action
+			console.log('payload', payload)
+			sessionStorage.setItem('token', payload.jwtToken)
+			sessionStorage.setItem('user', JSON.stringify(payload.user))
 			return {
 				...state,
-				firstName: payload?.firstname,
+				isLoggedIn: payload.jwtToken ? true : false,
+				...payload,
+			}
+		},
+		clearUserData: (state) => {
+			sessionStorage.removeItem('token')
+			sessionStorage.removeItem('user')
+
+			return {
+				...initialState,
 			}
 		},
 	},
 })
 
-export const { setUserData } = authSlicer.actions
+export const { setUserData, clearUserData } = authSlicer.actions
 
 export default authSlicer.reducer
