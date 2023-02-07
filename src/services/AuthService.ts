@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios'
 import { TicketingAxios } from '../common/TicketingAxios'
-import { AUTH } from '../common/apiRoutes'
+import { AUTH_ROUTES } from '../common/apiRoutes'
 
 export default class AuthService {
 	public static async login(
@@ -8,7 +8,7 @@ export default class AuthService {
 		password: string
 	): Promise<AuthResponse> {
 		try {
-			const response = await TicketingAxios.post(AUTH.login, {
+			const response = await TicketingAxios.post(AUTH_ROUTES.login, {
 				email,
 				password,
 			})
@@ -42,7 +42,7 @@ export default class AuthService {
 				window.location.href = '/login'
 				return
 			}
-			const response = await TicketingAxios.get(AUTH.login)
+			const response = await TicketingAxios.get(AUTH_ROUTES.login)
 
 			const { data = {} } = response
 			const authData = this.formatResponse(data)

@@ -11,7 +11,7 @@ export default function UserDashboard(): JSX.Element {
 			<p>Admin</p>
 			<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
 				<MDBCol className=''>
-					<CreateRide />
+					{/* <CreateRide /> */}
 					<CreateUser />
 				</MDBCol>
 			</MDBRow>
