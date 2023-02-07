@@ -1,81 +1,89 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import UserDashboard from "./components/User/UserDashboard";
-import AdminDashboard from "./components/Admin/AdminDashboard";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import SysAdmin from "./components/SysAdmin";
-import AppAdmin from "./components/AppAdmin";
-import User from "./components/User";
-import UserProfile from "./components/User/UserProfile";
-import RideHistory from "./components/User/RideHistory";
-import NotFound from "./components/NotFound/NotFound";
-import Table from "./components/TabularView/Table";
-import Users from "./components/Admin/Users";
-import AdminRides from "./components/Admin/AdminRides";
+import React from 'react'
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import AuthService from './services/AuthService'
+import Login from './pages/Login'
+import UserDashboard from './components/User/UserDashboard'
+import AdminDashboard from './components/Admin/AdminDashboard'
+import ProtectedRoute from './routes/ProtectedRoute'
+import SysAdmin from './components/SysAdmin'
+import AppAdmin from './components/AppAdmin'
+import User from './components/User'
+import UserProfile from './components/User/UserProfile'
+import RideHistory from './components/User/RideHistory'
+import NotFound from './components/NotFound/NotFound'
+import { USER_ROLES } from './common/constants'
+import { useSelector } from 'react-redux'
+import { RootState } from './store'
+import { useDispatch } from 'react-redux'
+import { setUserData } from './store/reducers/auth-reducer'
 
 function App(): JSX.Element {
-  React.useEffect(() => {}, []);
-  let role = "Admin";
+	const dispatch = useDispatch()
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        {role === ROLE.User ? (
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute roles={[ROLE.User]}>
-                <UserDashboard />
-              </ProtectedRoute>
-            }
-          />
-        ) : (
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute roles={[ROLE.Admin]}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-        )}
-        <Route path="users" element={<Users />} />
-        <Route path="profile" element={<UserProfile />} />
-        {/* Ride History */}
-        <Route path="history" element={<RideHistory />} />
+	async function getCurrentUser() {
+		if (window?.location?.pathname === '/login') return
 
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute roles={[ROLE.Admin]}>
-              <Login />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="rides" element={<AdminRides />} />
+		const userData = await AuthService.getCurrentUser()
+		dispatch(setUserData(userData))
+	}
 
-        {/* <Route path="/users" element={<ProtectedRoute />}> */}
-        {/* Should show all users in a table */}
-        <Route path="" element={<User />} />
-        {/* Should show form to create a user */}
-        <Route path="add" element={<SysAdmin />} />
-        {/* Should show filled user data form */}
-        <Route path="edit" element={<SysAdmin />} />
+	React.useEffect(() => {
+		getCurrentUser()
+	}, [])
 
-        <Route path="appadmin">
-          <Route path="" element={<AppAdmin />} />
-        </Route>
+	const authData = useSelector((state: RootState) => {
+		return state.auth
+	})
 
-        <Route path="/login" element={<Login />} />
+	return (
+		<BrowserRouter>
+			<Routes>
+				{authData?.user?.role === USER_ROLES.User && (
+					<Route
+						path='/'
+						element={
+							<ProtectedRoute roles={[USER_ROLES.User]}>
+								<UserDashboard />
+							</ProtectedRoute>
+						}
+					/>
+				)}
+				{authData?.user?.role === USER_ROLES.Admin && (
+					<Route
+						path='/'
+						element={
+							<ProtectedRoute roles={[USER_ROLES.Admin]}>
+								<AdminDashboard />
+							</ProtectedRoute>
+						}
+					/>
+				)}
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  );
+				<Route path='profile' element={<UserProfile />} />
+				{/* Ride History */}
+				<Route path='history' element={<RideHistory />} />
 
-  /* return (
+				{/* <Route path="/users" element={<ProtectedRoute />}> */}
+				{/* Should show all users in a table */}
+				<Route path='' element={<User />} />
+				{/* Should show form to create a user */}
+				<Route path='add' element={<SysAdmin />} />
+				{/* Should show filled user data form */}
+				<Route path='edit' element={<SysAdmin />} />
+
+				<Route path='appadmin'>
+					<Route path='' element={<AppAdmin />} />
+				</Route>
+
+				<Route path='/login' element={<Login />} />
+
+				<Route path='*' element={<NotFound />} />
+			</Routes>
+		</BrowserRouter>
+	)
+
+	/* return (
 		<BrowserRouter>
 			<Navbar />
 			<br />
@@ -122,4 +130,4 @@ function App(): JSX.Element {
 	) */
 }
 
-export default App;
+export default App
