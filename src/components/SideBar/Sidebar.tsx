@@ -20,6 +20,8 @@ const Sidebar = () => {
     return state.auth;
   });
 
+  console.log("authData", authData);
+
   const userlinks: Item[] = [
     { text: "Rides", to: "/", icon: "car-side" },
     { text: "Profile", to: "/profile", icon: "user-circle" },
@@ -27,7 +29,7 @@ const Sidebar = () => {
 
   const adminlinks: Item[] = [
     { text: "Users", to: "/users", icon: "users" },
-    { text: "My Rides", to: "/myrides", icon: "car-side" },
+    { text: "My Rides", to: "/rides", icon: "car-side" },
     { text: "User Rides", to: "/", icon: "car-side" },
     { text: "Profile", to: "/profile", icon: "user-circle" },
   ];

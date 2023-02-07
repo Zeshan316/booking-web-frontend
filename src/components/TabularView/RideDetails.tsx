@@ -74,9 +74,6 @@ const RideDetails: React.FC<ModalProps> = (props) => {
                   <h5 className="fw-bold">Pickup Location</h5>
                   <p className="text-style">Marigondon Crossing</p>
                 </MDBCol>
-              </MDBRow>
-
-              <MDBRow className="mb-4">
                 <MDBCol>
                   <h5 className="fw-bold">Dropoff Location</h5>
                   <p className="text-style">DNA Micro.</p>
