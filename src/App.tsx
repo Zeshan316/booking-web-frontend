@@ -86,7 +86,7 @@ function App(): JSX.Element {
 
 				<Route path='/login' element={<Login />} />
 
-				<Route path='*' element={<NotFound />} />
+				{/* <Route path='*' element={<NotFound />} /> */}
 			</Routes>
 		</BrowserRouter>
 	)

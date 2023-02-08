@@ -60,7 +60,7 @@ const ModalButton: React.FC<Props> = ({
 							<MDBBtn
 								className='btn-close'
 								color='none'
-								onClick={handleOpenModal}
+								onClick={handleOnClose}
 							></MDBBtn>
 						</MDBModalHeader>
 						{modalBody}

@@ -29,10 +29,7 @@ const Header = (): JSX.Element => {
 				<MDBContainer fluid>
 					<MDBNavbarBrand className='fs-4 fw-normal'>
 						<img src={logo} height='50' alt='brand' loading='lazy' />
-						DNA Cab Service{' asd '}
-						{authData?.user?.firstName +
-							' ' +
-							authData?.user?.lastName}
+						DNA Cab Service
 					</MDBNavbarBrand>
 
 					<MDBBtn

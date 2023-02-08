@@ -22,11 +22,11 @@ TicketingAxios.interceptors.response.use(
 	},
 	(error) => {
 		//handle if status code is 400
-		if (error.response.status === 400) {
+		if (error?.response?.status === 400) {
 			notify(error?.response?.data?.message, 'error')
 		}
 		//handle if status code is 401
-		if (error.response.status === 401) {
+		if (error?.response?.status === 401) {
 			notify(
 				error?.response?.data?.message || 'invalid token',
 				'error'
@@ -35,6 +35,7 @@ TicketingAxios.interceptors.response.use(
 			sessionStorage.removeItem('user')
 			window.location.href = '/login'
 		}
+		console.log('eror-------------------------', error)
 		return error
 	}
 )

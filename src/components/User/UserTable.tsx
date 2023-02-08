@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	MDBContainer,
 	MDBTable,
@@ -17,21 +17,31 @@ import ReactPaginate from 'react-paginate'
 import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
 import { setUsers } from '../../store/reducers/users-reducer'
-import {
-	INITIAL_PAGE_OFFSET,
-	ITEMS_PER_PAGE,
-	LISTING_ORDER,
-} from '../../common/constants'
+import { LISTING_ORDER } from '../../common/constants'
 import UserDetails from './UserDetails'
 import UserService from '../../services/UserService'
 import CreateUser from '../User/CreateUser'
+import { setUserDetail } from '../../store/reducers/users-reducer'
 
-function UserTable(): JSX.Element {
+interface UserTableProps {
+	perPageItems: number
+	handleFormType: (type: string) => void
+	handleUserFormModel: (e: any) => void
+	// setUpdateUserId: (userId: string) => void
+}
+
+function UserTable({
+	perPageItems,
+	handleFormType,
+	handleUserFormModel,
+}: // setUpdateUserId,
+UserTableProps): JSX.Element {
+	const dispatch = useDispatch()
 	const [pageOffset, setPageOffset] = useState<number>(0)
 	const [tableFilters, setTableFilters] = useState<GenericObject>({
 		order: LISTING_ORDER,
 		from: pageOffset,
-		to: ITEMS_PER_PAGE,
+		to: perPageItems,
 	})
 	// const [isAscending, setIsAscending] = useState<boolean>(true)
 	// const [edit, setEdit] = useState<boolean>(false)
@@ -42,7 +52,14 @@ function UserTable(): JSX.Element {
 
 	const userReducer = useSelector((state: RootState) => state.user)
 
-	const dispatch = useDispatch()
+	async function getUserDetail(userId: string) {
+		const userDetail = await UserService.getUser(userId)
+		dispatch(setUserDetail(userDetail))
+	}
+
+	useEffect(() => {
+		if (selectedUserId) getUserDetail(selectedUserId)
+	}, [selectedUserId])
 
 	async function getUsers() {
 		const data = await UserService.getUsers(tableFilters)
@@ -61,7 +78,7 @@ function UserTable(): JSX.Element {
 		setPageOffset(selected)
 		setTableFilters({
 			...tableFilters,
-			from: selected * ITEMS_PER_PAGE,
+			from: selected * perPageItems,
 		})
 	}
 
@@ -83,7 +100,7 @@ function UserTable(): JSX.Element {
 	return (
 		<MDBContainer fluid>
 			<section>
-				<div className='shadow-4 rounded-4 overflow-hidden bg-light '>
+				<div className='shadow-4 rounded-4 overflow-hidden bg-light'>
 					<MDBTable hover>
 						<MDBTableHead className='bg-info'>
 							<tr>
@@ -209,7 +226,13 @@ function UserTable(): JSX.Element {
 												<MDBTooltip tag='a' title={'Edit'}>
 													<span
 														key={index}
-														// onClick={() => setEdit(true)}
+														onClick={async () => {
+															handleFormType('update')
+															setSelectedUserId(
+																user?.userId as string
+															)
+															handleUserFormModel(true)
+														}}
 													>
 														<MDBIcon icon='edit' />
 													</span>
@@ -222,10 +245,10 @@ function UserTable(): JSX.Element {
 												size='sm'
 												rippleColor='dark'
 											>
-												<MDBTooltip tag='a' title={'Edit'}>
+												<MDBTooltip tag='a' title={'Delete'}>
 													<span
 														key={index}
-														// onClick={() => setEdit(true)}
+														// onClick={() => handleF(true)}
 													>
 														<MDBIcon icon='trash' />
 													</span>
@@ -251,14 +274,14 @@ function UserTable(): JSX.Element {
 							<tr>
 								<td colSpan={7}>
 									<MDBRow>
-										<MDBCol className='d-flex justify-content-end align-items-end p-1'>
+										<MDBCol className='d-flex justify-content-end align-items-end p-1 '>
 											<ReactPaginate
 												breakLabel='...'
 												nextLabel='next >'
 												onPageChange={handlePageChange}
 												pageRangeDisplayed={2}
 												pageCount={Math.ceil(
-													userReducer.totalUsers / ITEMS_PER_PAGE
+													userReducer.totalUsers / perPageItems
 												)}
 												previousLabel='< previous'
 												// renderOnZeroPageCount={3}
@@ -280,13 +303,14 @@ function UserTable(): JSX.Element {
 						</tfoot>
 						{showUserDetail && (
 							<UserDetails
-								userId={selectedUserId}
 								show={showUserDetail}
 								setShow={() => setShowUserDetail(!showUserDetail)}
 							/>
 						)}
 
-						{showUserUpdateModel && <CreateUser />}
+						{/* {showUserUpdateModel && (
+							<CreateUser showModel={showUserUpdateModel} />
+						)} */}
 					</MDBTable>
 				</div>
 			</section>

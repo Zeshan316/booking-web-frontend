@@ -36,10 +36,9 @@ export default class AuthService {
 
 	public static async getCurrentUser(): Promise<any> {
 		try {
-			const token = sessionStorage.getItem('token')
-
+			const token = sessionStorage.getItem('token') || false
 			if (!token) {
-				window.location.href = '/login'
+				window.location.replace('/login')
 				return
 			}
 			const response = await TicketingAxios.get(AUTH_ROUTES.login)

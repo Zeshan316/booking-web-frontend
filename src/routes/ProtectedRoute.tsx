@@ -9,6 +9,7 @@ import {
 import { useSelector } from 'react-redux'
 import { RootState } from 'src/store'
 import jwtDecode from 'jwt-decode'
+import { notify } from '../common/utils'
 
 export type ProtectedRouteProps = {
 	isAuthenticated?: boolean
@@ -41,7 +42,9 @@ const ProtectedRoute = ({
 	const authData = useSelector((state: RootState) => state.auth)
 	const token = sessionStorage.getItem('token') as string
 
-	if (!token)
+	if (!token) {
+		alert('asd')
+		notify('Your token has been expired', 'info')
 		return (
 			<Navigate
 				to='/login'
@@ -49,6 +52,7 @@ const ProtectedRoute = ({
 				replace={true}
 			/>
 		)
+	}
 
 	const decodedToken: GenericObject = jwtDecode(token)
 
@@ -63,7 +67,7 @@ const ProtectedRoute = ({
 		decodedToken?.exp < Math.floor(Date.now() / 1000) ||
 		!authData?.isLoggedIn
 	) {
-		alert('token expired')
+		notify('Your token has been expired', 'info')
 		return (
 			<Navigate
 				to='/login'

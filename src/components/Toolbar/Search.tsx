@@ -1,11 +1,10 @@
 import React from 'react'
-import {
-	MDBInputGroup,
-	MDBDropdown,
-	MDBDropdownToggle,
-	MDBBtn,
-} from 'mdb-react-ui-kit'
+import { MDBInputGroup, MDBBtn } from 'mdb-react-ui-kit'
 import './Search.css'
+import {
+	ITEMS_PER_PAGE,
+	RECORDS_PER_PAGE,
+} from '../../common/constants'
 
 interface SearchProps {
 	options: string[]
@@ -13,6 +12,7 @@ interface SearchProps {
 	handleOption: (e: any) => void
 	searchValue: string
 	handleSearchField: (e: any) => void
+	handleItemsPerPage: (e: any) => void
 }
 
 function Search({
@@ -21,6 +21,7 @@ function Search({
 	handleOption,
 	searchValue,
 	handleSearchField,
+	handleItemsPerPage,
 }: SearchProps): JSX.Element {
 	return (
 		<MDBInputGroup className='mb-3 d-flex justify-content-center mt-3 p-3'>
@@ -39,6 +40,20 @@ function Search({
 				{options.map((option, index) => (
 					<option key={index} value={option}>
 						{option}
+					</option>
+				))}
+			</select>
+			<select
+				className='browser-default custom-select'
+				onChange={handleItemsPerPage}
+			>
+				{RECORDS_PER_PAGE.map((record, index) => (
+					<option
+						key={index}
+						selected={record === ITEMS_PER_PAGE}
+						value={record}
+					>
+						{record}
 					</option>
 				))}
 			</select>

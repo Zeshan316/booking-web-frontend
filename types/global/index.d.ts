@@ -57,8 +57,10 @@ type UserFormProps = {
 	firstName: string
 	lastName?: string
 	email: string
-	password: string
-	repeatPassword: string
-	role: string
+	password?: string
+	repeatPassword?: string
+	roleId: string
 	phoneNumber: string
+	oldPassword?: string
+	newPassword?: string
 }

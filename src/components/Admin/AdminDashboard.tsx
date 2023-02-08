@@ -22,6 +22,8 @@ const initialTableFilters: GenericObject = {
 export default function UserDashboard(): JSX.Element {
 	const dispatch = useDispatch()
 
+	const [itemsPerPage, setItemsPerPage] =
+		useState<number>(ITEMS_PER_PAGE)
 	const [selectedOptionValue, setSelectedOptionValue] =
 		useState<string>('')
 	const [options, setOptions] = useState<string[]>([
@@ -32,11 +34,19 @@ export default function UserDashboard(): JSX.Element {
 	const [tableFilters, setTableFilters] = useState<GenericObject>(
 		initialTableFilters
 	)
+	const [showUserFormModel, setShowUserFormModel] =
+		useState<boolean>(false)
+	const [formType, setFormType] = useState<string>('create')
+	// const [updateUserId, setUpdateUserId] = useState<string>('')
 
 	async function getUsers() {
 		const data = await UserService.getUsers(tableFilters)
 		dispatch(setUsers(data))
 	}
+
+	React.useEffect(() => {
+		getUsers()
+	}, [tableFilters.to])
 
 	React.useEffect(() => {
 		if (!searchValue) getUsers()
@@ -70,12 +80,33 @@ export default function UserDashboard(): JSX.Element {
 		await getUsers()
 	}
 
+	function handleItemsPerPage(event: React.ChangeEvent<any>): void {
+		setItemsPerPage(event.target.value)
+		setTableFilters({ ...tableFilters, to: event.target.value })
+		return
+	}
+
+	function handleUserFormModel(showHideModel: boolean) {
+		setShowUserFormModel(showHideModel)
+	}
+
+	function handleFormType(type: string, userId?: string) {
+		setFormType(type)
+		// if (userId) setUpdateUserId(userId)
+	}
+
 	return (
 		<Layout>
-			<p>Admin</p>
 			<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
 				<MDBCol className=''>
-					<CreateUser />
+					<CreateUser
+						getUsers={getUsers}
+						showUserModel={showUserFormModel}
+						showModel={false}
+						handleUserFormModel={handleUserFormModel}
+						formType={formType}
+						handleFormType={handleFormType}
+					/>
 				</MDBCol>
 			</MDBRow>
 			<Search
@@ -84,8 +115,14 @@ export default function UserDashboard(): JSX.Element {
 				options={options}
 				searchValue={searchValue}
 				handleSearchField={handleSearchField}
+				handleItemsPerPage={handleItemsPerPage}
 			/>
-			<UserTable />
+			<UserTable
+				perPageItems={itemsPerPage}
+				handleFormType={handleFormType}
+				handleUserFormModel={handleUserFormModel}
+				// setUpdateUserId={setUpdateUserId}
+			/>
 		</Layout>
 	)
 }

@@ -56,19 +56,30 @@ export default class UserService {
 
 			const { data } = response
 
-			console.log('data', data, response)
-
 			if (data?.message) notify(data?.message, 'success')
 
-			// console.log('data', data)
 			return data
 		} catch (error: any) {
 			return error?.response?.data?.message
 		}
 	}
 
-	public static async updateUser(): Promise<any> {
+	public static async updateUser(
+		userId: string,
+		formData: UserFormProps
+	): Promise<any> {
 		try {
+			console.log('url', USER_ROUTES.updateUser(userId), formData)
+			const response = await TicketingAxios.patch(
+				USER_ROUTES.updateUser(userId),
+				formData
+			)
+
+			const { data } = response
+
+			if (data?.message) notify(data?.message, 'success')
+
+			return data
 		} catch (error: any) {
 			return error?.response?.data?.message
 		}

@@ -8,7 +8,7 @@ export const USER_ROUTES: GenericObject = {
 	getUsers: (tableFilters: GenericObject): string =>
 		`api/users?${queryString.stringify(tableFilters)}`,
 	getUser: (id: string) => `api/users/${id}`,
-	createUser: (id: string) => `api/users`,
+	createUser: () => `api/users`,
 	updateUser: (id: string) => `api/users/${id}`,
 	deleteUser: (id: string) => `api/users/${id}`,
 }
