@@ -8,6 +8,8 @@ import {
 	MDBIcon,
 	MDBTooltip,
 	MDBBadge,
+	MDBRow,
+	MDBCol,
 } from 'mdb-react-ui-kit'
 
 import ReactPaginate from 'react-paginate'
@@ -247,17 +249,32 @@ function UserTable(): JSX.Element {
 						</MDBTableBody>
 						<tfoot>
 							<tr>
-								<td colSpan={6}>
-									<ReactPaginate
-										breakLabel='...'
-										nextLabel='next >'
-										onPageChange={handlePageChange}
-										pageRangeDisplayed={1}
-										pageCount={Math.ceil(
-											userReducer.totalUsers / ITEMS_PER_PAGE
-										)}
-										previousLabel='< previous'
-									/>
+								<td colSpan={7}>
+									<MDBRow>
+										<MDBCol className='d-flex justify-content-end align-items-end p-1'>
+											<ReactPaginate
+												breakLabel='...'
+												nextLabel='next >'
+												onPageChange={handlePageChange}
+												pageRangeDisplayed={2}
+												pageCount={Math.ceil(
+													userReducer.totalUsers / ITEMS_PER_PAGE
+												)}
+												previousLabel='< previous'
+												// renderOnZeroPageCount={3}
+												pageClassName='page-item'
+												pageLinkClassName='page-link'
+												previousClassName='page-item'
+												previousLinkClassName='page-link'
+												nextClassName='page-item'
+												nextLinkClassName='page-link'
+												breakClassName='page-item'
+												breakLinkClassName='page-link'
+												containerClassName='pagination'
+												activeClassName='active'
+											/>
+										</MDBCol>
+									</MDBRow>
 								</td>
 							</tr>
 						</tfoot>
