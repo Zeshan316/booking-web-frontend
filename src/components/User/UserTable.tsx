@@ -27,15 +27,15 @@ interface UserTableProps {
 	perPageItems: number
 	handleFormType: (type: string) => void
 	handleUserFormModel: (e: any) => void
-	// setUpdateUserId: (userId: string) => void
+	handleDeleteUser: (e: string) => void
 }
 
 function UserTable({
 	perPageItems,
 	handleFormType,
 	handleUserFormModel,
-}: // setUpdateUserId,
-UserTableProps): JSX.Element {
+	handleDeleteUser,
+}: UserTableProps): JSX.Element {
 	const dispatch = useDispatch()
 	const [pageOffset, setPageOffset] = useState<number>(0)
 	const [tableFilters, setTableFilters] = useState<GenericObject>({
@@ -43,8 +43,6 @@ UserTableProps): JSX.Element {
 		from: pageOffset,
 		to: perPageItems,
 	})
-	// const [isAscending, setIsAscending] = useState<boolean>(true)
-	// const [edit, setEdit] = useState<boolean>(false)
 	const [selectedUserId, setSelectedUserId] = useState<string>('')
 	const [showUserDetail, setShowUserDetail] = useState<boolean>(false)
 	const [showUserUpdateModel, setShowUserUpdateModel] =
@@ -222,20 +220,23 @@ UserTableProps): JSX.Element {
 												size='sm'
 												rippleColor='dark'
 												onClick={() => handleUserEdit(user?.userId)}
+												disabled={Boolean(user.deletedAt)}
 											>
 												<MDBTooltip tag='a' title={'Edit'}>
-													<span
-														key={index}
-														onClick={async () => {
-															handleFormType('update')
-															setSelectedUserId(
-																user?.userId as string
-															)
-															handleUserFormModel(true)
-														}}
-													>
-														<MDBIcon icon='edit' />
-													</span>
+													{!user.deletedAt && (
+														<span
+															key={index}
+															onClick={async () => {
+																handleFormType('update')
+																setSelectedUserId(
+																	user?.userId as string
+																)
+																handleUserFormModel(true)
+															}}
+														>
+															<MDBIcon icon='edit' />
+														</span>
+													)}
 												</MDBTooltip>
 											</MDBBtn>
 											<MDBBtn
@@ -244,14 +245,21 @@ UserTableProps): JSX.Element {
 												color='light'
 												size='sm'
 												rippleColor='dark'
+												disabled={Boolean(user.deletedAt)}
 											>
 												<MDBTooltip tag='a' title={'Delete'}>
-													<span
-														key={index}
-														// onClick={() => handleF(true)}
-													>
-														<MDBIcon icon='trash' />
-													</span>
+													{!user.deletedAt && (
+														<span
+															key={index}
+															onClick={() =>
+																handleDeleteUser(
+																	user?.userId as string
+																)
+															}
+														>
+															<MDBIcon icon='trash' />
+														</span>
+													)}
 												</MDBTooltip>
 											</MDBBtn>
 											<MDBBtn

@@ -98,6 +98,18 @@ function UserDetails({ show, setShow }: ModalProps): JSX.Element {
 									{userDetail?.phoneNumber}
 								</p>
 							</MDBCol>
+							<MDBCol>
+								{userDetail?.deletedAt && (
+									<>
+										<h5 className='fw-bold'>Deleted</h5>
+										<p className='text-style'>
+											{dayjs(userDetail?.deletedAt).format(
+												'YYYY-MM-DD'
+											)}
+										</p>
+									</>
+								)}
+							</MDBCol>
 						</MDBRow>
 					</MDBCol>
 
