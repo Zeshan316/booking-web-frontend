@@ -7,7 +7,7 @@ export default function Users(): JSX.Element {
   return (
     <Layout>
       <div className="mt-5">
-        <Search />
+        {/* <Search /> */}
         <Table />
       </div>
     </Layout>

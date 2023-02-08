@@ -3,7 +3,7 @@ import Layout from "../Layout/Layout";
 import Table from "../TabularView/Table";
 import { MDBCol, MDBRow } from "mdb-react-ui-kit";
 import Search from "../Toolbar/Search";
-import CreateUser from "../Toolbar/CreateUser";
+// import CreateUser from "../Toolbar/CreateUser";
 import CreateRide from "../Toolbar/CreateRide";
 
 export default function AdminRides(): JSX.Element {
@@ -15,7 +15,7 @@ export default function AdminRides(): JSX.Element {
           <CreateRide />
         </MDBCol>
       </MDBRow>
-      <Search />
+      {/* <Search /> */}
       <Table />
     </Layout>
   );
