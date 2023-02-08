@@ -4,3 +4,7 @@ export const USER_ROLES: GenericObject = {
 	SysAdmin: 'System Administrator',
 	Driver: 'Driver',
 }
+
+export const LISTING_ORDER = 'desc'
+export const INITIAL_PAGE_OFFSET = 0
+export const ITEMS_PER_PAGE = 10

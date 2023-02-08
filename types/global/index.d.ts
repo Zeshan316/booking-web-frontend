@@ -17,6 +17,14 @@ type ArticleAction = {
 	payload: IArticle
 }
 
+type Role = {
+	id?: string
+	name: string
+	level?: number
+	createdAt?: Date
+	updatedAt?: Date
+}
+
 // type DispatchType = (args: ArticleAction) => ArticleAction
 type User = {
 	id?: string
@@ -24,9 +32,9 @@ type User = {
 	firstName: string
 	lastName: string
 	email: string
-	role: string
 	phoneNumber?: string
 	profileImgUrl?: string
+	role: Role
 }
 
 type AuthResponse = {
@@ -39,4 +47,14 @@ enum ROLE {
 	User = 'User',
 	Driver = 'Driver',
 	SysAdmin = 'System Administrator',
+}
+
+type UserFormProps = {
+	firstName: string
+	lastName?: string
+	email: string
+	password: string
+	repeatPassword: string
+	role: string
+	phoneNumber: string
 }

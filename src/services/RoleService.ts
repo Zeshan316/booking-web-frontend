@@ -1,24 +1,48 @@
 import { TicketingAxios } from '../common/TicketingAxios'
-import { USER_ROUTES } from '../common/apiRoutes'
+import { ROLES_ROUTES } from '../common/apiRoutes'
 import {
-	LISTING_ORDER,
 	INITIAL_PAGE_OFFSET,
+	LISTING_ORDER,
 	ITEMS_PER_PAGE,
 } from '../common/constants'
-import { notify } from '../common/utils'
 
-export default class UserService {
-	public static async getUsers(
+export default class RoleService {
+	public static async getRoles(
 		tableFilters: GenericObject = {
 			order: LISTING_ORDER,
 			from: INITIAL_PAGE_OFFSET,
-			to: ITEMS_PER_PAGE,
+			to: 50,
 		}
-	): Promise<User[] | void> {
+	): Promise<any> {
 		try {
-			console.log(USER_ROUTES.getUsers(tableFilters))
 			const response = await TicketingAxios.get(
-				USER_ROUTES.getUsers(tableFilters)
+				ROLES_ROUTES.getRoles(tableFilters)
+			)
+
+			console.log(response)
+			const { data: { data } = {} } = response
+
+			return data
+		} catch (error: any) {
+			console.log(error)
+			return error?.response?.data?.message
+		}
+	}
+
+	public static async getRole(): Promise<any> {
+		try {
+		} catch (error: any) {
+			return error?.response?.data?.message
+		}
+	}
+
+	public static async createRole(
+		formData: UserFormProps
+	): Promise<any> {
+		try {
+			const response = await TicketingAxios.post(
+				ROLES_ROUTES.createUser(),
+				formData
 			)
 
 			const { data: { data } = {} } = response
@@ -31,43 +55,14 @@ export default class UserService {
 		}
 	}
 
-	public static async getUser(): Promise<any> {
+	public static async updateRole(): Promise<any> {
 		try {
 		} catch (error: any) {
 			return error?.response?.data?.message
 		}
 	}
 
-	public static async createUser(
-		formData: UserFormProps
-	): Promise<any> {
-		try {
-			const response = await TicketingAxios.post(
-				USER_ROUTES.createUser(),
-				formData
-			)
-
-			const { data } = response
-
-			console.log('data', data, response)
-
-			if (data?.message) notify(data?.message, 'success')
-
-			// console.log('data', data)
-			return data
-		} catch (error: any) {
-			return error?.response?.data?.message
-		}
-	}
-
-	public static async updateUser(): Promise<any> {
-		try {
-		} catch (error: any) {
-			return error?.response?.data?.message
-		}
-	}
-
-	public static async deleteUser(): Promise<any> {
+	public static async deleteRole(): Promise<any> {
 		try {
 		} catch (error: any) {}
 	}

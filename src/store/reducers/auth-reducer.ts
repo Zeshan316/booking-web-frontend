@@ -14,7 +14,9 @@ const initialState: AuthUser = {
 		lastName: '',
 		email: '',
 		profileImgUrl: '',
-		role: '',
+		role: {
+			name: '',
+		},
 	},
 	isLoggedIn: false,
 	jwtToken: '',

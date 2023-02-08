@@ -13,7 +13,7 @@ export default function UserDashboard(): JSX.Element {
 					<CreateRide />
 				</MDBCol>
 			</MDBRow>
-			<Search />
+			{/* <Search /> */}
 			<Table />
 		</Layout>
 	)

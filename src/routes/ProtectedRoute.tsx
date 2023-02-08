@@ -52,11 +52,11 @@ const ProtectedRoute = ({
 
 	const decodedToken: GenericObject = jwtDecode(token)
 
-	console.log(
+	/* console.log(
 		decodedToken?.exp,
 		Math.floor(Date.now() / 1000),
 		decodedToken?.exp < Math.floor(Date.now() / 1000)
-	)
+	) */
 
 	// do it later !authData?.isLoggedIn
 	if (
