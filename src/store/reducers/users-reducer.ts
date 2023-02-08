@@ -3,11 +3,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 declare type Users = {
 	totalUsers: number
 	users: User[]
+	user: User
 }
 
 const initialState: Users = {
 	totalUsers: 0,
 	users: [],
+	user: {
+		firstName: '',
+		email: '',
+		role: {
+			name: '',
+		},
+	},
 }
 
 const userSlicer = createSlice({
@@ -23,9 +31,16 @@ const userSlicer = createSlice({
 				users: payload.users,
 			}
 		},
+		setUserDetail: (state, action: PayloadAction<any>) => {
+			const { payload } = action
+			return {
+				...state,
+				user: payload,
+			}
+		},
 	},
 })
 
-export const { setUsers } = userSlicer.actions
+export const { setUsers, setUserDetail } = userSlicer.actions
 
 export default userSlicer.reducer

@@ -28,13 +28,17 @@ type Role = {
 // type DispatchType = (args: ArticleAction) => ArticleAction
 type User = {
 	id?: string
+	userId?: string
 	isActive?: boolean
 	firstName: string
-	lastName: string
+	lastName?: string
 	email: string
 	phoneNumber?: string
 	profileImgUrl?: string
 	role: Role
+	createdAt?: Date
+	updatedAt?: Date
+	deletedAt?: Date | null
 }
 
 type AuthResponse = {

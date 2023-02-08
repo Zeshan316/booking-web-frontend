@@ -14,7 +14,7 @@ export default class UserService {
 			from: INITIAL_PAGE_OFFSET,
 			to: ITEMS_PER_PAGE,
 		}
-	): Promise<User[] | void> {
+	): Promise<User[]> {
 		try {
 			console.log(USER_ROUTES.getUsers(tableFilters))
 			const response = await TicketingAxios.get(
@@ -31,8 +31,15 @@ export default class UserService {
 		}
 	}
 
-	public static async getUser(): Promise<any> {
+	public static async getUser(userId: string): Promise<User> {
 		try {
+			const response = await TicketingAxios.get(
+				USER_ROUTES.getUser(userId)
+			)
+
+			const { data: { data } = {} } = response
+
+			return data
 		} catch (error: any) {
 			return error?.response?.data?.message
 		}
@@ -40,7 +47,7 @@ export default class UserService {
 
 	public static async createUser(
 		formData: UserFormProps
-	): Promise<any> {
+	): Promise<{ data: { message: string } }> {
 		try {
 			const response = await TicketingAxios.post(
 				USER_ROUTES.createUser(),

@@ -1,10 +1,5 @@
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
-const notify = (msg: string, type: string) => {
-	return toast(msg, { theme: 'light', type: 'warning' })
-}
+import { notify } from './utils'
 
 const TicketingAxios = axios.create({
 	baseURL: process.env.BASE_URL || 'http://localhost:4000/',
@@ -26,11 +21,12 @@ TicketingAxios.interceptors.response.use(
 		return response
 	},
 	(error) => {
+		//handle if status code is 400
 		if (error.response.status === 400) {
 			notify(error?.response?.data?.message, 'error')
 		}
+		//handle if status code is 401
 		if (error.response.status === 401) {
-			//place your reentry code
 			notify(
 				error?.response?.data?.message || 'invalid token',
 				'error'

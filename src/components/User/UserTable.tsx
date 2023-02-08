@@ -7,6 +7,7 @@ import {
 	MDBBtn,
 	MDBIcon,
 	MDBTooltip,
+	MDBBadge,
 } from 'mdb-react-ui-kit'
 
 import ReactPaginate from 'react-paginate'
@@ -20,9 +21,8 @@ import {
 	LISTING_ORDER,
 } from '../../common/constants'
 import UserDetails from './UserDetails'
-import RideDetails from '../TabularView/RideDetails'
-
 import UserService from '../../services/UserService'
+import CreateUser from '../User/CreateUser'
 
 function UserTable(): JSX.Element {
 	const [pageOffset, setPageOffset] = useState<number>(0)
@@ -32,8 +32,11 @@ function UserTable(): JSX.Element {
 		to: ITEMS_PER_PAGE,
 	})
 	// const [isAscending, setIsAscending] = useState<boolean>(true)
-	const [showUserDetail, setShowUserDetail] = useState<boolean>(false)
 	// const [edit, setEdit] = useState<boolean>(false)
+	const [selectedUserId, setSelectedUserId] = useState<string>('')
+	const [showUserDetail, setShowUserDetail] = useState<boolean>(false)
+	const [showUserUpdateModel, setShowUserUpdateModel] =
+		useState<boolean>(false)
 
 	const userReducer = useSelector((state: RootState) => state.user)
 
@@ -58,6 +61,21 @@ function UserTable(): JSX.Element {
 			...tableFilters,
 			from: selected * ITEMS_PER_PAGE,
 		})
+	}
+
+	function handleUserDetail(userId: string | undefined) {
+		if (!userId) return
+
+		setShowUserDetail(!showUserDetail)
+		setSelectedUserId(userId)
+	}
+
+	function handleUserEdit(userId: string | undefined) {
+		if (!userId) return
+
+		setShowUserDetail(false)
+		setShowUserUpdateModel(true)
+		setSelectedUserId(userId)
 	}
 
 	return (
@@ -122,12 +140,10 @@ function UserTable(): JSX.Element {
 								</tr>
 							) : (
 								userReducer.users.map((user: User, index: any) => (
-									<tr
-										key={user?.id}
-										className='items'
-										onClick={() => setShowUserDetail(!showUserDetail)}
-									>
-										<td>
+									<tr key={user?.id} className='items'>
+										<td
+											onClick={() => handleUserDetail(user?.userId)}
+										>
 											<div className='d-flex align-items-center'>
 												<img
 													src='https://mdbcdn.b-cdn.net/img/new/avatars/2.webp'
@@ -149,7 +165,27 @@ function UserTable(): JSX.Element {
 											<p className='mb-0'>{user?.email}</p>
 										</td>
 										<td>
-											<p className='mb-1'>{user?.isActive}</p>
+											<p className='mb-1'>
+												{user?.isActive ? (
+													<MDBBadge
+														light
+														color='success'
+														pill
+														className='status'
+													>
+														Active
+													</MDBBadge>
+												) : (
+													<MDBBadge
+														light
+														color='warning'
+														pill
+														className='status'
+													>
+														In-Active
+													</MDBBadge>
+												)}
+											</p>
 										</td>
 										<td>
 											<p className='mb-1'>
@@ -166,6 +202,7 @@ function UserTable(): JSX.Element {
 												color='light'
 												size='sm'
 												rippleColor='dark'
+												onClick={() => handleUserEdit(user?.userId)}
 											>
 												<MDBTooltip tag='a' title={'Edit'}>
 													<span
@@ -210,25 +247,29 @@ function UserTable(): JSX.Element {
 						</MDBTableBody>
 						<tfoot>
 							<tr>
-								<td colSpan={8}>
+								<td colSpan={6}>
 									<ReactPaginate
 										breakLabel='...'
 										nextLabel='next >'
 										onPageChange={handlePageChange}
-										pageRangeDisplayed={5}
-										pageCount={userReducer.totalUsers}
+										pageRangeDisplayed={1}
+										pageCount={Math.ceil(
+											userReducer.totalUsers / ITEMS_PER_PAGE
+										)}
 										previousLabel='< previous'
-										// renderOnZeroPageCount={3}
 									/>
 								</td>
 							</tr>
 						</tfoot>
 						{showUserDetail && (
 							<UserDetails
-								show={true}
+								userId={selectedUserId}
+								show={showUserDetail}
 								setShow={() => setShowUserDetail(!showUserDetail)}
 							/>
 						)}
+
+						{showUserUpdateModel && <CreateUser />}
 					</MDBTable>
 				</div>
 			</section>
