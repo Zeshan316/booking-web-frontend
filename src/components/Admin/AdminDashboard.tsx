@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit'
 import Layout from 'src/components/Layout/Layout'
-import UserTable from 'src/components/User/UserTable'
+import UserTable from '../User/UserTable'
 import Search from 'src/components/Toolbar/Search'
 import CreateUser from '../User/CreateUser'
 import UserService from '../../services/UserService'
