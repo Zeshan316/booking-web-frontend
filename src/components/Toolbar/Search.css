@@ -22,3 +22,39 @@
   text-transform: none;
   font-weight: 600;
 }
+
+.form-selectt{
+  border: 1px solid #bdbdbd;
+  border-radius: 0.45rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 16px;
+  outline: none;
+  text-transform: none;
+  font-weight: 700;
+  background-color: #5eaec9;
+  color: rgb(255, 255, 255);
+  max-width: 15rem;
+  cursor: pointer;
+}
+
+.pageitem-select{
+  border: 1px solid #5eaec9;
+  border-radius: 0.45rem;
+  background-color:  #5eaec9;
+  color: white;
+  padding: 0.55rem 0.75rem;
+  font-size: 18px;
+  outline: none;
+  text-transform: none;
+  font-weight: 500;
+  max-width: 8rem;
+  cursor: pointer;
+
+}
+
+.options{
+  background-color:whitesmoke;
+  color: black;
+  cursor: pointer;
+}
+

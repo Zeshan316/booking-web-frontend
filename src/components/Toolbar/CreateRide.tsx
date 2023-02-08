@@ -78,6 +78,7 @@ export default function CreateRide(edit: any): JSX.Element {
     <>
       <ModalButton
         isOpen={isOpen}
+        setIsOpen={setIsOpen}
         handleOpenModal={handleOpenModal}
         modalTitle="Create Ride"
         iconname={"bus"}

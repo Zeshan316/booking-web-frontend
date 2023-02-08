@@ -19,7 +19,7 @@ const RideDetails: React.FC<ModalProps> = (props) => {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
 
-  const ToggleModal = () => {
+  const toggleModal = () => {
     setModalShow(!modalShow);
   };
 
@@ -27,7 +27,9 @@ const RideDetails: React.FC<ModalProps> = (props) => {
     <>
       <ModalButton
         isOpen={props.show}
+        setIsOpen={toggleModal}
         handleOpenModal={props.setShow}
+        handleOnClose={props.setShow}
         modalTitle="Ride Details"
         iconname={"bus"}
         modalBody={

@@ -9,7 +9,7 @@ import CreateRide from "../Toolbar/CreateRide";
 export default function AdminRides(): JSX.Element {
   return (
     <Layout>
-      <MDBRow className="mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 ">
+      <MDBRow className="mt-5 mb-3 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 ">
         <MDBCol className="">
           {/* <CreateRide /> */}
           <CreateRide />
