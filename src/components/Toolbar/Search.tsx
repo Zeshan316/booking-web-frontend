@@ -7,7 +7,7 @@ import {
 } from '../../common/constants'
 
 interface SearchProps {
-	options: string[]
+	options: GenericObject[]
 	handleSearchClick: () => void
 	handleOption: (e: any) => void
 	searchValue: string
@@ -37,11 +37,13 @@ function Search({
 				onChange={handleOption}
 			>
 				<option defaultValue=''>Select Filter</option>
-				{options.map((option, index) => (
-					<option key={index} value={option}>
-						{option}
-					</option>
-				))}
+				{options.map((filter, index) => {
+					return (
+						<option key={index} value={filter.filterVal}>
+							{filter.readableValue}
+						</option>
+					)
+				})}
 			</select>
 			<select
 				className='browser-default custom-select'

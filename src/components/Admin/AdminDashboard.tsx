@@ -26,9 +26,15 @@ export default function UserDashboard(): JSX.Element {
 		useState<number>(ITEMS_PER_PAGE)
 	const [selectedOptionValue, setSelectedOptionValue] =
 		useState<string>('')
-	const [options, setOptions] = useState<string[]>([
-		'firstName',
-		'email',
+	const [options, setOptions] = useState<GenericObject[]>([
+		{
+			filterVal: 'firstName',
+			readableValue: 'First Name',
+		},
+		{
+			filterVal: 'email',
+			readableValue: 'Email',
+		},
 	])
 	const [searchValue, setSearchValue] = useState<string>('')
 	const [tableFilters, setTableFilters] = useState<GenericObject>(
