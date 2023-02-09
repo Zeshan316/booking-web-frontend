@@ -15,6 +15,8 @@ interface ModalProps {
   show: boolean;
   setShow: () => void;
   handleOnClose: () => void;
+  onDelete: (e: any) => void;
+  deleteData: any;
 }
 const DeleteModal: React.FC<ModalProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,45 +25,47 @@ const DeleteModal: React.FC<ModalProps> = (props) => {
     setIsOpen(!isOpen);
   };
 
-  return (
-    <>
-      <ModalButton
-        isOpen={props.show}
-        setIsOpen={handleOpenModal}
-        handleOnClose={props.setShow}
-        handleOpenModal={props.setShow}
-        iconname={"trash-alt"}
-        modalTitle="Delete"
-        modalBody={
-          <MDBModalBody>
-            <MDBRow>
-              <MDBCol className="mb-3">
-                <span className="fs-5 ">
-                  Are you sure you want to delete this record?
-                </span>
-              </MDBCol>
-            </MDBRow>
+  const handleDelete = () => {
+    console.log("delete data", props?.deleteData);
+    props.onDelete(props?.deleteData);
+    props.setShow();
+  };
 
-            <MDBModalFooter>
-              <MDBBtn
-                color="secondary"
-                className="text-capitalize fw-bold fs-6 "
-                onClick={props.setShow}
-              >
-                No
-              </MDBBtn>
-              <MDBBtn
-                color="info"
-                className="text-capitalize fw-bold fs-6 "
-                onClick={props.setShow}
-              >
-                Yes
-              </MDBBtn>
-            </MDBModalFooter>
-          </MDBModalBody>
-        }
-      ></ModalButton>
-    </>
+  return (
+    <ModalButton
+      isOpen={props.show}
+      setIsOpen={handleOpenModal}
+      handleOnClose={props.setShow}
+      handleOpenModal={props.setShow}
+      iconname={"trash-alt"}
+      modalTitle="Delete"
+      modalBody={
+        <MDBModalBody>
+          <MDBCol className="mb-2 mx-1">
+            <span className="fs-5 ">
+              Are you sure you want to delete this record?
+            </span>
+          </MDBCol>
+
+          <MDBModalFooter>
+            <MDBBtn
+              color="secondary"
+              className="text-capitalize fw-bold fs-6 "
+              onClick={props.setShow}
+            >
+              No
+            </MDBBtn>
+            <MDBBtn
+              color="info"
+              className="text-capitalize fw-bold fs-6 "
+              onClick={handleDelete}
+            >
+              Yes
+            </MDBBtn>
+          </MDBModalFooter>
+        </MDBModalBody>
+      }
+    ></ModalButton>
   );
 };
 

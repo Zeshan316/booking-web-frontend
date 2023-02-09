@@ -45,7 +45,14 @@ const ModalButton: React.FC<Props> = ({
         </MDBBtn>
       ) : null}
 
-      <MDBModal show={isOpen} setShow={setIsOpen} onHide={handleOnClose}>
+      <MDBModal
+        show={isOpen}
+        onHide={handleOnClose}
+        setShow={setIsOpen}
+        tabIndex="-1"
+        closeOnEsc={true}
+        animationDirection="top"
+      >
         <MDBModalDialog>
           <MDBModalContent className={`bg-light`}>
             <MDBModalHeader>

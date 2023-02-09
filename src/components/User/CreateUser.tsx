@@ -10,11 +10,12 @@ import ModalButton from "../Toolbar/ModalButton";
 import "../Toolbar/CreateRide.css";
 import UserService from "../../services/UserService";
 import RoleService from "../../services/RoleService";
+import { notify } from "src/common/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 interface ModelProps {
-  showModal: boolean;
+  showModal?: boolean;
   showUserModel: boolean;
   formType: string;
   handleUserFormModel: (e: any) => void;
@@ -42,6 +43,8 @@ export default function CreateUser({
     getValues,
     formState: { errors },
   } = useForm<UserFormProps>(defaultValues);
+
+  const [modalstate, setModalstate] = useState<boolean>(false);
 
   const password: any = useRef({});
   password.current = watch("password", "");
@@ -76,6 +79,18 @@ export default function CreateUser({
         },
       });
       getRoles();
+    } else {
+      setDefaultValues({
+        values: {
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          repeatPassword: "",
+          roleId: "",
+          phoneNumber: "",
+        },
+      });
     }
   }, [formType, userDetail?.id, userDetail?.userId]);
 
@@ -84,7 +99,7 @@ export default function CreateUser({
       const { password, repeatPassword, ...formData } = data;
       await UserService.updateUser(userDetail?.id as string, formData);
     } else {
-      alert("create");
+      //   notify("User created successfully", "success");
       await UserService.createUser(data);
     }
     getUsers();
@@ -94,7 +109,7 @@ export default function CreateUser({
     <>
       <ModalButton
         isOpen={showUserModel}
-        setIsOpen={handleUserFormModel}
+        setIsOpen={setModalstate}
         handleOpenModal={() => {
           // setIsOpen(!isOpen)
           handleUserFormModel(true);
@@ -246,16 +261,18 @@ export default function CreateUser({
                       </span>
                     )}
 
-                <label className="fw-bold py-1 d-block">Phone Number</label>
+                <label className="fw-bold py-1 d-block">Phone No.</label>
                 <input
-                  placeholder="Phone Number"
-                  type="text"
+                  placeholder="+63 XXXX XXXX"
+                  type="tel"
                   className="form-control mb-2"
                   {...register("phoneNumber", {
                     required: false,
-                    maxLength: 15,
+                    maxLength: 12,
+                    pattern: /^\+63[0-9]{4}[0-9]{4}[0-9]{2}$/,
                   })}
                 />
+                {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
 
                 <label className="fw-bold py-1 d-block">Role</label>
                 <select

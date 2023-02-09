@@ -105,7 +105,6 @@ export default function UserDashboard(): JSX.Element {
           <CreateUser
             getUsers={getUsers}
             showUserModel={showUserFormModel}
-            showModal={false}
             handleUserFormModel={handleUserFormModel}
             formType={formType}
             handleFormType={handleFormType}

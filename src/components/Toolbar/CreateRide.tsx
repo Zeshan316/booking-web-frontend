@@ -18,6 +18,9 @@ export default function CreateRide(edit: any): JSX.Element {
   const handleOpenModal = () => {
     setIsOpen(!isOpen);
   };
+  const handleOnClose = () => {
+    setIsOpen(false);
+  };
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = e.target.value;
@@ -42,7 +45,7 @@ export default function CreateRide(edit: any): JSX.Element {
       return;
     }
     console.log("submit ride");
-    setIsOpen(!isOpen);
+    handleOnClose();
   };
 
   const NorthPoints: { text: string; value: number }[] = [
@@ -80,6 +83,7 @@ export default function CreateRide(edit: any): JSX.Element {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         handleOpenModal={handleOpenModal}
+        handleOnClose={handleOnClose}
         modalTitle="Create Ride"
         iconname={"bus"}
         modalBody={

@@ -47,6 +47,7 @@ function UserTable({
   const [selectedUserId, setSelectedUserId] = useState<string>("");
   const [showUserDetail, setShowUserDetail] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [deleteData, setDeleteData] = useState<string>("");
   const [showUserUpdateModel, setShowUserUpdateModel] =
     useState<boolean>(false);
 
@@ -131,7 +132,7 @@ function UserTable({
                     // onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   />
-                  Phone #
+                  Phone No.
                 </th>
                 <th className="fw-bold text-white h6">
                   <MDBIcon
@@ -151,7 +152,7 @@ function UserTable({
             >
               {userReducer.users.length === 0 ? (
                 <tr className="items">
-                  <td colSpan={7}>There are no user to show...</td>
+                  <td colSpan={7}>There are no users to show...</td>
                 </tr>
               ) : (
                 userReducer.users.map((user: User, index: any) => (
@@ -214,20 +215,16 @@ function UserTable({
                           color="light"
                           size="sm"
                           rippleColor="dark"
-                          onClick={() => handleUserEdit(user?.userId)}
+                          onClick={async () => {
+                            handleUserEdit(user?.userId);
+                            handleFormType("update");
+                            setSelectedUserId(user?.userId as string);
+                            handleUserFormModel(true);
+                          }}
                           disabled={Boolean(user.deletedAt)}
                         >
                           <MDBTooltip tag="a" title={"Edit"}>
-                            <span
-                              key={user?.id}
-                              onClick={async () => {
-                                handleFormType("update");
-                                setSelectedUserId(user?.userId as string);
-                                handleUserFormModel(true);
-                              }}
-                            >
-                              <MDBIcon icon="edit" />
-                            </span>
+                            <MDBIcon icon="edit" />
                           </MDBTooltip>
                         </MDBBtn>
                       )}
@@ -239,20 +236,13 @@ function UserTable({
                           size="sm"
                           rippleColor="dark"
                           disabled={Boolean(user.deletedAt)}
+                          onClick={() => {
+                            setShowDeleteModal(true);
+                            setDeleteData(user?.userId as string);
+                          }}
                         >
                           <MDBTooltip tag="a" title={"Delete"}>
-                            <span
-                              key={user?.id}
-                              onClick={
-                                () => {
-                                  setShowDeleteModal(true);
-                                }
-
-                                // handleDeleteUser(user?.userId as string)
-                              }
-                            >
-                              <MDBIcon icon="trash" />
-                            </span>
+                            <MDBIcon icon="trash" />
                           </MDBTooltip>
                         </MDBBtn>
                       )}
@@ -313,10 +303,12 @@ function UserTable({
             {/* {showUserUpdateModel && (
 							<CreateUser showModel={showUserUpdateModel} />
 						)} */}
+
             {showDeleteModal && (
               <DeleteModal
                 show={showDeleteModal}
-                // onDelete={handleDeleteUser(user?.userId as string)}
+                onDelete={handleDeleteUser}
+                deleteData={deleteData}
                 handleOnClose={() => setShowDeleteModal(false)}
                 setShow={() => setShowDeleteModal(!showDeleteModal)}
               />
