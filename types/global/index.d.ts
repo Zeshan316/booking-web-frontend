@@ -25,7 +25,6 @@ type Role = {
 	updatedAt?: Date
 }
 
-// type DispatchType = (args: ArticleAction) => ArticleAction
 type User = {
 	id?: string
 	userId?: string
@@ -39,6 +38,40 @@ type User = {
 	createdAt?: Date
 	updatedAt?: Date
 	deletedAt?: Date | null
+}
+
+type Destination = {
+	id?: string
+	direction: string
+	locationName: string
+	createdAt?: Date
+	deletedAt?: null | Date
+	updatedAt?: Date
+}
+
+type Pickup = {
+	id?: string
+	direction: string
+	locationName: string
+	createdAt?: Date
+	deletedAt?: null | Date
+	updatedAt?: Date
+}
+
+type Ride = {
+	id: string
+	destination: Destination
+	pickup: Pickup
+	user: User
+	tripDateTime: Date | string
+	status: string
+	direction: string
+	userId?: string
+	pickupId?: string
+	destinationId?: string
+	createdAt?: Date
+	deletedAt?: null | Date
+	updatedAt?: Date
 }
 
 type AuthResponse = {
@@ -63,4 +96,12 @@ type UserFormProps = {
 	phoneNumber: string
 	oldPassword?: string
 	newPassword?: string
+}
+
+type RideFormProps = {
+	tripDate: Date | string
+	tripTime: Date | string
+	direction: string
+	pickupId: string
+	destinationId: string
 }

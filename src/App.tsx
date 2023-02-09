@@ -17,8 +17,9 @@ import { useSelector } from 'react-redux'
 import { RootState } from './store'
 import { useDispatch } from 'react-redux'
 import { setUserData } from './store/reducers/auth-reducer'
-import AdminRides from './components/Admin/AdminRides'
-import Users from './components/Admin/Users'
+// import AdminRides from './components/Admin/AdminRides'
+import Rides from './components/Rides/Rides'
+// import Users from './components/Admin/Users'
 
 function App(): JSX.Element {
 	const dispatch = useDispatch()
@@ -63,7 +64,8 @@ function App(): JSX.Element {
 					/>
 				)}
 
-				<Route path='rides' element={<AdminRides />} />
+				{/* <Route path='rides' element={<AdminRides />} /> */}
+				<Route path='rides' element={<Rides />} />
 				{/* <Route path='users' element={<Users />} /> */}
 
 				<Route path='profile' element={<UserProfile />} />

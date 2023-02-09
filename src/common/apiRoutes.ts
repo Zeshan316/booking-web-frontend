@@ -21,3 +21,17 @@ export const ROLES_ROUTES: GenericObject = {
 	updateRole: (id: string) => `api/roles/${id}`,
 	deleteRole: (id: string) => `api/roles/${id}`,
 }
+
+export const LOCATION_ROUTES: GenericObject = {
+	getLocations: (tableFilters: GenericObject): string =>
+		`api/locations?${queryString.stringify(tableFilters)}`,
+}
+
+export const RIDE_ROUTES: GenericObject = {
+	getRides: (tableFilters: GenericObject): string =>
+		`api/rides?${queryString.stringify(tableFilters)}`,
+	getRide: (id: string) => `api/rides/${id}`,
+	createRide: () => `api/rides`,
+	updateRide: (id: string) => `api/rides/${id}`,
+	deleteRide: (id: string) => `api/rides/${id}`,
+}

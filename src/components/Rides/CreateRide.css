@@ -1,0 +1,52 @@
+.selectbox{
+    width: 100%;
+    display:block;
+    border: 1px solid #bdbdbd;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 16px;
+    font-weight: 600;
+    outline: none;
+    color: #4f4f4f;
+    background-color: #ffffff;
+}
+
+.button_style{
+    font-size: 16px;
+    text-transform: none;
+    font-weight: 600;
+}
+
+.timepicker-current-inline{
+    font-size: 1.75rem;
+}
+
+.timepicker-head{
+    background-color: rgba(69, 184, 219, 0.932);
+    width:27.25rem;
+    height: 4.20rem;
+}
+
+.timepicker-icon-up, .timepicker-icon-down {
+    opacity: 0.5;
+    transition: .2s ease all;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    width: 40px;
+    height: 36px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timepicker-hour-mode{
+    font-weight: 600;
+}
+
+.error_msg{
+    color: red;
+    font-size: 0.75rem;
+    font-weight: 500;
+}

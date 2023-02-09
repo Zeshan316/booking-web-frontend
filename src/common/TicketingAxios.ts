@@ -22,7 +22,10 @@ TicketingAxios.interceptors.response.use(
 	},
 	(error) => {
 		//handle if status code is 400
-		if (error?.response?.status === 400) {
+		if (
+			error?.response?.status === 400 ||
+			error?.response?.status === 500
+		) {
 			notify(error?.response?.data?.message, 'error')
 		}
 		//handle if status code is 401
