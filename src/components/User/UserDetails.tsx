@@ -87,7 +87,7 @@ function UserDetails({ show, setShow }: ModalProps): JSX.Element {
             </MDBRow>
             <MDBRow className="mb-4">
               <MDBCol>
-                <h5 className="fw-bold">Phone #</h5>
+                <h5 className="fw-bold">Phone No.</h5>
                 <p className="text-style">{userDetail?.phoneNumber}</p>
               </MDBCol>
               <MDBCol>
