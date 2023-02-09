@@ -21,7 +21,7 @@ const Sidebar = () => {
 	})
 
 	const userlinks: Item[] = [
-		{ text: 'Rides', to: '/', icon: 'car-side' },
+		{ text: 'Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 

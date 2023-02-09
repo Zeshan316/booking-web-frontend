@@ -74,6 +74,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 	const userHasRights = hasUserAccessRights(authData.user.role.name)
 		? true
 		: false
+
 	if (!userHasRights) {
 		return <NotFound /> // build your won access denied page (sth like 404)
 	}
