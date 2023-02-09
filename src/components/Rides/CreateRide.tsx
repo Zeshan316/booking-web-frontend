@@ -46,12 +46,7 @@ export default function CreateRide({
 	const [tripTime, setTripTime] = useState<string>(
 		dayjs().format('HH:mm')
 	)
-	console.log(
-		'tripTime',
-		tripTime,
-		tripDate,
-		dayjs().format('YYYY-MM-DD')
-	)
+
 	const [shuttleDirection, setShuttleDirection] = useState<string>('')
 	const [selectedLocations, setSelectedLocations] = useState<
 		Pickup[] | Destination[]
@@ -152,7 +147,6 @@ export default function CreateRide({
 			destinationId: destination,
 		}
 
-		console.log('rideData', rideData)
 		if (formType === 'update') {
 			handleUpdateDate(rideDetail.id, rideData)
 		} else {

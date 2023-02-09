@@ -24,6 +24,7 @@ const initialState: RideProps = {
 			firstName: '',
 			email: '',
 			role: {
+				id: '',
 				name: '',
 			},
 		},

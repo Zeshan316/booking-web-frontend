@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux'
 import { RootState } from './store'
 import { useDispatch } from 'react-redux'
 import { setUserData } from './store/reducers/auth-reducer'
-// import AdminRides from './components/Admin/AdminRides'
 import Rides from './components/Rides/Rides'
 // import Users from './components/Admin/Users'
 
@@ -39,30 +38,28 @@ function App(): JSX.Element {
 		return state.auth
 	})
 
+	console.log('authData', authData?.user?.role?.name)
+
 	return (
 		<BrowserRouter>
 			<Routes>
-				{authData?.user?.role === USER_ROLES.User && (
-					<Route
-						path='/'
-						element={
-							<ProtectedRoute roles={[USER_ROLES.User]}>
-								<UserDashboard />
-							</ProtectedRoute>
-						}
-					/>
-				)}
+				<Route
+					path='/rides'
+					element={
+						<ProtectedRoute>
+							<Rides />
+						</ProtectedRoute>
+					}
+				/>
 
-				{authData?.user?.role === USER_ROLES.Admin && (
-					<Route
-						path='/'
-						element={
-							<ProtectedRoute roles={[USER_ROLES.Admin]}>
-								<AdminDashboard />
-							</ProtectedRoute>
-						}
-					/>
-				)}
+				<Route
+					path='/'
+					element={
+						<ProtectedRoute>
+							<AdminDashboard />
+						</ProtectedRoute>
+					}
+				/>
 
 				{/* <Route path='rides' element={<AdminRides />} /> */}
 				<Route path='rides' element={<Rides />} />

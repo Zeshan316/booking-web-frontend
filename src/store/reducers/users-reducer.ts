@@ -13,6 +13,7 @@ const initialState: Users = {
 		firstName: '',
 		email: '',
 		role: {
+			id: '',
 			name: '',
 		},
 	},
@@ -24,7 +25,6 @@ const userSlicer = createSlice({
 	reducers: {
 		setUsers: (state, action: PayloadAction<any>) => {
 			const { payload } = action
-			console.log('pay', payload)
 			return {
 				...state,
 				totalUsers: payload.totalUsers,

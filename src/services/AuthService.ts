@@ -13,8 +13,6 @@ export default class AuthService {
 				password,
 			})
 
-			console.log('response', response)
-
 			const { data = {} } = response
 
 			const authData = this.formatResponse(data)

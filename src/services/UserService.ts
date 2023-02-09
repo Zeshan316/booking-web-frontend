@@ -69,10 +69,14 @@ export default class UserService {
 		formData: UserFormProps
 	): Promise<any> {
 		try {
-			console.log('url', USER_ROUTES.updateUser(userId), formData)
 			const response = await TicketingAxios.patch(
 				USER_ROUTES.updateUser(userId),
-				formData
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
 			)
 
 			const { data } = response

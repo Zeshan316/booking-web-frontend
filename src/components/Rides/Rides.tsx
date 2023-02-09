@@ -51,7 +51,6 @@ export default function Rides(): JSX.Element {
 	}
 
 	async function handleDeleteRide(rideId: string) {
-		console.log(rideId)
 		await RideService.deleteRide(rideId)
 		await getRides()
 	}

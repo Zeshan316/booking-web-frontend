@@ -10,6 +10,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'src/store'
 import jwtDecode from 'jwt-decode'
 import { notify } from '../common/utils'
+import { useDispatch } from 'react-redux'
+import { hasUserAccessRights } from '../common/utils'
+import NotFound from 'src/components/NotFound/NotFound'
+import { clearUserData } from 'src/store/reducers/auth-reducer'
 
 export type ProtectedRouteProps = {
 	isAuthenticated?: boolean
@@ -30,21 +34,17 @@ export type ProtectedRouteProps = {
 
 // export default ProtectedRoute
 
-const ProtectedRoute = ({
-	children,
-	roles,
-}: {
-	children: JSX.Element
-	roles: Array<ROLE>
-}) => {
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+	const dispatch = useDispatch()
 	let location = useLocation()
 
 	const authData = useSelector((state: RootState) => state.auth)
 	const token = sessionStorage.getItem('token') as string
 
-	if (!token) {
-		alert('asd')
-		notify('Your token has been expired', 'info')
+	// console.info('tokentokentoken', token)
+	if (!token?.length || token === null || token === undefined) {
+		console.error('no token found')
+		dispatch(clearUserData())
 		return (
 			<Navigate
 				to='/login'
@@ -55,19 +55,13 @@ const ProtectedRoute = ({
 	}
 
 	const decodedToken: GenericObject = jwtDecode(token)
-
-	/* console.log(
-		decodedToken?.exp,
-		Math.floor(Date.now() / 1000),
-		decodedToken?.exp < Math.floor(Date.now() / 1000)
-	) */
-
-	// do it later !authData?.isLoggedIn
 	if (
 		decodedToken?.exp < Math.floor(Date.now() / 1000) ||
 		!authData?.isLoggedIn
 	) {
-		notify('Your token has been expired', 'info')
+		alert('token expire')
+		dispatch(clearUserData())
+		// notify('Your token has been expired', 'info')
 		return (
 			<Navigate
 				to='/login'
@@ -75,6 +69,13 @@ const ProtectedRoute = ({
 				replace={true}
 			/>
 		)
+	}
+
+	const userHasRights = hasUserAccessRights(authData.user.role.name)
+		? true
+		: false
+	if (!userHasRights) {
+		return <NotFound /> // build your won access denied page (sth like 404)
 	}
 
 	return children

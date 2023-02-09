@@ -18,7 +18,7 @@ type ArticleAction = {
 }
 
 type Role = {
-	id?: string
+	id: string
 	name: string
 	level?: number
 	createdAt?: Date
@@ -96,6 +96,7 @@ type UserFormProps = {
 	phoneNumber: string
 	oldPassword?: string
 	newPassword?: string
+	profileImg?: any
 }
 
 type RideFormProps = {
