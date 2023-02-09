@@ -44,7 +44,7 @@ const Sidebar = () => {
 
 	const userRole = authData?.user?.role.name.toLowerCase()
 
-	if (userRole === USER_ROLES.Admin) {
+	if (userRole === USER_ROLES.Admin.toLowerCase()) {
 		links = adminlinks
 	}
 

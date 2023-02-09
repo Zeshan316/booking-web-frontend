@@ -55,10 +55,9 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 	}
 
 	const decodedToken: GenericObject = jwtDecode(token)
-	if (
-		decodedToken?.exp < Math.floor(Date.now() / 1000) ||
-		!authData?.isLoggedIn
-	) {
+
+	console.log(decodedToken, 'decodedToken', authData?.isLoggedIn)
+	if (decodedToken?.exp < Math.floor(Date.now() / 1000)) {
 		alert('token expire')
 		dispatch(clearUserData())
 		// notify('Your token has been expired', 'info')
