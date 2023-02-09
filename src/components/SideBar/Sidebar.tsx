@@ -42,19 +42,21 @@ const Sidebar = () => {
 		{ text: 'Rides', to: '/', icon: 'car-side' },
 	]
 
-	if (authData?.user?.role.name === USER_ROLES.Admin) {
+	const userRole = authData?.user?.role.name.toLowerCase()
+
+	if (userRole === USER_ROLES.Admin) {
 		links = adminlinks
 	}
 
-	if (authData?.user?.role.name === USER_ROLES.SysAdmin) {
+	if (userRole === USER_ROLES.SysAdmin.toLowerCase()) {
 		links = sysadminlinks
 	}
 
-	if (authData?.user?.role.name === USER_ROLES.Driver) {
+	if (userRole === USER_ROLES.Driver.toLowerCase()) {
 		links = driverlinks
 	}
 
-	if (authData?.user?.role === USER_ROLES.User) {
+	if (userRole === USER_ROLES.User.toLowerCase()) {
 		links = userlinks
 	}
 
