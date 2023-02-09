@@ -158,7 +158,7 @@ function UserTable({
                 userReducer.users.map((user: User, index: any) => (
                   <tr key={user?.id} className="items">
                     <td onClick={() => handleUserDetail(user?.userId)}>
-                      <div className="d-flex align-items-center">
+                      <MDBCol className="d-flex align-items-center">
                         <img
                           src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                           alt=""
@@ -170,7 +170,7 @@ function UserTable({
                             {user?.lastName || "N/A"}
                           </p>
                         </div>
-                      </div>
+                      </MDBCol>
                     </td>
                     <td>
                       <p className=" mb-1">{user?.firstName}</p>
