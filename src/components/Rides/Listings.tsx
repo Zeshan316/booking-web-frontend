@@ -17,15 +17,11 @@ import dayjs from 'dayjs'
 
 import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUsers } from '../../store/reducers/users-reducer'
-import {
-	LISTING_ORDER,
-	SERVER_BASE_URL,
-} from '../../common/constants'
+import { LISTING_ORDER } from '../../common/constants'
 import RideDetails from './RideDetails'
 import RideService from '../../services/RideService'
-import CreateUser from '../User/CreateUser'
 import { setRideDetail } from '../../store/reducers/rides-reducer'
+import DeleteModal from '../Toolbar/DeleteModal'
 
 interface UserTableProps {
 	perPageItems: number
@@ -51,6 +47,9 @@ function Listings({
 	const [showRideDetail, setShowRideDetail] = useState<boolean>(false)
 	const [showRideUpdateModel, setShowRideUpdateModel] =
 		useState<boolean>(false)
+
+	const [showConfirmBox, setShowConfirBox] = useState<boolean>(false)
+	const [deleteRideId, setDeleteRideId] = useState<string>('')
 
 	const rideReducer = useSelector((state: RootState) => state.ride)
 
@@ -218,7 +217,11 @@ function Listings({
 												<MDBTooltip tag='a' title={'Delete'}>
 													<span
 														key={index}
-														onClick={() => handleDeleteRide(ride.id)}
+														// onClick={() => handleDeleteRide(ride.id)}
+														onClick={() => {
+															setShowConfirBox(true)
+															setDeleteRideId(ride.id)
+														}}
 													>
 														<MDBIcon icon='trash' />
 													</span>
@@ -264,6 +267,17 @@ function Listings({
 							<RideDetails
 								show={showRideDetail}
 								setShow={() => setShowRideDetail(!showRideDetail)}
+							/>
+						)}
+
+						{showConfirmBox && (
+							<DeleteModal
+								show={showConfirmBox}
+								message={'Are you sure you want to delete this ride?'}
+								onDelete={handleDeleteRide}
+								deleteData={deleteRideId}
+								handleOnClose={() => setShowConfirBox(false)}
+								setShow={() => setShowConfirBox(!showConfirmBox)}
 							/>
 						)}
 					</MDBTable>
