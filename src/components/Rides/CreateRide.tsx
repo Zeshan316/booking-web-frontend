@@ -58,6 +58,7 @@ export default function CreateRide({
 	>([])
 	const [pickup, setPickup] = useState<string>('')
 	const [destination, setDestination] = useState<string>('')
+	const [isModelOpen, setIsModelOpen] = useState<boolean>(false)
 
 	const now = new Date()
 	const [error, setError] = useState('')
@@ -171,6 +172,7 @@ export default function CreateRide({
 	return (
 		<>
 			<ModalButton
+				setIsOpen={setIsModelOpen}
 				isOpen={showRideFormModel}
 				handleOpenModal={() => handleRideFormModel(true)}
 				handleOnClose={handleOnClose}

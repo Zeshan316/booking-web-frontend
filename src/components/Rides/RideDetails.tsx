@@ -32,6 +32,7 @@ function RideDetails({
 	return (
 		<>
 			<ModalButton
+				setIsOpen={setModalShow}
 				isOpen={show}
 				handleOpenModal={setShow}
 				handleOnClose={setShow}
