@@ -25,7 +25,7 @@ function Search({
       <MDBBtn color="info" className="buttonstyle border-info " outline>
         Search By
       </MDBBtn>
-      <select className="form-selectt" onChange={handleOption}>
+      <select className="form-selectt me-1" onChange={handleOption}>
         <option className="options" defaultValue="">
           Select Filter
         </option>
@@ -37,9 +37,9 @@ function Search({
           );
         })}
       </select>
-      <MDBBtn color="info" className="buttonstyle border-info " outline>
+      {/* <MDBBtn color="info" className="buttonstyle border-info " outline>
         Items per Page
-      </MDBBtn>
+      </MDBBtn> */}
 
       <select className="pageitem-select" onChange={handleItemsPerPage}>
         {RECORDS_PER_PAGE.map((record, index) => (
