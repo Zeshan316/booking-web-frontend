@@ -64,13 +64,9 @@ export default function UserDashboard(): JSX.Element {
 	}, [searchValue])
 
 	const userRole = authData.user.role.name?.toLowerCase()
-
-	if (
-		![
-			USER_ROLES.SysAdmin.toLowerCase(),
-			USER_ROLES.Admin.toLowerCase(),
-		].includes(userRole)
-	) {
+	const adminRole = USER_ROLES.Admin.toLowerCase()
+	const sysAdminRole = USER_ROLES.SysAdmin.toLowerCase()
+	if (![adminRole, sysAdminRole].includes(userRole)) {
 		return <NotFound />
 	}
 
@@ -128,17 +124,22 @@ export default function UserDashboard(): JSX.Element {
 
 	return (
 		<Layout>
-			<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
-				<MDBCol className=''>
-					<CreateUser
-						getUsers={getUsers}
-						showUserModel={showUserFormModel}
-						handleUserFormModel={handleUserFormModel}
-						formType={formType}
-						handleFormType={handleFormType}
-					/>
-				</MDBCol>
-			</MDBRow>
+			{userRole === sysAdminRole ? (
+				<></>
+			) : (
+				<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
+					<MDBCol className=''>
+						<CreateUser
+							getUsers={getUsers}
+							showUserModel={showUserFormModel}
+							handleUserFormModel={handleUserFormModel}
+							formType={formType}
+							handleFormType={handleFormType}
+						/>
+					</MDBCol>
+				</MDBRow>
+			)}
+
 			<Search
 				handleSearchClick={handleSearchClick}
 				handleOption={handleOption}

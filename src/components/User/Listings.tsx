@@ -58,6 +58,10 @@ function Listings({
 		useState<boolean>(false)
 
 	const userReducer = useSelector((state: RootState) => state.user)
+	const authUser = useSelector((state: RootState) => state.auth.user)
+
+	const adminRole = USER_ROLES.Admin.toLowerCase()
+	const sysAdminRole = USER_ROLES.SysAdmin.toLowerCase()
 
 	async function getUserDetail(userId: string) {
 		const userDetail = await UserService.getUser(userId)
@@ -226,11 +230,14 @@ function Listings({
 										<td>
 											<p className='mb-1'>{user?.role?.name}</p>
 										</td>
-										<td>
-											{user.role.name.toLowerCase() !==
-												USER_ROLES.Admin.toLowerCase() &&
-												!user.deletedAt && (
-													<>
+										{authUser.role.name.toLowerCase() ===
+										sysAdminRole ? (
+											<td></td>
+										) : (
+											<td>
+												{user?.role?.name?.toLowerCase() !==
+													adminRole && (
+													<div>
 														<MDBBtn
 															key={user?.id}
 															className='fs-6 p-2'
@@ -268,49 +275,54 @@ function Listings({
 																<MDBIcon icon='trash' />
 															</MDBTooltip>
 														</MDBBtn>
-													</>
+													</div>
 												)}
 
-											{user.role.name.toLowerCase() !==
-												USER_ROLES.Admin.toLowerCase() &&
-												!Boolean(user.isActive) && (
-													<MDBBtn
-														key={user?.id}
-														className='fs-6 p-2'
-														color='light'
-														size='sm'
-														rippleColor='dark'
-														onClick={() =>
-															handleUserStatus(user?.userId as string)
-														}
-													>
-														<MDBTooltip tag='a' title='Unlock'>
-															<MDBIcon icon='lock' color='muted' />
-														</MDBTooltip>
-													</MDBBtn>
-												)}
-											{user.role.name.toLowerCase() !==
-												USER_ROLES.Admin.toLowerCase() &&
-												Boolean(user.isActive) && (
-													<MDBBtn
-														key={user?.id}
-														className='fs-6 p-2'
-														color='light'
-														size='sm'
-														rippleColor='dark'
-														onClick={() =>
-															handleUserStatus(user?.userId as string)
-														}
-													>
-														<MDBTooltip tag='a' title='Lock'>
-															<MDBIcon
-																icon='lock-open'
-																color='info'
-															/>
-														</MDBTooltip>
-													</MDBBtn>
-												)}
-										</td>
+												{user.role.name.toLowerCase() !==
+													USER_ROLES.Admin.toLowerCase() &&
+													!Boolean(user.isActive) && (
+														<MDBBtn
+															key={user?.id}
+															className='fs-6 p-2'
+															color='light'
+															size='sm'
+															rippleColor='dark'
+															onClick={() =>
+																handleUserStatus(
+																	user?.userId as string
+																)
+															}
+														>
+															<MDBTooltip tag='a' title='Unlock'>
+																<MDBIcon icon='lock' color='muted' />
+															</MDBTooltip>
+														</MDBBtn>
+													)}
+												{user.role.name.toLowerCase() !==
+													USER_ROLES.Admin.toLowerCase() &&
+													Boolean(user.isActive) && (
+														<MDBBtn
+															key={user?.id}
+															className='fs-6 p-2'
+															color='light'
+															size='sm'
+															rippleColor='dark'
+															onClick={() =>
+																handleUserStatus(
+																	user?.userId as string
+																)
+															}
+														>
+															<MDBTooltip tag='a' title='Lock'>
+																<MDBIcon
+																	icon='lock-open'
+																	color='info'
+																/>
+															</MDBTooltip>
+														</MDBBtn>
+													)}
+											</td>
+										)}
 									</tr>
 								))
 							)}
@@ -354,6 +366,7 @@ function Listings({
 						)}
 						{showDeleteModal && (
 							<DeleteModal
+								message='Are you sure you want to delete this user?'
 								show={showDeleteModal}
 								onDelete={handleDeleteUser}
 								deleteData={deleteData}
@@ -367,5 +380,7 @@ function Listings({
 		</MDBContainer>
 	)
 }
+
+function ActionButtons() {}
 
 export default Listings
