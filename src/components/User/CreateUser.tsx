@@ -41,7 +41,6 @@ export default function CreateUser({
 		watch,
 		reset,
 		getValues,
-		setValue,
 		formState: { errors },
 	} = useForm<UserFormProps>(defaultValues)
 
@@ -71,7 +70,6 @@ export default function CreateUser({
 
 	const getRoles = async () => {
 		const rolesData = await RoleService.getRoles()
-		console.log(rolesData.roles)
 		setRoles(rolesData.roles)
 	}
 
