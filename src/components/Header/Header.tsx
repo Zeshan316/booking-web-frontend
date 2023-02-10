@@ -1,49 +1,49 @@
-import React from 'react'
+import React from "react";
 import {
-	MDBContainer,
-	MDBNavbar,
-	MDBNavbarBrand,
-	MDBBtn,
-} from 'mdb-react-ui-kit'
-import { useSelector } from 'react-redux'
-import logo from '../../assets/bus.png'
-import { RootState } from '../../../src/store'
-import { clearUserData } from '../../store/reducers/auth-reducer'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+  MDBContainer,
+  MDBNavbar,
+  MDBNavbarBrand,
+  MDBBtn,
+} from "mdb-react-ui-kit";
+import { useSelector } from "react-redux";
+import logo from "../../assets/bus-img.png";
+import { RootState } from "../../../src/store";
+import { clearUserData } from "../../store/reducers/auth-reducer";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Header = (): JSX.Element => {
-	const dispatch = useDispatch()
-	const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-	const authData = useSelector((state: RootState) => state.auth)
+  const authData = useSelector((state: RootState) => state.auth);
 
-	function handleLogout() {
-		dispatch(clearUserData())
-		navigate('/login')
-	}
+  function handleLogout() {
+    dispatch(clearUserData());
+    navigate("/login");
+  }
 
-	return (
-		<>
-			<MDBNavbar light className='px-3'>
-				<MDBContainer fluid>
-					<MDBNavbarBrand className='fs-4 fw-normal'>
-						<img src={logo} height='50' alt='brand' loading='lazy' />
-						DNA Cab Service {authData?.user.role.name}
-					</MDBNavbarBrand>
+  return (
+    <>
+      <MDBNavbar light className="px-3">
+        <MDBContainer fluid>
+          <MDBNavbarBrand className="fs-4 fw-normal">
+            <img src={logo} height="50" alt="brand" loading="lazy" />
+            DNA Cab Service {authData?.user.role.name}
+          </MDBNavbarBrand>
 
-					<MDBBtn
-						color='info'
-						type='button'
-						className='fw-bold fs-6  text-capitalize'
-						onClick={handleLogout}
-					>
-						Logout
-					</MDBBtn>
-				</MDBContainer>
-			</MDBNavbar>
-		</>
-	)
-}
+          <MDBBtn
+            color="info"
+            type="button"
+            className="fw-bold fs-6  text-capitalize"
+            onClick={handleLogout}
+          >
+            Logout
+          </MDBBtn>
+        </MDBContainer>
+      </MDBNavbar>
+    </>
+  );
+};
 
-export default Header
+export default Header;
