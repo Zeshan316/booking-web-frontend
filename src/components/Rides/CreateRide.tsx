@@ -47,6 +47,13 @@ export default function CreateRide({
 		dayjs(new Date()).format('HH:mm')
 	)
 
+	console.log(
+		'trip date.........................',
+		tripDate,
+		tripTime,
+		dayjs().format('HH:mm')
+	)
+
 	const [shuttleDirection, setShuttleDirection] = useState<string>('')
 	const [selectedLocations, setSelectedLocations] = useState<
 		Pickup[] | Destination[]
@@ -84,13 +91,12 @@ export default function CreateRide({
 		setSelectedLocations(currentLocations)
 	}
 
-	/* useEffect(() => {
-		// if (formType !== 'update') {
-		alert('called')
-		setTripDate(dayjs().format('YYYY-MM-DD'))
-		setTripTime(dayjs().format('HH:mm'))
-		// }
-	}, []) */
+	useEffect(() => {
+		if (formType !== 'update') {
+			setTripDate(dayjs().format('YYYY-MM-DD'))
+			setTripTime(dayjs().format('HH:mm'))
+		}
+	}, [formType])
 
 	useEffect(() => {
 		getSelectedLocations()
@@ -110,12 +116,6 @@ export default function CreateRide({
 		setDestination(rideDetail.destinationId as string)
 		getSelectedLocations()
 	}, [rideDetail, formType])
-
-	useEffect(() => {
-		/* if (formType !== "update") {
-      resetForm();
-    } */
-	}, [rideDetail.direction])
 
 	const handleTimeChange = (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -229,7 +229,6 @@ export default function CreateRide({
 									name='time'
 									className='form-control mb-2'
 									placeholder='Enter Time'
-									// value={dayjs().format('YYYY-MM-DD hh:mm A')}
 									value={tripTime}
 									onChange={handleTimeChange}
 								/>
