@@ -46,14 +46,6 @@ export default function CreateRide({
 	const [tripTime, setTripTime] = useState<string>(
 		dayjs(new Date()).format('HH:mm')
 	)
-
-	console.log(
-		'trip date.........................',
-		tripDate,
-		tripTime,
-		dayjs().format('HH:mm')
-	)
-
 	const [shuttleDirection, setShuttleDirection] = useState<string>('')
 	const [selectedLocations, setSelectedLocations] = useState<
 		Pickup[] | Destination[]
