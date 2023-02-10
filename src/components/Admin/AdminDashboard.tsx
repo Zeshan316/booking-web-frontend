@@ -147,7 +147,6 @@ export default function UserDashboard(): JSX.Element {
 				handleFormType={handleFormType}
 				handleUserFormModel={handleUserFormModel}
 				handleDeleteUser={handleDeleteUser}
-				// setUpdateUserId={setUpdateUserId}
 			/>
 		</Layout>
 	)

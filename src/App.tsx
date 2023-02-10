@@ -47,7 +47,7 @@ function App(): JSX.Element {
 				/>
 
 				<Route
-					path='/'
+					path='/users'
 					element={
 						<ProtectedRoute>
 							<AdminDashboard />

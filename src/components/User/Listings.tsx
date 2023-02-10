@@ -23,7 +23,6 @@ import {
 } from '../../common/constants'
 import UserDetails from './UserDetails'
 import UserService from '../../services/UserService'
-import CreateUser from './CreateUser'
 import { setUserDetail } from '../../store/reducers/users-reducer'
 import DeleteModal from '../Toolbar/DeleteModal'
 
@@ -84,6 +83,7 @@ function Listings({
 		setTableFilters({
 			...tableFilters,
 			from: selected * perPageItems,
+			to: perPageItems,
 		})
 	}
 

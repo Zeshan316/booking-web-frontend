@@ -26,9 +26,7 @@ const Sidebar = () => {
 	]
 
 	const adminlinks: Item[] = [
-		// { text: "Users", to: "/users", icon: "users" },
-		{ text: 'My Rides', to: '/rides', icon: 'car-side' },
-		{ text: 'Users', to: '/', icon: 'users' },
+		{ text: 'Users', to: '/users', icon: 'users' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
