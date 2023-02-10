@@ -17,6 +17,7 @@ import UserService from "../../services/UserService";
 import AuthService from "../../services/AuthService";
 import { setUserData } from "../../store/reducers/auth-reducer";
 import { useDispatch } from "react-redux";
+import "./Profile.css";
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,8 +27,6 @@ const ProfilePage: React.FC = () => {
   const profile = useSelector((state: RootState) => {
     return state.auth?.user;
   });
-
-  console.log("profile", profile);
 
   useEffect(() => {
     if (profile) {
@@ -50,7 +49,6 @@ const ProfilePage: React.FC = () => {
   const handleSave = async () => {
     setIsEditing(false);
 
-    console.log("data", profileData);
     await UserService.updateUser(profile.id as string, profileData);
     const userData = await AuthService.getCurrentUser();
     dispatch(setUserData(userData));
@@ -87,10 +85,9 @@ const ProfilePage: React.FC = () => {
                 ? `${SERVER_BASE_URL}${profile.profileImgUrl}`
                 : "https://mdbootstrap.com/img/new/avatars/8.jpg"
             }
-            style={{ objectFit: "cover", width: "150px", height: "150px" }}
             alt=""
             crossOrigin="anonymous"
-            className="rounded-circle align img-fluid  mx-auto d-block"
+            className="rounded-circle align img-fluid  mx-auto d-block profile-img"
           />
           <form className="col-lg-9 col-md-9 m-auto text-align-start">
             <label className="fw-bold">First Name</label>
