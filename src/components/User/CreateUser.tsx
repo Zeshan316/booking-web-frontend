@@ -55,15 +55,15 @@ export default function CreateUser({
 	const handleOnClose = () => {
 		handleUserFormModel(false)
 
-		// reset({
-		//   firstName: "",
-		//   lastName: "",
-		//   email: "",
-		//   password: "",
-		//   repeatPassword: "",
-		//   roleId: "",
-		//   phoneNumber: "",
-		// });
+		reset({
+			firstName: '',
+			lastName: '',
+			email: '',
+			password: '',
+			repeatPassword: '',
+			roleId: '',
+			phoneNumber: '',
+		})
 		handleFormType('')
 	}
 
