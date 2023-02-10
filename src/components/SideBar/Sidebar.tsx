@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import './Sidebar.css'
 import { NavLink } from 'react-router-dom'
 import { RootState } from 'src/store'
-// import { useSelector } from "react-redux"
 
 interface Item {
 	text: string
@@ -30,14 +29,14 @@ const Sidebar = () => {
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
-	const driverlinks: Item[] = [
-		{ text: 'Rides', to: '/', icon: 'car-side' },
+	const sysadminlinks: Item[] = [
+		{ text: 'Users', to: '/users', icon: 'users' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
-	const sysadminlinks: Item[] = [
-		{ text: 'Users', to: '/users', icon: 'users' },
-		{ text: 'Rides', to: '/', icon: 'car-side' },
+	const driverlinks: Item[] = [
+		{ text: 'Rides', to: '/rides', icon: 'car-side' },
+		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
 	const userRole = authData?.user?.role.name.toLowerCase()

@@ -37,6 +37,7 @@ function Listings({
 	handleDeleteRide,
 }: UserTableProps): JSX.Element {
 	const dispatch = useDispatch()
+
 	const [pageOffset, setPageOffset] = useState<number>(0)
 	const [tableFilters, setTableFilters] = useState<GenericObject>({
 		order: LISTING_ORDER,
@@ -52,6 +53,7 @@ function Listings({
 	const [deleteRideId, setDeleteRideId] = useState<string>('')
 
 	const rideReducer = useSelector((state: RootState) => state.ride)
+	const authReducer = useSelector((state: RootState) => state.auth)
 
 	async function getRideDetail(rideId: string) {
 		const rideDetail = await RideService.getRide(rideId)
@@ -215,36 +217,42 @@ function Listings({
 											</>
 										</td>
 										<td>
-											<MDBTooltip tag='a' title={'Edit'}>
-												<MDBBtn
-													key={ride?.id}
-													className='fs-6 p-2'
-													color='light'
-													size='sm'
-													rippleColor='dark'
-													onClick={() => {
-														handleRideEdit(ride.id)
-													}}
-												>
-													<MDBIcon icon='edit' />
-												</MDBBtn>
-											</MDBTooltip>
+											{authReducer.user.isActive &&
+												ride.status.toLowerCase() !== 'completed' && (
+													<MDBTooltip tag='a' title={'Edit'}>
+														<MDBBtn
+															key={ride?.id}
+															className='fs-6 p-2'
+															color='light'
+															size='sm'
+															rippleColor='dark'
+															onClick={() => {
+																handleRideEdit(ride.id)
+															}}
+														>
+															<MDBIcon icon='edit' />
+														</MDBBtn>
+													</MDBTooltip>
+												)}
 
-											<MDBTooltip tag='a' title={'Delete'}>
-												<MDBBtn
-													key={ride?.id}
-													className='fs-6 p-2'
-													color='light'
-													size='sm'
-													rippleColor='dark'
-													onClick={() => {
-														setShowConfirBox(true)
-														setDeleteRideId(ride.id)
-													}}
-												>
-													<MDBIcon icon='trash' />
-												</MDBBtn>
-											</MDBTooltip>
+											{authReducer.user.isActive &&
+												ride.status.toLowerCase() !== 'completed' && (
+													<MDBTooltip tag='a' title={'Delete'}>
+														<MDBBtn
+															key={ride?.id}
+															className='fs-6 p-2'
+															color='light'
+															size='sm'
+															rippleColor='dark'
+															onClick={() => {
+																setShowConfirBox(true)
+																setDeleteRideId(ride.id)
+															}}
+														>
+															<MDBIcon icon='trash' />
+														</MDBBtn>
+													</MDBTooltip>
+												)}
 										</td>
 									</tr>
 								))

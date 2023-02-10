@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { TicketingAxios } from '../common/TicketingAxios'
 import { AUTH_ROUTES } from '../common/apiRoutes'
+import { notify } from '../common/utils'
 
 export default class AuthService {
 	public static async login(
@@ -14,6 +15,8 @@ export default class AuthService {
 			})
 
 			const { data = {} } = response
+
+			notify(data?.message)
 
 			const authData = this.formatResponse(data)
 

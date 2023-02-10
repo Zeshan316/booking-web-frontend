@@ -230,47 +230,47 @@ function Listings({
 											{user.role.name.toLowerCase() !==
 												USER_ROLES.Admin.toLowerCase() &&
 												!user.deletedAt && (
-													<MDBBtn
-														key={user?.id}
-														className='fs-6 p-2'
-														color='light'
-														size='sm'
-														rippleColor='dark'
-														onClick={async () => {
-															handleUserEdit(user?.userId)
-															handleFormType('update')
-															setSelectedUserId(
-																user?.userId as string
-															)
-															handleUserFormModel(true)
-														}}
-														disabled={Boolean(user.deletedAt)}
-													>
-														<MDBTooltip tag='a' title={'Edit'}>
-															<MDBIcon icon='edit' />
-														</MDBTooltip>
-													</MDBBtn>
+													<>
+														<MDBBtn
+															key={user?.id}
+															className='fs-6 p-2'
+															color='light'
+															size='sm'
+															rippleColor='dark'
+															onClick={async () => {
+																handleUserEdit(user?.userId)
+																handleFormType('update')
+																setSelectedUserId(
+																	user?.userId as string
+																)
+																handleUserFormModel(true)
+															}}
+															disabled={Boolean(user.deletedAt)}
+														>
+															<MDBTooltip tag='a' title={'Edit'}>
+																<MDBIcon icon='edit' />
+															</MDBTooltip>
+														</MDBBtn>
+
+														<MDBBtn
+															key={user?.id}
+															className='fs-6 p-2'
+															color='light'
+															size='sm'
+															rippleColor='dark'
+															disabled={Boolean(user.deletedAt)}
+															onClick={() => {
+																setShowDeleteModal(true)
+																setDeleteData(user?.userId as string)
+															}}
+														>
+															<MDBTooltip tag='a' title={'Delete'}>
+																<MDBIcon icon='trash' />
+															</MDBTooltip>
+														</MDBBtn>
+													</>
 												)}
-											{user.role.name.toLowerCase() !==
-												USER_ROLES.Admin.toLowerCase() &&
-												!user.deletedAt && (
-													<MDBBtn
-														key={user?.id}
-														className='fs-6 p-2'
-														color='light'
-														size='sm'
-														rippleColor='dark'
-														disabled={Boolean(user.deletedAt)}
-														onClick={() => {
-															setShowDeleteModal(true)
-															setDeleteData(user?.userId as string)
-														}}
-													>
-														<MDBTooltip tag='a' title={'Delete'}>
-															<MDBIcon icon='trash' />
-														</MDBTooltip>
-													</MDBBtn>
-												)}
+
 											{user.role.name.toLowerCase() !==
 												USER_ROLES.Admin.toLowerCase() &&
 												!Boolean(user.isActive) && (
