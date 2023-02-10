@@ -91,7 +91,7 @@ export default function CreateUser({
 				},
 			})
 			getRoles()
-		} else {
+		} else if (formType === 'create') {
 			const userRole = roles.find((role: Role) => role.level === 2)
 			setDefaultValues({
 				values: {
