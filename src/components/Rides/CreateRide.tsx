@@ -57,7 +57,6 @@ export default function CreateRide({
 
   const handleOnClose = () => {
     handleRideFormModel(false);
-    resetForm();
   };
 
   const getSelectedLocations = () => {
@@ -92,6 +91,12 @@ export default function CreateRide({
       setDestination(rideDetail.destinationId as string);
   }, [rideDetail]);
 
+  useEffect(() => {
+    if (formType !== "update") {
+      resetForm();
+    }
+  }, [formType, rideDetail?.id]);
+
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = e.target.value;
 
@@ -121,7 +126,7 @@ export default function CreateRide({
       return;
     }
     if (shuttleDirection === "") {
-      alert("Please select shuttle type");
+      alert("Please select shuttle direction");
       return;
     }
     const rideData = {
@@ -139,11 +144,13 @@ export default function CreateRide({
     }
 
     handleOnClose();
+    resetForm();
   };
 
   const resetForm = () => {
     setTripDate("");
     setShuttleDirection("");
+    // setTripTime("");
     setPickup("");
     setDestination("");
   };
@@ -204,10 +211,10 @@ export default function CreateRide({
                     type="radio"
                     className="form-check-input"
                     name="direction"
-                    // checked={
-                    //   shuttleDirection.toLocaleLowerCase() == "North" ||
-                    //   rideDetail.direction?.toLocaleLowerCase() === "north"
-                    // }
+                    checked={
+                      rideDetail.direction?.toLocaleLowerCase() === "north" ||
+                      shuttleDirection === "North"
+                    }
                     onChange={(e) => setShuttleDirection(e.target.value)}
                     value="North"
                   />
@@ -218,10 +225,10 @@ export default function CreateRide({
                     type="radio"
                     className="form-check-input"
                     name="direction"
-                    // checked={
-                    //   shuttleDirection.toLocaleLowerCase() == "South" ||
-                    //   rideDetail?.direction?.toLocaleLowerCase() === "south"
-                    // }
+                    checked={
+                      rideDetail?.direction?.toLocaleLowerCase() === "south" ||
+                      shuttleDirection === "South"
+                    }
                     onChange={(e) => setShuttleDirection(e.target.value)}
                     value="South"
                   />
@@ -232,24 +239,29 @@ export default function CreateRide({
                 <select
                   className="form-select mb-2"
                   aria-label="Default select example"
+                  value={pickup}
                   onChange={(e) => setPickup(e.target.value)}
                 >
-                  <option value="">Select Pick up</option>
-                  {selectedLocations.map((location) => (
-                    <option key={location.id} value={location.id}>
-                      {location.locationName}
-                    </option>
-                  ))}
+                  <option>Select Pick up</option>
+                  {selectedLocations?.length &&
+                    selectedLocations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.locationName}
+                      </option>
+                    ))}
                 </select>
+
+                {error && <span className="error_msg">{error}</span>}
 
                 <label className="fw-bold py-1"> Destination</label>
                 {
                   <select
                     className="form-select"
                     aria-label="Default select example"
+                    value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                   >
-                    <option value="">Select Destination</option>
+                    <option>Select Destination</option>
                     {selectedLocations.map((location) => (
                       <option key={location.id} value={location.id}>
                         {location.locationName}

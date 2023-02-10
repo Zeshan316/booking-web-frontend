@@ -53,6 +53,17 @@ export default function CreateUser({
 
   const handleOnClose = () => {
     handleUserFormModel(false);
+    setDefaultValues({
+      values: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        repeatPassword: "",
+        roleId: "",
+        phoneNumber: "",
+      },
+    });
     reset({});
   };
 
