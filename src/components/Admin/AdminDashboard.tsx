@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit'
 import Layout from 'src/components/Layout/Layout'
-import UserTable from '../User/UserTable'
+import Listings from '../User/Listings'
 import Search from 'src/components/Toolbar/Search'
 import CreateUser from '../User/CreateUser'
 import UserService from '../../services/UserService'
@@ -142,7 +142,7 @@ export default function UserDashboard(): JSX.Element {
 				handleSearchField={handleSearchField}
 				handleItemsPerPage={handleItemsPerPage}
 			/>
-			<UserTable
+			<Listings
 				perPageItems={itemsPerPage}
 				handleFormType={handleFormType}
 				handleUserFormModel={handleUserFormModel}
