@@ -10,6 +10,7 @@ export const USER_ROUTES: GenericObject = {
 	getUser: (id: string) => `api/users/${id}`,
 	createUser: () => `api/users`,
 	updateUser: (id: string) => `api/users/${id}`,
+	updateUserStatus: (id: string) => `api/users/change-status/${id}`,
 	deleteUser: (id: string) => `api/users/${id}`,
 }
 

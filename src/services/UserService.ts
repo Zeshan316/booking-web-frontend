@@ -89,6 +89,22 @@ export default class UserService {
 		}
 	}
 
+	public static async updateUserStatus(userId: string): Promise<any> {
+		try {
+			const response = await TicketingAxios.put(
+				USER_ROUTES.updateUserStatus(userId)
+			)
+
+			const { data } = response
+
+			if (data?.message) notify(data?.message, 'success')
+
+			return data
+		} catch (error: any) {
+			return error?.response?.data?.message
+		}
+	}
+
 	public static async deleteUser(userId: string): Promise<any> {
 		try {
 			const response = await TicketingAxios.delete(

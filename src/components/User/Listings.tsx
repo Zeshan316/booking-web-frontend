@@ -20,6 +20,7 @@ import { setUsers } from '../../store/reducers/users-reducer'
 import {
 	LISTING_ORDER,
 	SERVER_BASE_URL,
+	USER_ROLES,
 } from '../../common/constants'
 import UserDetails from './UserDetails'
 import UserService from '../../services/UserService'
@@ -31,6 +32,7 @@ interface UserTableProps {
 	handleFormType: (type: string) => void
 	handleUserFormModel: (e: any) => void
 	handleDeleteUser: (e: string) => void
+	handleUserStatus: (e: string) => void
 }
 
 function Listings({
@@ -38,6 +40,7 @@ function Listings({
 	handleFormType,
 	handleUserFormModel,
 	handleDeleteUser,
+	handleUserStatus,
 }: UserTableProps): JSX.Element {
 	const dispatch = useDispatch()
 	const [pageOffset, setPageOffset] = useState<number>(0)
@@ -224,55 +227,89 @@ function Listings({
 											<p className='mb-1'>{user?.role?.name}</p>
 										</td>
 										<td>
-											{!user.deletedAt && (
-												<MDBBtn
-													key={user?.id}
-													className='fs-6 p-2'
-													color='light'
-													size='sm'
-													rippleColor='dark'
-													onClick={async () => {
-														handleUserEdit(user?.userId)
-														handleFormType('update')
-														setSelectedUserId(user?.userId as string)
-														handleUserFormModel(true)
-													}}
-													disabled={Boolean(user.deletedAt)}
-												>
-													<MDBTooltip tag='a' title={'Edit'}>
-														<MDBIcon icon='edit' />
-													</MDBTooltip>
-												</MDBBtn>
-											)}
-											{!user.deletedAt && (
-												<MDBBtn
-													key={user?.id}
-													className='fs-6 p-2'
-													color='light'
-													size='sm'
-													rippleColor='dark'
-													disabled={Boolean(user.deletedAt)}
-													onClick={() => {
-														setShowDeleteModal(true)
-														setDeleteData(user?.userId as string)
-													}}
-												>
-													<MDBTooltip tag='a' title={'Delete'}>
-														<MDBIcon icon='trash' />
-													</MDBTooltip>
-												</MDBBtn>
-											)}
-											<MDBBtn
-												key={user?.id}
-												className='fs-6 p-2'
-												color='light'
-												size='sm'
-												rippleColor='dark'
-											>
-												<MDBTooltip tag='a' title='Unlock'>
-													<MDBIcon icon='lock' color='muted' />
-												</MDBTooltip>
-											</MDBBtn>
+											{user.role.name.toLowerCase() !==
+												USER_ROLES.Admin.toLowerCase() &&
+												!user.deletedAt && (
+													<MDBBtn
+														key={user?.id}
+														className='fs-6 p-2'
+														color='light'
+														size='sm'
+														rippleColor='dark'
+														onClick={async () => {
+															handleUserEdit(user?.userId)
+															handleFormType('update')
+															setSelectedUserId(
+																user?.userId as string
+															)
+															handleUserFormModel(true)
+														}}
+														disabled={Boolean(user.deletedAt)}
+													>
+														<MDBTooltip tag='a' title={'Edit'}>
+															<MDBIcon icon='edit' />
+														</MDBTooltip>
+													</MDBBtn>
+												)}
+											{user.role.name.toLowerCase() !==
+												USER_ROLES.Admin.toLowerCase() &&
+												!user.deletedAt && (
+													<MDBBtn
+														key={user?.id}
+														className='fs-6 p-2'
+														color='light'
+														size='sm'
+														rippleColor='dark'
+														disabled={Boolean(user.deletedAt)}
+														onClick={() => {
+															setShowDeleteModal(true)
+															setDeleteData(user?.userId as string)
+														}}
+													>
+														<MDBTooltip tag='a' title={'Delete'}>
+															<MDBIcon icon='trash' />
+														</MDBTooltip>
+													</MDBBtn>
+												)}
+											{user.role.name.toLowerCase() !==
+												USER_ROLES.Admin.toLowerCase() &&
+												!Boolean(user.isActive) && (
+													<MDBBtn
+														key={user?.id}
+														className='fs-6 p-2'
+														color='light'
+														size='sm'
+														rippleColor='dark'
+														onClick={() =>
+															handleUserStatus(user?.userId as string)
+														}
+													>
+														<MDBTooltip tag='a' title='Unlock'>
+															<MDBIcon icon='lock' color='muted' />
+														</MDBTooltip>
+													</MDBBtn>
+												)}
+											{user.role.name.toLowerCase() !==
+												USER_ROLES.Admin.toLowerCase() &&
+												Boolean(user.isActive) && (
+													<MDBBtn
+														key={user?.id}
+														className='fs-6 p-2'
+														color='light'
+														size='sm'
+														rippleColor='dark'
+														onClick={() =>
+															handleUserStatus(user?.userId as string)
+														}
+													>
+														<MDBTooltip tag='a' title='Lock'>
+															<MDBIcon
+																icon='lock-open'
+																color='info'
+															/>
+														</MDBTooltip>
+													</MDBBtn>
+												)}
 										</td>
 									</tr>
 								))

@@ -115,9 +115,14 @@ export default function UserDashboard(): JSX.Element {
 	function handleFormType(type: string, userId?: string) {
 		setFormType(type)
 	}
+
 	async function handleDeleteUser(userId: string) {
-		console.log(userId)
 		await UserService.deleteUser(userId)
+		getUsers()
+	}
+
+	async function handleUserStatus(userId: string) {
+		await UserService.updateUserStatus(userId)
 		getUsers()
 	}
 
@@ -147,6 +152,7 @@ export default function UserDashboard(): JSX.Element {
 				handleFormType={handleFormType}
 				handleUserFormModel={handleUserFormModel}
 				handleDeleteUser={handleDeleteUser}
+				handleUserStatus={handleUserStatus}
 			/>
 		</Layout>
 	)
