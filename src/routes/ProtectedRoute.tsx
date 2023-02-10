@@ -12,7 +12,8 @@ import jwtDecode from 'jwt-decode'
 import { notify } from '../common/utils'
 import { useDispatch } from 'react-redux'
 import { hasUserAccessRights } from '../common/utils'
-import NotFound from 'src/components/NotFound/NotFound'
+import NotFound from '../components/NotFound/NotFound'
+
 import { clearUserData } from 'src/store/reducers/auth-reducer'
 
 export type ProtectedRouteProps = {
@@ -58,9 +59,8 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
 	console.log(decodedToken, 'decodedToken', authData?.isLoggedIn)
 	if (decodedToken?.exp < Math.floor(Date.now() / 1000)) {
-		alert('token expire')
+		notify('Your token has been expired', 'info')
 		dispatch(clearUserData())
-		// notify('Your token has been expired', 'info')
 		return (
 			<Navigate
 				to='/login'
