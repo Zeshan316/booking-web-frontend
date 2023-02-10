@@ -86,7 +86,6 @@ function Login(): JSX.Element {
 									className='form-inputs'
 									value={email}
 									placeholder='Enter Email'
-									required
 									onChange={(
 										event: React.ChangeEvent<HTMLInputElement>
 									) => setEmail(event.target.value)}
@@ -101,7 +100,6 @@ function Login(): JSX.Element {
 									className='form-inputs'
 									value={password}
 									placeholder='*********'
-									required
 									onChange={(
 										event: React.ChangeEvent<HTMLInputElement>
 									) => setPassword(event.target.value)}
