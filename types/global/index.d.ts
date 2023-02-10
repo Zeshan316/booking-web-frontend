@@ -28,7 +28,7 @@ type Role = {
 type User = {
 	id?: string
 	userId?: string
-	isActive?: boolean
+	isActive?: number
 	firstName: string
 	lastName?: string
 	email: string

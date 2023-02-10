@@ -13,6 +13,7 @@ const initialState: AuthUser = {
 		firstName: '',
 		lastName: '',
 		email: '',
+		isActive: 0,
 		profileImgUrl: '',
 		role: {
 			id: '',
@@ -38,11 +39,13 @@ const authSlicer = createSlice({
 			return {
 				...state,
 				isLoggedIn: payload.jwtToken ? true : false,
+				jwtToken: payload.jwtToken,
 				user: {
 					id: userData.id,
 					firstName: userData.firstName,
 					lastName: userData.lastName,
 					email: userData.email,
+					isActive: userData.isActive,
 					profileImgUrl: userData.profileImgUrl,
 					role: {
 						id: role.id,

@@ -24,7 +24,6 @@ const initialTableFilters: GenericObject = {
 export default function Rides(): JSX.Element {
 	const dispatch = useDispatch()
 
-	const [isUserActive, setIsUserActive] = useState<boolean>(true)
 	const [itemsPerPage, setItemsPerPage] =
 		useState<number>(ITEMS_PER_PAGE)
 	const [formType, setFormType] = useState<string>('create')
@@ -41,9 +40,9 @@ export default function Rides(): JSX.Element {
 	}
 
 	const authReducer = useSelector((state: RootState) => state.auth)
+
 	useEffect(() => {
 		getRides()
-		setIsUserActive(Boolean(authReducer.user.isActive))
 	}, [])
 
 	function handleFormType(type: string, userId?: string) {
@@ -61,7 +60,7 @@ export default function Rides(): JSX.Element {
 
 	return (
 		<Layout>
-			{authReducer.user.isActive && (
+			{Boolean(authReducer.user.isActive) && (
 				<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
 					<MDBCol className=''>
 						<CreateRide

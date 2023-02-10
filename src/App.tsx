@@ -32,8 +32,6 @@ function App(): JSX.Element {
 		getCurrentUser()
 	}, [])
 
-	console.log('authData', authData?.user?.role?.name)
-
 	return (
 		<BrowserRouter>
 			<Routes>
