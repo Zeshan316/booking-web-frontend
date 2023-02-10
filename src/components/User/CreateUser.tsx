@@ -239,6 +239,7 @@ export default function CreateUser({
                     )}
                 <label className="fw-bold py-1 d-block">
                   {formType === "update" ? "New Password" : "Retype Password"}
+                  <span className="text-danger">*</span>
                 </label>
                 <input
                   type="password"
@@ -285,7 +286,11 @@ export default function CreateUser({
                 />
                 {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
 
-                <label className="fw-bold py-1 d-block">Role</label>
+                <label className="fw-bold py-1 d-block">
+                  Role
+                  <span className="text-danger">*</span>
+                </label>
+
                 <select
                   defaultValue={getValues("roleId")}
                   className="form-select mb-2"

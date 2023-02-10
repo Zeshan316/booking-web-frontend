@@ -129,7 +129,7 @@ const ProfilePage: React.FC = () => {
                 disabled={!isEditing}
                 className="form-control mb-2"
                 readOnly
-                value={profile.role.name}
+                value={profile.role?.name}
               />
             </div>
 
@@ -177,7 +177,7 @@ const ProfilePage: React.FC = () => {
             <label className="fw-bold">New Password</label>
             <div className="mb-3">
               <input
-                type="text"
+                type="password"
                 disabled={!isEditing}
                 className="form-control mb-2"
                 // value={profileData?.phoneNo}
@@ -204,17 +204,28 @@ const ProfilePage: React.FC = () => {
               }
             />
 
-            <MDBRow className="mt-0 text-end">
+            <MDBRow>
               <MDBCol>
                 {isEditing ? (
-                  <MDBBtn
-                    color="info"
-                    className="float-end text-capitalize mt-2 mb-0 fw-bold fs-6"
-                    type="button"
-                    onClick={handleSave}
-                  >
-                    Save
-                  </MDBBtn>
+                  <MDBCol className="float-end ">
+                    <MDBBtn
+                      color="info"
+                      className=" text-capitalize mx-2 mt-2 mb-0 fw-bold fs-6"
+                      type="button"
+                      onClick={() => setIsEditing(false)}
+                    >
+                      Cancel
+                    </MDBBtn>
+
+                    <MDBBtn
+                      color="info"
+                      className="text-capitalize mt-2 mb-0 fw-bold fs-6"
+                      type="button"
+                      onClick={handleSave}
+                    >
+                      Save
+                    </MDBBtn>
+                  </MDBCol>
                 ) : (
                   <MDBCol className="mb-4"></MDBCol>
                 )}

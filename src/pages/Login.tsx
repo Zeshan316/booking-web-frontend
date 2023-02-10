@@ -81,7 +81,7 @@ function Login(): JSX.Element {
               <div className="group">
                 <MDBIcon far icon="envelope" className="input-icon" />
                 <input
-                  type={"email"}
+                  type="text"
                   className="form-inputs"
                   value={email}
                   placeholder="Enter Email"
@@ -97,6 +97,7 @@ function Login(): JSX.Element {
                 <MDBIcon fas icon="lock" className="input-icon" />
                 <input
                   type={showPassword ? "text" : "password"}
+                  required
                   className="form-inputs"
                   value={password}
                   placeholder="*********"
