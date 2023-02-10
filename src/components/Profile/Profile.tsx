@@ -17,6 +17,7 @@ import UserService from "../../services/UserService";
 import AuthService from "../../services/AuthService";
 import { setUserData } from "../../store/reducers/auth-reducer";
 import { useDispatch } from "react-redux";
+import "./Profile.css";
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,8 +27,6 @@ const ProfilePage: React.FC = () => {
   const profile = useSelector((state: RootState) => {
     return state.auth?.user;
   });
-
-  console.log("profile", profile);
 
   useEffect(() => {
     if (profile) {
@@ -50,7 +49,6 @@ const ProfilePage: React.FC = () => {
   const handleSave = async () => {
     setIsEditing(false);
 
-    console.log("data", profileData);
     await UserService.updateUser(profile.id as string, profileData);
     const userData = await AuthService.getCurrentUser();
     dispatch(setUserData(userData));
@@ -87,10 +85,9 @@ const ProfilePage: React.FC = () => {
                 ? `${SERVER_BASE_URL}${profile.profileImgUrl}`
                 : "https://mdbootstrap.com/img/new/avatars/8.jpg"
             }
-            style={{ objectFit: "cover", width: "150px", height: "150px" }}
             alt=""
             crossOrigin="anonymous"
-            className="rounded-circle align img-fluid  mx-auto d-block"
+            className="rounded-circle align img-fluid  mx-auto d-block profile-img"
           />
           <form className="col-lg-9 col-md-9 m-auto text-align-start">
             <label className="fw-bold">First Name</label>
@@ -132,7 +129,7 @@ const ProfilePage: React.FC = () => {
                 disabled={!isEditing}
                 className="form-control mb-2"
                 readOnly
-                value={profile.role.name}
+                value={profile.role?.name}
               />
             </div>
 
@@ -180,7 +177,7 @@ const ProfilePage: React.FC = () => {
             <label className="fw-bold">New Password</label>
             <div className="mb-3">
               <input
-                type="text"
+                type="password"
                 disabled={!isEditing}
                 className="form-control mb-2"
                 // value={profileData?.phoneNo}
@@ -207,17 +204,28 @@ const ProfilePage: React.FC = () => {
               }
             />
 
-            <MDBRow className="mt-0 text-end">
+            <MDBRow>
               <MDBCol>
                 {isEditing ? (
-                  <MDBBtn
-                    color="info"
-                    className="float-end text-capitalize mt-2 mb-0 fw-bold fs-6"
-                    type="button"
-                    onClick={handleSave}
-                  >
-                    Save
-                  </MDBBtn>
+                  <MDBCol className="float-end ">
+                    <MDBBtn
+                      color="info"
+                      className=" text-capitalize mx-2 mt-2 mb-0 fw-bold fs-6"
+                      type="button"
+                      onClick={() => setIsEditing(false)}
+                    >
+                      Cancel
+                    </MDBBtn>
+
+                    <MDBBtn
+                      color="info"
+                      className="text-capitalize mt-2 mb-0 fw-bold fs-6"
+                      type="button"
+                      onClick={handleSave}
+                    >
+                      Save
+                    </MDBBtn>
+                  </MDBCol>
                 ) : (
                   <MDBCol className="mb-4"></MDBCol>
                 )}
