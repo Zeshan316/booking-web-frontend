@@ -46,7 +46,10 @@ export default function CreateUser({
 
   const [modalstate, setModalstate] = useState<boolean>(false);
   const [type, setType] = useState<string>("password");
+  const [typeRepeat, setTypeRepeat] = useState<string>("password");
+
   const [showIcon, setShowIcon] = useState<string>("eye-slash");
+  const [showIconRepeat, setShowIconRepeat] = useState<string>("eye-slash");
 
   const password: any = useRef({});
   password.current = watch("password", "");
@@ -126,6 +129,16 @@ export default function CreateUser({
     } else {
       setShowIcon("eye-slash");
       setType("password");
+    }
+  };
+
+  const handleToggleRepeat = () => {
+    if (typeRepeat === "password") {
+      setShowIconRepeat("eye");
+      setTypeRepeat("text");
+    } else {
+      setShowIconRepeat("eye-slash");
+      setTypeRepeat("password");
     }
   };
 
@@ -269,7 +282,7 @@ export default function CreateUser({
                 </label>
                 <div className="d-flex align-items-center form-control">
                   <input
-                    type={type}
+                    type={typeRepeat}
                     className=" w-100 border-0"
                     placeholder="Retype password"
                     {...(formType === "update"
@@ -288,12 +301,12 @@ export default function CreateUser({
                           }),
                         })}
                   />
-                  {/* <MDBIcon
+                  <MDBIcon
                     className="eye-icon"
                     far
-                    icon={showIcon}
-                    onClick={handleToggle}
-                  /> */}
+                    icon={showIconRepeat}
+                    onClick={handleToggleRepeat}
+                  />
                 </div>
 
                 {formType === "update"

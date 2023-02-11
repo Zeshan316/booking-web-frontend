@@ -34,8 +34,8 @@ function UserDetails({ show, setShow }: ModalProps): JSX.Element {
       iconname={"bus"}
       handleOnClose={setShow}
       modalBody={
-        <MDBModalBody className="me-1 mx-0 mt-1 w-100">
-          <MDBCol className="">
+        <MDBModalBody className="me-1 mx-0 mt-1">
+          <MDBCol className="text-start ms-1">
             <MDBRow className="mb-4">
               <MDBCol>
                 <h5 className="fw-bold">First Name</h5>
@@ -48,19 +48,16 @@ function UserDetails({ show, setShow }: ModalProps): JSX.Element {
               </MDBCol>
             </MDBRow>
 
-            <MDBRow className="mb-4">
-              <MDBCol
-                className="col-6
-			  "
-              >
+            <MDBRow className="mb-4 d-flex justify-content-between align-items-center">
+              <MDBCol>
                 <h5 className="fw-bold">Email</h5>
                 <p className="text-style">{userDetail.email}</p>
               </MDBCol>
 
-              <MDBCol className="col-6">
+              <MDBCol>
                 <h5 className="fw-bold">Creation Date</h5>
                 <p className="text-style">
-                  {dayjs(userDetail.createdAt).format("YYYY-MM-DD") || "N/A"}
+                  {dayjs(userDetail.createdAt).format("D MMM, YYYY")}
                 </p>
               </MDBCol>
             </MDBRow>
@@ -104,7 +101,11 @@ function UserDetails({ show, setShow }: ModalProps): JSX.Element {
           </MDBCol>
 
           <MDBModalFooter>
-            <MDBBtn color="info" className="fw-bold" onClick={setShow}>
+            <MDBBtn
+              color="info"
+              className="fw-bold text-capitalize fs-6"
+              onClick={setShow}
+            >
               Close
             </MDBBtn>
           </MDBModalFooter>
