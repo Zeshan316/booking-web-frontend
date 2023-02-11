@@ -52,11 +52,27 @@
 
 }
 
-
-
 .options{
   background-color:whitesmoke;
   color: black;
   cursor: pointer;
 }
 
+.date-time-picker{
+  display: flex;
+  justify-content: start;
+  cursor: pointer;
+}
+
+.date-time-picker .form-control{
+  border: 1px solid #bdbdbd;
+  padding: 0.55rem 0.75rem;
+  font-size: 16px;
+  outline: none;
+  text-transform: none;
+  font-weight: 600;
+  /* max-width: 15rem; */
+  color: white;
+  background-color: #54b4d3;
+  cursor: pointer;
+}
