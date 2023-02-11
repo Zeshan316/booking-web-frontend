@@ -12,6 +12,7 @@ import { RootState } from './store'
 import { useDispatch } from 'react-redux'
 import { setUserData } from './store/reducers/auth-reducer'
 import Rides from './components/Rides/Rides'
+import Roles from './components/Roles/Roles'
 import 'react-datetime/css/react-datetime.css'
 // import Users from './components/Admin/Users'
 
@@ -50,6 +51,15 @@ function App(): JSX.Element {
 					element={
 						<ProtectedRoute>
 							<AdminDashboard />
+						</ProtectedRoute>
+					}
+				/>
+
+				<Route
+					path='/roles'
+					element={
+						<ProtectedRoute>
+							<Roles />
 						</ProtectedRoute>
 					}
 				/>

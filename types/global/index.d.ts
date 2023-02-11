@@ -23,6 +23,7 @@ type Role = {
 	level?: number
 	createdAt?: Date
 	updatedAt?: Date
+	deletedAt?: Date
 }
 
 type User = {

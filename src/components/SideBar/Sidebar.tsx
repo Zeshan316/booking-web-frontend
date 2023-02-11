@@ -26,11 +26,13 @@ const Sidebar = () => {
 
 	const adminlinks: Item[] = [
 		{ text: 'Users', to: '/users', icon: 'users' },
+		{ text: 'Roles', to: '/roles', icon: 'user-circle' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
 	const sysadminlinks: Item[] = [
 		{ text: 'Users', to: '/users', icon: 'users' },
+		{ text: 'Roles', to: '/roles', icon: 'user-circle' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
