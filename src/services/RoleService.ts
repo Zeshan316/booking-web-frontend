@@ -19,7 +19,6 @@ export default class RoleService {
 				ROLES_ROUTES.getRoles(tableFilters)
 			)
 
-			console.log(response)
 			const { data: { data } = {} } = response
 
 			return data
@@ -47,7 +46,6 @@ export default class RoleService {
 
 			const { data: { data } = {} } = response
 
-			// console.log('data', data)
 			return data
 		} catch (error: any) {
 			console.log(error)
