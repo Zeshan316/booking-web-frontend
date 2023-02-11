@@ -13,4 +13,5 @@ const hasUserAccessRights = (userRole: string): boolean => {
 		? true
 		: false
 }
+
 export { notify, hasUserAccessRights }

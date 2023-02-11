@@ -10,6 +10,7 @@ import {
 	MDBBadge,
 	MDBRow,
 	MDBCol,
+	MDBSwitch,
 } from 'mdb-react-ui-kit'
 
 import ReactPaginate from 'react-paginate'
@@ -17,17 +18,21 @@ import dayjs from 'dayjs'
 
 import { RootState } from '../../store'
 import { useSelector, useDispatch } from 'react-redux'
-import { LISTING_ORDER } from '../../common/constants'
+import { RIDE_STATUSES } from '../../common/constants'
 import RideDetails from './RideDetails'
 import RideService from '../../services/RideService'
 import { setRideDetail } from '../../store/reducers/rides-reducer'
 import DeleteModal from '../Toolbar/DeleteModal'
+import { USER_ROLES } from '../../common/constants'
+import { setRides } from '../../store/reducers/rides-reducer'
 
 interface UserTableProps {
 	perPageItems: number
 	handleFormType: (type: string) => void
 	handleRideFormModel: (e: any) => void
 	handleDeleteRide: (e: string) => void
+	handlePageChange: (e: any) => void
+	handleChangeRideStatus: (e: any, rideId: string) => void
 }
 
 function Listings({
@@ -35,25 +40,24 @@ function Listings({
 	handleFormType,
 	handleRideFormModel,
 	handleDeleteRide,
+	handlePageChange,
+	handleChangeRideStatus,
 }: UserTableProps): JSX.Element {
 	const dispatch = useDispatch()
 
-	const [pageOffset, setPageOffset] = useState<number>(0)
-	const [tableFilters, setTableFilters] = useState<GenericObject>({
-		order: LISTING_ORDER,
-		from: pageOffset,
-		to: perPageItems,
-	})
 	const [selectedRideId, setSelectedRideId] = useState<string>('')
 	const [showRideDetail, setShowRideDetail] = useState<boolean>(false)
-	const [showRideUpdateModel, setShowRideUpdateModel] =
-		useState<boolean>(false)
+	/* const [showRideUpdateModel, setShowRideUpdateModel] =
+		useState<boolean>(false) */
 
 	const [showConfirmBox, setShowConfirBox] = useState<boolean>(false)
 	const [deleteRideId, setDeleteRideId] = useState<string>('')
 
 	const rideReducer = useSelector((state: RootState) => state.ride)
 	const authReducer = useSelector((state: RootState) => state.auth)
+
+	const userRole = authReducer?.user?.role?.name.toLowerCase()
+	const driverRole = USER_ROLES.Driver.toLowerCase()
 
 	async function getRideDetail(rideId: string) {
 		const rideDetail = await RideService.getRide(rideId)
@@ -63,18 +67,6 @@ function Listings({
 	useEffect(() => {
 		if (selectedRideId) getRideDetail(selectedRideId)
 	}, [selectedRideId])
-
-	function handlePageChange({
-		selected,
-	}: {
-		selected: number
-	}): void {
-		setPageOffset(selected)
-		setTableFilters({
-			...tableFilters,
-			from: selected * perPageItems,
-		})
-	}
 
 	function handleRideDetail(rideId: string | undefined) {
 		if (!rideId) return
@@ -113,6 +105,14 @@ function Listings({
 										className='sort-icon me-2'
 									/>
 									Trip Time
+								</th>
+								<th className='fw-bold text-white h6'>
+									<MDBIcon
+										// icon={isAscending ? 'sort-up' : 'sort-down'}
+										// onClick={() => setIsAscending(!isAscending)}
+										className='sort-icon me-2'
+									/>
+									Request By
 								</th>
 								<th className='fw-bold text-white h6'>
 									<MDBIcon
@@ -172,6 +172,11 @@ function Listings({
 											</p>
 										</td>
 										<td>
+											<p className=' mb-1'>
+												{`${ride.user.firstName} ${ride.user.firstName}`}
+											</p>
+										</td>
+										<td>
 											<p className='mb-0'>{ride.pickup.direction}</p>
 										</td>
 										<td>
@@ -186,7 +191,8 @@ function Listings({
 										</td>
 										<td>
 											<>
-												{ride.status == 'awaiting' ? (
+												{ride.status.toLowerCase() ==
+												RIDE_STATUSES.awaiting ? (
 													<MDBBadge
 														light
 														color='warning'
@@ -195,7 +201,8 @@ function Listings({
 													>
 														<p className='mb-1'>{ride.status}</p>
 													</MDBBadge>
-												) : ride.status == 'completed' ? (
+												) : ride.status.toLowerCase() ===
+												  RIDE_STATUSES.completed ? (
 													<MDBBadge
 														light
 														color='success'
@@ -216,44 +223,62 @@ function Listings({
 												)}
 											</>
 										</td>
-										<td>
-											{authReducer.user.isActive &&
-												ride.status.toLowerCase() !== 'completed' && (
-													<MDBTooltip tag='a' title={'Edit'}>
-														<MDBBtn
-															key={ride?.id}
-															className='fs-6 p-2'
-															color='light'
-															size='sm'
-															rippleColor='dark'
-															onClick={() => {
-																handleRideEdit(ride.id)
-															}}
-														>
-															<MDBIcon icon='edit' />
-														</MDBBtn>
-													</MDBTooltip>
-												)}
+										{userRole === driverRole ? (
+											<td>
+												<MDBSwitch
+													defaultChecked={
+														ride.status.toLowerCase() ===
+														RIDE_STATUSES.completed
+													}
+													id='flexSwitchCheckChecked'
+													// label='Change status'
+													onChange={(e: any) =>
+														handleChangeRideStatus(e, ride.id)
+													}
+												/>
+											</td>
+										) : (
+											<td>
+												{authReducer.user.isActive &&
+													ride.status.toLowerCase() !==
+														RIDE_STATUSES.completed && (
+														<MDBTooltip tag='a' title={'Edit'}>
+															<MDBBtn
+																key={ride?.id}
+																className='fs-6 p-2'
+																color='light'
+																size='sm'
+																rippleColor='dark'
+																onClick={() => {
+																	handleRideEdit(ride.id)
+																}}
+															>
+																<MDBIcon icon='edit' />
+															</MDBBtn>
+														</MDBTooltip>
+													)}
 
-											{authReducer.user.isActive &&
-												ride.status.toLowerCase() !== 'completed' && (
-													<MDBTooltip tag='a' title={'Delete'}>
-														<MDBBtn
-															key={ride?.id}
-															className='fs-6 p-2'
-															color='light'
-															size='sm'
-															rippleColor='dark'
-															onClick={() => {
-																setShowConfirBox(true)
-																setDeleteRideId(ride.id)
-															}}
-														>
-															<MDBIcon icon='trash' />
-														</MDBBtn>
-													</MDBTooltip>
-												)}
-										</td>
+												{authReducer.user.isActive &&
+													ride.status.toLowerCase() !==
+														RIDE_STATUSES.completed && (
+														<MDBTooltip tag='a' title={'Delete'}>
+															<MDBBtn
+																key={ride?.id}
+																className='fs-6 p-2'
+																color='light'
+																size='sm'
+																rippleColor='dark'
+																onClick={() => {
+																	setShowConfirBox(true)
+																	setDeleteRideId(ride.id)
+																}}
+															>
+																<MDBIcon icon='trash' />
+															</MDBBtn>
+														</MDBTooltip>
+													)}
+											</td>
+										)}
 									</tr>
 								))
 							)}
@@ -267,12 +292,13 @@ function Listings({
 												breakLabel='...'
 												nextLabel='next >'
 												onPageChange={handlePageChange}
-												pageRangeDisplayed={2}
+												pageRangeDisplayed={5}
 												pageCount={Math.ceil(
 													rideReducer.totalRides / perPageItems
 												)}
 												previousLabel='< previous'
 												// renderOnZeroPageCount={3}
+												// forcePage={perPageItems && 0}
 												pageClassName='page-item'
 												pageLinkClassName='page-link'
 												previousClassName='page-item'

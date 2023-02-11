@@ -34,5 +34,6 @@ export const RIDE_ROUTES: GenericObject = {
 	getRide: (id: string) => `api/rides/${id}`,
 	createRide: () => `api/rides`,
 	updateRide: (id: string) => `api/rides/${id}`,
+	updateRideStatus: (id: string) => `api/rides/change-status/${id}`,
 	deleteRide: (id: string) => `api/rides/${id}`,
 }

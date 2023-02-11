@@ -35,7 +35,7 @@ const Table: React.FC = () => {
 	const navigate = useNavigate()
 
 	const role: string = 'Admin'
-
+	/* 
 	const data: TableData[] = [
 		{
 			id: 1,
@@ -81,9 +81,11 @@ const Table: React.FC = () => {
 			actions: [<MDBIcon icon='edit' />, <MDBIcon icon='trash' />],
 			tooltip: ['Edit your ride', 'Delete your ride'],
 		},
-	]
+	] */
 
-	return (
+	return <p>table</p>
+
+	/* return (
 		<MDBContainer fluid>
 			<section>
 				<div className='shadow-4 rounded-4 overflow-hidden bg-light '>
@@ -153,7 +155,6 @@ const Table: React.FC = () => {
 												<p className='fw-bold mb-1'>
 													{item.lastName}
 												</p>
-												{/* <p className="text-muted mb-0">{item.email}</p> */}
 											</div>
 										</div>
 									</td>
@@ -214,7 +215,6 @@ const Table: React.FC = () => {
 											</MDBBtn>
 										))}
 									</td>
-									{/* {edit && <CreateRide edit />} */}
 									<td>
 										<MDBBtn
 											className='fs-6 p-0'
@@ -239,36 +239,9 @@ const Table: React.FC = () => {
 						/>
 					)}
 				</div>
-
-				{/* <div className="d-flex justify-content-center p-2 mt-4 bg-light">
-          <span className="fw-light">Rows per page: </span> */}
-				{/* <MDBSelect className="ms-3">
-            <MDBInput selected="10" />
-            <MDBSelectOptions>
-              <MDBSelectOption value="10">10</MDBSelectOption>
-              <MDBSelectOption value="20">20</MDBSelectOption>
-              <MDBSelectOption value="30">30</MDBSelectOption>
-              <MDBSelectOption value="40">40</MDBSelectOption>
-              <MDBSelectOption value="50">50</MDBSelectOption>
-            </MDBSelectOptions>
-          </MDBSelect> */}
-
-				{/* <ReactPaginate
-            previousLabel={"<"}
-            nextLabel={">"}
-            breakLabel={"..."}
-            breakClassName={"page-link"}
-            pageCount={5}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={() => console.log("page changed")}
-            containerClassName={"pagination"}
-            activeClassName={"active"}
-          /> */}
-				{/* </div> */}
 			</section>
 		</MDBContainer>
-	)
+	) */
 }
 
 export default Table

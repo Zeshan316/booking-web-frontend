@@ -85,6 +85,33 @@ export default class RideService {
 		}
 	}
 
+	public static async updateRideStaus(
+		rideId: string,
+		rideStatus: boolean
+	): Promise<any> {
+		try {
+			console.log(
+				'okkkkkkkkkkkkkkkkkkkkkkkkk',
+				RIDE_ROUTES.updateRideStatus(rideId)
+			)
+
+			const response = await TicketingAxios.put(
+				RIDE_ROUTES.updateRideStatus(rideId),
+				{
+					rideStatus,
+				}
+			)
+
+			const { data } = response
+
+			if (data?.message) notify(data?.message, 'success')
+
+			return data
+		} catch (error: any) {
+			return error?.response?.data?.message
+		}
+	}
+
 	public static async deleteRide(rideId: string): Promise<any> {
 		try {
 			const response = await TicketingAxios.delete(

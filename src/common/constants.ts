@@ -5,6 +5,11 @@ export const USER_ROLES: GenericObject = {
 	Driver: 'Driver',
 }
 
+export const RIDE_STATUSES: GenericObject = {
+	awaiting: 'awaiting',
+	completed: 'completed',
+}
+
 export const LISTING_ORDER = 'desc'
 export const INITIAL_PAGE_OFFSET = 0
 export const ITEMS_PER_PAGE = 10
