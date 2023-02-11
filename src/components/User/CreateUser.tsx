@@ -284,7 +284,9 @@ export default function CreateUser({
                   <input
                     type={typeRepeat}
                     className=" w-100 border-0"
-                    placeholder="Retype password"
+                    placeholder={
+                      formType === "update" ? "New Password" : "Retype Password"
+                    }
                     {...(formType === "update"
                       ? {
                           ...register("newPassword", {
