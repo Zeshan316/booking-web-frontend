@@ -9,6 +9,7 @@ import './CreateRide.css'
 import dayjs from 'dayjs'
 import LocationService from '../../services/LocationService'
 import { setLocations } from '../../store/reducers/locations-reducer'
+import { clearRideDetail } from '../../store/reducers/rides-reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import RideService from '../../services/RideService'
@@ -51,6 +52,9 @@ export default function CreateRide({
 		Pickup[] | Destination[]
 	>([])
 	const [pickup, setPickup] = useState<string>('')
+	const [destinationLocations, setDestinationLocations] = useState<
+		GenericObject[]
+	>([])
 	const [destination, setDestination] = useState<string>('')
 	const [isModelOpen, setIsModelOpen] = useState<boolean>(false)
 
@@ -61,12 +65,6 @@ export default function CreateRide({
 		const locations = await LocationService.getLocations()
 		getSelectedLocations()
 		dispatch(setLocations(locations))
-	}
-
-	const handleOnClose = () => {
-		handleRideFormModel(false)
-		handleFormType('')
-		resetForm()
 	}
 
 	const getSelectedLocations = () => {
@@ -85,6 +83,7 @@ export default function CreateRide({
 
 	useEffect(() => {
 		if (formType !== 'update') {
+			dispatch(clearRideDetail())
 			setTripDate(dayjs().format('YYYY-MM-DD'))
 			setTripTime(dayjs().format('HH:mm'))
 		}
@@ -104,10 +103,61 @@ export default function CreateRide({
 			setTripTime(dt.format('HH:mm'))
 		}
 		setShuttleDirection(rideDetail.direction)
+		getSelectedLocations()
 		setPickup(rideDetail.pickupId as string)
 		setDestination(rideDetail.destinationId as string)
-		getSelectedLocations()
+		getDesinationsList(rideDetail?.pickupId as string)
 	}, [rideDetail, formType])
+
+	const handlePickupChange = (
+		e: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		const pickupId = e.target.value
+		setPickup(pickupId)
+		setDestination('')
+		setDestinationLocations([])
+		getDesinationsList(pickupId)
+	}
+
+	const getDesinationsList = (pickupId: string) => {
+		const pickupLocation: Pickup | undefined = selectedLocations.find(
+			(location) => location.id === pickupId
+		)
+
+		const pickupLocationName = pickupLocation?.locationName
+			.toLowerCase()
+			.trim()
+
+		console.log(
+			'pickupLocationName',
+			pickupLocationName,
+			pickupLocation
+		)
+
+		if (
+			pickupLocationName !== 'dna' &&
+			pickupLocationName !== 'dna micro'
+		) {
+			const destinations = selectedLocations.filter(
+				(location) =>
+					location.locationName.toLowerCase() == 'dna' ||
+					location.locationName.toLowerCase() == 'dna micro'
+			)
+
+			setDestinationLocations(destinations)
+		} else if (
+			pickupLocationName == 'dna' ||
+			pickupLocationName == 'dna micro'
+		) {
+			const destinations = selectedLocations.filter(
+				(location) =>
+					location.locationName.toLowerCase() !== 'dna' &&
+					location.locationName.toLowerCase() !== 'dna micro'
+			)
+
+			setDestinationLocations(destinations)
+		}
+	}
 
 	const handleTimeChange = (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -142,6 +192,12 @@ export default function CreateRide({
 	) => {
 		await RideService.updateRide(rideId, formData)
 		await getRides()
+	}
+
+	const handleOnClose = () => {
+		handleRideFormModel(false)
+		handleFormType('')
+		resetForm()
 	}
 
 	const submitRide = (e: React.FormEvent<HTMLFormElement>) => {
@@ -179,6 +235,7 @@ export default function CreateRide({
 		setShuttleDirection('')
 		setPickup('')
 		setDestination('')
+		setDestinationLocations([])
 	}
 
 	return (
@@ -238,7 +295,8 @@ export default function CreateRide({
 										name='direction'
 										checked={
 											rideDetail.direction?.toLocaleLowerCase() ===
-												'north' || shuttleDirection === 'North'
+												'north' ||
+											shuttleDirection.toLowerCase() === 'north'
 										}
 										onChange={(e) =>
 											setShuttleDirection(e.target.value)
@@ -254,7 +312,8 @@ export default function CreateRide({
 										name='direction'
 										checked={
 											rideDetail?.direction?.toLocaleLowerCase() ===
-												'south' || shuttleDirection === 'South'
+												'south' ||
+											shuttleDirection.toLowerCase() === 'south'
 										}
 										onChange={(e) =>
 											setShuttleDirection(e.target.value)
@@ -272,7 +331,7 @@ export default function CreateRide({
 									className='form-select mb-2'
 									aria-label='Default select example'
 									value={pickup}
-									onChange={(e) => setPickup(e.target.value)}
+									onChange={(e) => handlePickupChange(e)}
 									defaultValue={pickup}
 								>
 									<option>Select Pick up</option>
@@ -292,8 +351,8 @@ export default function CreateRide({
 										value={destination}
 										onChange={(e) => setDestination(e.target.value)}
 									>
-										<option>Select Destination</option>
-										{selectedLocations.map((location) => (
+										<option value=''>Select Destination</option>
+										{destinationLocations.map((location) => (
 											<option key={location.id} value={location.id}>
 												{location.locationName}
 											</option>

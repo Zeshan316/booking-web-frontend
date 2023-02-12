@@ -52,9 +52,16 @@ const rideSlicer = createSlice({
 				ride: payload,
 			}
 		},
+		clearRideDetail: (state) => {
+			return {
+				...state,
+				ride: initialState.ride,
+			}
+		},
 	},
 })
 
-export const { setRides, setRideDetail } = rideSlicer.actions
+export const { setRides, setRideDetail, clearRideDetail } =
+	rideSlicer.actions
 
 export default rideSlicer.reducer
