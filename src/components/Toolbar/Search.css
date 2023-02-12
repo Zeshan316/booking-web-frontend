@@ -72,7 +72,8 @@
   text-transform: none;
   font-weight: 600;
   max-width: 12rem;
-  color: white;
-  background-color: #54b4d3;
+  color: #888585;
+  
+  /* background-color: #54b4d3; */
   cursor: pointer;
 }

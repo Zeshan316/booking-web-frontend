@@ -16,7 +16,7 @@ export default class AuthService {
 
 			const { data = {} } = response
 
-			notify(data?.message)
+			notify("You're logged in!", 'success')
 
 			const authData = this.formatResponse(data)
 

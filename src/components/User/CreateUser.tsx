@@ -87,8 +87,8 @@ export default function CreateUser({
           firstName: userDetail.firstName,
           lastName: userDetail.lastName,
           email: userDetail.email,
-          password: "",
-          repeatPassword: "",
+          oldPassword: "",
+          newPassword: "",
           roleId: userDetail.role.id,
           phoneNumber: userDetail.phoneNumber,
         },
@@ -290,9 +290,7 @@ export default function CreateUser({
                     {...(formType === "update"
                       ? {
                           ...register("newPassword", {
-                            validate: (value) =>
-                              value === password.current ||
-                              "Please set new password",
+                            required: false,
                           }),
                         }
                       : {

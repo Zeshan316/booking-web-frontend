@@ -102,20 +102,21 @@ function Search({
           <MDBInputGroup className="mb-1 mt-3 p-3 date-time-picker">
             <MDBBtn
               color="info"
-              className="bg-light buttonstyle border-info "
+              className="bg-info text-white buttonstyle border-info "
               outline
               noRipple
             >
               Start Date
             </MDBBtn>
             <Datetime
+              // input={false}
               onChange={handleStartDateTime}
               dateFormat={"DD-MM-YYYY"}
               value={ridesStartDateTime}
             />
             <MDBBtn
               color="info"
-              className="buttonstyle bg-light border-info ms-2"
+              className="bg-info text-white buttonstyle border-info "
               outline
               noRipple
             >

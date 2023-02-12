@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SERVER_BASE_URL } from "../../common/constants";
 import DeleteModal from "../Toolbar/DeleteModal";
+import { notify } from "../../common/utils";
 
 const Header = (): JSX.Element => {
   const [showConfirmBox, setShowConfirmBox] = useState(false);
@@ -25,6 +26,7 @@ const Header = (): JSX.Element => {
   const user = useSelector((state: RootState) => state.auth.user);
   function handleLogout() {
     dispatch(clearUserData());
+    notify("User logged out successfully", "success");
     navigate("/login");
   }
 
