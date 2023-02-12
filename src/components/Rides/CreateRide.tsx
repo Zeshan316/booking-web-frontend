@@ -14,10 +14,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import RideService from '../../services/RideService'
 import { notify } from '../../common/utils'
+import { CURRENT_COMPANY_NAME } from '../../common/constants'
 
 interface RideProps {
 	getRides: () => void
-	edit?: any
 	showRideFormModel: boolean
 	formType: string
 	handleFormType: (type: string) => void
@@ -25,7 +25,6 @@ interface RideProps {
 }
 
 export default function CreateRide({
-	edit,
 	getRides,
 	showRideFormModel,
 	formType,
@@ -57,6 +56,11 @@ export default function CreateRide({
 	>([])
 	const [destination, setDestination] = useState<string>('')
 	const [isModelOpen, setIsModelOpen] = useState<boolean>(false)
+	const [companyName, setCompanyName] = useState<string>(
+		CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
+	)
+	const [destinationLocationName, setDestinationLocationName] =
+		useState<string>('')
 
 	const now = new Date()
 	const [error, setError] = useState('')
@@ -79,6 +83,8 @@ export default function CreateRide({
 		)
 
 		setSelectedLocations(currentLocations)
+
+		return currentLocations
 	}
 
 	useEffect(() => {
@@ -103,10 +109,10 @@ export default function CreateRide({
 			setTripTime(dt.format('HH:mm'))
 		}
 		setShuttleDirection(rideDetail.direction)
-		getSelectedLocations()
 		setPickup(rideDetail.pickupId as string)
 		setDestination(rideDetail.destinationId as string)
 		getDesinationsList(rideDetail?.pickupId as string)
+		toggleShiftTimeInputTime(rideDetail.destinationId as string)
 	}, [rideDetail, formType])
 
 	const handlePickupChange = (
@@ -119,7 +125,34 @@ export default function CreateRide({
 		getDesinationsList(pickupId)
 	}
 
+	const handleDestinationChange = (
+		e: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		const destinationId = e.target.value
+		setDestination(destinationId)
+		toggleShiftTimeInputTime(destinationId)
+	}
+
+	const toggleShiftTimeInputTime = (destinationId: string) => {
+		const selectedLocations = getSelectedLocations()
+		const location = selectedLocations.find(
+			(location) => location.id === destinationId
+		)
+
+		console.log('loc', location)
+
+		if (location?.locationName.toLowerCase() === companyName) {
+			setDestinationLocationName('dna')
+			return
+		}
+
+		setDestinationLocationName(
+			location?.locationName.toLowerCase() as string
+		)
+	}
+
 	const getDesinationsList = (pickupId: string) => {
+		const selectedLocations = getSelectedLocations()
 		const pickupLocation: Pickup | undefined = selectedLocations.find(
 			(location) => location.id === pickupId
 		)
@@ -127,32 +160,28 @@ export default function CreateRide({
 		const pickupLocationName = pickupLocation?.locationName
 			.toLowerCase()
 			.trim()
-
-		console.log(
-			'pickupLocationName',
-			pickupLocationName,
-			pickupLocation
-		)
+		// const companyName =
+		// CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
 
 		if (
-			pickupLocationName !== 'dna' &&
-			pickupLocationName !== 'dna micro'
+			pickupLocationName !== companyName &&
+			pickupLocationName !== companyName
 		) {
 			const destinations = selectedLocations.filter(
 				(location) =>
-					location.locationName.toLowerCase() == 'dna' ||
-					location.locationName.toLowerCase() == 'dna micro'
+					location.locationName.toLowerCase() == companyName ||
+					location.locationName.toLowerCase() == companyName
 			)
 
 			setDestinationLocations(destinations)
 		} else if (
-			pickupLocationName == 'dna' ||
-			pickupLocationName == 'dna micro'
+			pickupLocationName == companyName ||
+			pickupLocationName == companyName
 		) {
 			const destinations = selectedLocations.filter(
 				(location) =>
-					location.locationName.toLowerCase() !== 'dna' &&
-					location.locationName.toLowerCase() !== 'dna micro'
+					location.locationName.toLowerCase() !== companyName &&
+					location.locationName.toLowerCase() !== companyName
 			)
 
 			setDestinationLocations(destinations)
@@ -160,7 +189,7 @@ export default function CreateRide({
 	}
 
 	const handleTimeChange = (
-		e: React.ChangeEvent<HTMLInputElement>
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
 		const time = e.target.value
 		setTripTime(time)
@@ -238,6 +267,8 @@ export default function CreateRide({
 		setDestinationLocations([])
 	}
 
+	console.log('destinationLocationName', destinationLocationName)
+
 	return (
 		<>
 			<ModalButton
@@ -253,36 +284,6 @@ export default function CreateRide({
 					<MDBModalBody className='mx-3'>
 						<form className='mb-4'>
 							<div className='fw-bold'>
-								<label className='fw-bold py-1'>Trip Date</label>
-								<input
-									type='date'
-									name='date'
-									min={dayjs().format('YYYY-MM-DD')}
-									max={dayjs().add(1, 'day').format('YYYY-MM-DD')}
-									onChange={(e) =>
-										setTripDate(
-											dayjs(e.target.value).format('YYYY-MM-DD')
-										)
-									}
-									className='form-control mb-2 '
-									placeholder='Enter Date'
-									value={tripDate}
-								/>
-
-								<label className='form-check-label py-1 '>
-									Shift Time
-								</label>
-
-								<input
-									type='time'
-									name='time'
-									className='form-control mb-2'
-									placeholder='Enter Time'
-									value={tripTime}
-									onChange={handleTimeChange}
-								/>
-								{error && <span className='error_msg'>{error}</span>}
-
 								<label className='form-check-label py-1 d-block mt-2'>
 									{' '}
 									Shuttle Direction
@@ -334,7 +335,7 @@ export default function CreateRide({
 									onChange={(e) => handlePickupChange(e)}
 									defaultValue={pickup}
 								>
-									<option>Select Pick up</option>
+									<option value=''>Select Pick up</option>
 									{selectedLocations?.length &&
 										selectedLocations.map((location) => (
 											<option key={location.id} value={location.id}>
@@ -349,7 +350,7 @@ export default function CreateRide({
 										className='form-select'
 										aria-label='Default select example'
 										value={destination}
-										onChange={(e) => setDestination(e.target.value)}
+										onChange={(e) => handleDestinationChange(e)}
 									>
 										<option value=''>Select Destination</option>
 										{destinationLocations.map((location) => (
@@ -359,27 +360,50 @@ export default function CreateRide({
 										))}
 									</select>
 								}
-								{/* {pickup === 'DNA' ? (
+								<label className='fw-bold py-2'>Trip Date</label>
+								<input
+									type='date'
+									name='date'
+									min={dayjs().format('YYYY-MM-DD')}
+									max={dayjs().add(1, 'day').format('YYYY-MM-DD')}
+									onChange={(e) =>
+										setTripDate(
+											dayjs(e.target.value).format('YYYY-MM-DD')
+										)
+									}
+									className='form-control mb-2 '
+									placeholder='Enter Date'
+									value={tripDate}
+								/>
+
+								<label className='form-check-label py-1 '>
+									Shift Time
+								</label>
+								{destinationLocationName === companyName ? (
 									<select
-										className='form-select'
+										className='form-select mb-2'
 										aria-label='Default select example'
-										onChange={(e) => setDestination(e.target.value)}
+										name='time'
+										onChange={handleTimeChange}
 									>
-										<option value=''>Select Destination</option>
-										{selectedLocations.map((location) => (
-											<option key={location.id} value={location.id}>
-												{location.locationName}
-											</option>
-										))}
+										<option value=''>Select Shift Time</option>
+										<option value='8:00 AM'>8:00 AM</option>
+										<option value='10:00 AM'>10:00 AM</option>
+										<option value='8:00 PM'>8:00 PM</option>
+										<option value='10:00 PM'>10:00 PM</option>
 									</select>
 								) : (
 									<input
-										type='text'
+										type='time'
+										name='time'
 										className='form-control mb-2'
-										defaultValue={'DNA Micro'}
-										disabled
+										placeholder='Enter Time'
+										value={tripTime}
+										onChange={handleTimeChange}
 									/>
-								)} */}
+								)}
+
+								{error && <span className='error_msg'>{error}</span>}
 							</div>
 						</form>
 						<MDBModalFooter>

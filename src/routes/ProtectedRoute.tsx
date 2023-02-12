@@ -22,19 +22,6 @@ export type ProtectedRouteProps = {
 	children: JSX.Element
 }
 
-// const ProtectedRoute = () => {
-// 	// Fetch token from session storage parse it to validate the tocken,
-// 	// If token is valid and is authenticated from store return outlet else navigate to login
-// 	// check user role here too
-// 	const isAuthenticated = true
-
-// 	if (isAuthenticated) return <Outlet />
-
-// 	return <Navigate to='/' replace={true} />
-// }
-
-// export default ProtectedRoute
-
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 	const dispatch = useDispatch()
 	let location = useLocation()
@@ -79,23 +66,6 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 	}
 
 	return children
-	/* const isAuthenticated = true
-	const loading = false
-	const user = {
-		username: 'username', //from session storage; data.username
-		role: ROLE.Admin, //from session storage; data.role
-	} */
-
-	/* if (loading) {
-		return <p>Checking authenticaton..</p>
-	}
- */
-	// const hasRole = user && roles.includes(user?.role)
-	// console.log('hasRole', hasRole, user.role, roles)
-
-	/* if (isAuthenticated && !hasRole) {
-		return <p>Access Denied</p> //TODO: create a component for this
-	} */
 }
 
 export default ProtectedRoute

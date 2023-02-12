@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
 	MDBModal,
 	MDBModalHeader,
@@ -8,7 +8,6 @@ import {
 	MDBModalDialog,
 	MDBModalContent,
 } from 'mdb-react-ui-kit'
-import './CreateRide.css'
 
 interface Props {
 	children?: React.ReactNode
