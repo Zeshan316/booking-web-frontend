@@ -147,15 +147,15 @@ function Search({
               </option>
               <option
                 className="options"
-                key={Math.ceil(Math.random() * 50000)}
-                value={"north"}
+                // key={Math.ceil(Math.random() * 50000)}
+                value="north"
               >
                 North
               </option>
               <option
                 className="options"
-                key={Math.ceil(Math.random() * 50000)}
-                value={"south"}
+                // key={Math.ceil(Math.random() * 50000)}
+                value="south"
               >
                 South
               </option>

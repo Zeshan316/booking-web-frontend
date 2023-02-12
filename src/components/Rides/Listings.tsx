@@ -156,13 +156,13 @@ function Listings({
                 rideReducer.rides.map((ride: Ride, index: any) => (
                   <tr key={ride?.id} className="items">
                     <td onClick={() => handleRideDetail(ride?.id)}>
-                      <div className="d-flex align-items-center">
-                        <div className="ms-0">
+                      <MDBRow className="d-flex align-items-center">
+                        <MDBCol className="ms-0">
                           <p className="fw-bold mb-1">
                             {dayjs(ride?.tripDateTime).format("D MMM, YYYY")}
                           </p>
-                        </div>
-                      </div>
+                        </MDBCol>
+                      </MDBRow>
                     </td>
                     <td>
                       <p className=" mb-1">
