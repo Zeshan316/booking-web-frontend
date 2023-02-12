@@ -225,7 +225,7 @@ export default function CreateUser({
                 )}
 
                 <label className="fw-bold py-1 d-block">
-                  {formType === "update" ? "Your Password" : "Password"}
+                  {formType === "update" ? "Old Password" : "Password"}
                   {formType === "create" && (
                     <span className="text-danger">*</span>
                   )}
@@ -266,7 +266,7 @@ export default function CreateUser({
                 {formType === "update"
                   ? errors.oldPassword && (
                       <span className="error_msg">
-                        Please set your password
+                        Please enter old password
                       </span>
                     )
                   : errors.password && (

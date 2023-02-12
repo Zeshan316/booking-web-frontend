@@ -45,6 +45,7 @@ const Header = (): JSX.Element => {
               }
               className="rounded-circle"
               height="50"
+              width="50"
               alt="Black and White Portrait of a Man"
               loading="lazy"
             />
@@ -65,7 +66,9 @@ const Header = (): JSX.Element => {
       {showConfirmBox && (
         <DeleteModal
           show={showConfirmBox}
-          message={"Are you sure you want to logout?"}
+          title={"Logout"}
+          icon={"sign-out-alt"}
+          message={"Do you want to logout?"}
           onDelete={handleLogout}
           handleOnClose={() => setShowConfirmBox(false)}
           setShow={() => setShowConfirmBox(!showConfirmBox)}

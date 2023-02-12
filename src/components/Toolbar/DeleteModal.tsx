@@ -7,6 +7,8 @@ import finalPropsSelectorFactory from "react-redux/es/connect/selectorFactory";
 interface ModalProps {
   show: boolean;
   setShow: () => void;
+  title?: string;
+  icon?: string;
   handleOnClose: () => void;
   onDelete: (e: any) => void;
   deleteData?: any;
@@ -14,6 +16,8 @@ interface ModalProps {
 }
 function DeleteModal({
   show,
+  title,
+  icon,
   setShow,
   handleOnClose,
   onDelete,
@@ -37,8 +41,8 @@ function DeleteModal({
       setIsOpen={handleOpenModal}
       handleOnClose={setShow}
       handleOpenModal={setShow}
-      iconname={"trash-alt"}
-      modalTitle="Delete"
+      iconname={icon ? icon : "trash-alt"}
+      modalTitle={title ? "Logout" : "Delete"}
       modalBody={
         <MDBModalBody>
           <MDBCol className="mb-2 mx-1">

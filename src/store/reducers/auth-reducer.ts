@@ -15,6 +15,7 @@ const initialState: AuthUser = {
 		email: '',
 		isActive: 0,
 		profileImgUrl: '',
+		phoneNumber: '',
 		role: {
 			id: '',
 			name: '',
@@ -47,6 +48,7 @@ const authSlicer = createSlice({
 					email: userData.email,
 					isActive: userData.isActive,
 					profileImgUrl: userData.profileImgUrl,
+					phoneNumber: userData.phoneNumber,
 					role: {
 						id: role.id,
 						name: role.name,
