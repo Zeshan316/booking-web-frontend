@@ -61,6 +61,7 @@ export default function CreateRide({
 		GenericObject[]
 	>([])
 	const [destination, setDestination] = useState<string>('')
+	const [forHomeTimeView, setForHomeTimeView] = useState<string>('')
 	const [isModelOpen, setIsModelOpen] = useState<boolean>(false)
 	const [companyName, setCompanyName] = useState<string>(
 		CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
@@ -148,8 +149,6 @@ export default function CreateRide({
 		const location = selectedLocations.find(
 			(location) => location.id === destinationId
 		)
-
-		console.log('loc', location)
 
 		if (location?.locationName.toLowerCase() === companyName) {
 			setDestinationLocationName('dna')
@@ -288,6 +287,33 @@ export default function CreateRide({
 		setDestinationLocations([])
 	}
 
+	const shiftTimeSlots = [
+		{
+			show: '6:00 AM',
+			value: '6:00',
+		},
+		{
+			show: '7:00 AM',
+			value: '7:00',
+		},
+		{
+			show: '8:00 AM',
+			value: '8:00',
+		},
+		{
+			show: '9:00 AM',
+			value: '9:00',
+		},
+		{
+			show: '10:00 AM',
+			value: '10:00',
+		},
+		{
+			show: '03:00 PM',
+			value: '15:00',
+		},
+	]
+
 	return (
 		<>
 			<ModalButton
@@ -301,7 +327,10 @@ export default function CreateRide({
 				iconname={'bus'}
 				modalBody={
 					<MDBModalBody className='mx-3'>
-						<form className='mb-4'>
+						<form
+							className='mb-4'
+							onSubmit={(e: any) => e.preventDefault()}
+						>
 							<div className='fw-bold'>
 								<label className='form-check-label py-1 d-block mt-2'>
 									{' '}
@@ -413,57 +442,54 @@ export default function CreateRide({
 								/>
 
 								<label className='form-check-label py-1 '>
-									Shift Time
-								</label>
-								{destinationLocationName === companyName ? (
-									<select
-										className='form-select mb-2'
-										aria-label='Default select example'
-										name='time'
-										onChange={handleTimeChange}
+									Shift Time {forHomeTimeView}
+									<MDBBtn
+										className='btn-sm btn-outline btn-rounded'
+										title='custom time'
+										onClick={() => setForHomeTimeView('custom')}
 									>
-										<option key={1} value=''>
-											Select Shift Time
-										</option>
-										<option
-											key={2}
-											selected={tripTime === '8:00'}
-											value='8:00'
+										Custom time
+									</MDBBtn>
+									<MDBBtn
+										className='btn-sm btn-outline btn-rounded'
+										title='Shift time'
+										onClick={() => setForHomeTimeView('shift')}
+									>
+										Defined Shift Time
+									</MDBBtn>
+								</label>
+								{destinationLocationName === companyName &&
+									forHomeTimeView === 'shift' && (
+										<select
+											className='form-select mb-2'
+											aria-label='Default select example'
+											name='time'
+											onChange={handleTimeChange}
 										>
-											8:00 AM
-										</option>
-										<option
-											key={3}
-											selected={tripTime === '10:00'}
-											value='10:00'
-										>
-											10:00 AM
-										</option>
-										<option
-											key={4}
-											selected={tripTime === '20:00'}
-											value='20:00'
-										>
-											8:00 PM
-										</option>
-										<option
-											key={5}
-											selected={tripTime === '22:00'}
-											value='22:00'
-										>
-											10:00 PM
-										</option>
-									</select>
-								) : (
-									<input
-										type='time'
-										name='time'
-										className='form-control mb-2'
-										placeholder='Enter Time'
-										value={tripTime}
-										onChange={handleTimeChange}
-									/>
-								)}
+											<option value=''>Select Shift Time</option>
+											{shiftTimeSlots.map((shiftTime, index) => (
+												<option
+													key={index}
+													selected={tripTime === shiftTime.value}
+													value={shiftTime.value}
+												>
+													{shiftTime.show}
+												</option>
+											))}
+										</select>
+									)}
+
+								{destinationLocationName === companyName &&
+									forHomeTimeView === 'custom' && (
+										<input
+											type='time'
+											name='time'
+											className='form-control mb-2'
+											placeholder='Enter Time'
+											value={tripTime}
+											onChange={handleTimeChange}
+										/>
+									)}
 
 								{error && <span className='error_msg'>{error}</span>}
 							</div>

@@ -87,14 +87,9 @@ export default class RideService {
 
 	public static async updateRideStaus(
 		rideId: string,
-		rideStatus: boolean
+		rideStatus: string
 	): Promise<any> {
 		try {
-			console.log(
-				'okkkkkkkkkkkkkkkkkkkkkkkkk',
-				RIDE_ROUTES.updateRideStatus(rideId)
-			)
-
 			const response = await TicketingAxios.put(
 				RIDE_ROUTES.updateRideStatus(rideId),
 				{

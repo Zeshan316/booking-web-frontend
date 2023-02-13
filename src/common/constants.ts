@@ -7,6 +7,7 @@ export const USER_ROLES: GenericObject = {
 
 export const RIDE_STATUSES: GenericObject = {
 	awaiting: 'awaiting',
+	cancelled: 'cancelled',
 	completed: 'completed',
 }
 

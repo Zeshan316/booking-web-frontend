@@ -18,30 +18,31 @@ import dayjs from "dayjs";
 
 import { RootState } from "../../store";
 import { useSelector, useDispatch } from "react-redux";
-import { RIDE_STATUSES } from "../../common/constants";
 import RideDetails from "./RideDetails";
 import RideService from "../../services/RideService";
 import { setRideDetail } from "../../store/reducers/rides-reducer";
 import DeleteModal from "../Toolbar/DeleteModal";
-import { USER_ROLES } from "../../common/constants";
+import { USER_ROLES,RIDE_STATUSES } from "../../common/constants";
 import { setRides } from "../../store/reducers/rides-reducer";
 
 interface UserTableProps {
   perPageItems: number;
-  handleFormType: (type: string) => void;
-  handleRideFormModel: (e: any) => void;
-  handleDeleteRide: (e: string) => void;
+  handleFormType: (type: string) => void
+  handleRideFormModel: (e: any) => void
+  handleDeleteRide: (e: string) => void
   handlePageChange: (e: any) => void;
   handleChangeRideStatus: (e: any, rideId: string) => void;
+	handleCancelRide: (rideId: string, rideStatus: string) => void
 }
 
 function Listings({
-  perPageItems = 10,
-  handleFormType,
-  handleRideFormModel,
-  handleDeleteRide,
-  handlePageChange,
-  handleChangeRideStatus,
+	perPageItems = 10,
+	handleFormType,
+	handleRideFormModel,
+	handleDeleteRide,
+	handleCancelRide,
+	handlePageChange,
+	handleChangeRideStatus,
 }: UserTableProps): JSX.Element {
   const dispatch = useDispatch();
 
@@ -50,8 +51,16 @@ function Listings({
   /* const [showRideUpdateModel, setShowRideUpdateModel] =
 		useState<boolean>(false) */
 
-  const [showConfirmBox, setShowConfirBox] = useState<boolean>(false);
-  const [deleteRideId, setDeleteRideId] = useState<string>("");
+	const [showConfirmBox, setShowConfirBox] = useState<boolean>(false)
+	const [deleteRideId, setDeleteRideId] = useState<string>('')
+	const [showCancelConfirmBox, setShowCancelConfirmBox] =
+		useState<boolean>(false)
+	const [cancelRideData, setCancelRideData] = useState<GenericObject>(
+		{
+			rideId: '',
+			rideStatus: '',
+		}
+	)
 
   const [showRideCompleteModal, setShowRideCompleteModal] =
     useState<boolean>(false);
@@ -88,16 +97,16 @@ function Listings({
     handleFormType("update");
     handleRideFormModel(true);
   }
-  console.log(rideReducer.rides, "rides");
-  return (
-    <MDBContainer fluid>
-      <section>
-        <div className="shadow-4 mt-1 rounded-4 overflow-hidden bg-light">
-          <MDBTable hover>
-            <MDBTableHead className="bg-info">
-              <tr>
-                <th className="fw-bold text-white h6">
-                  {/* <MDBIcon
+  
+	return (
+		<MDBContainer fluid>
+			<section>
+				<div className='shadow-4 mt-1 rounded-4 overflow-hidden bg-light'>
+					<MDBTable hover>
+						<MDBTableHead className='bg-info'>
+							<tr>
+								<th className='fw-bold text-white h6'>
+									{/* <MDBIcon
                     icon={isAscending ? 'sort-up' : 'sort-down'}
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
@@ -146,235 +155,269 @@ function Listings({
                   Status
                 </th>
 
-                <th className="fw-bold text-white h6">Actions</th>
-              </tr>
-            </MDBTableHead>
-            <MDBTableBody
-              style={{
-                verticalAlign: "middle",
-              }}
-            >
-              {rideReducer.rides.length === 0 ? (
-                <tr className="items">
-                  <td colSpan={8}>There are no rides to show...</td>
-                </tr>
-              ) : (
-                rideReducer.rides.map((ride: Ride, index: any) => (
-                  <tr key={ride?.id} className="items">
-                    <td onClick={() => handleRideDetail(ride?.id)}>
-                      <MDBRow className="d-flex align-items-center">
-                        <MDBCol className="ms-0">
-                          <p className="fw-bold mb-1">
-                            {dayjs(ride?.tripDateTime).format("D MMM, YYYY")}
-                          </p>
-                        </MDBCol>
-                      </MDBRow>
-                    </td>
-                    <td>
-                      <p className=" mb-1">
-                        {dayjs(ride?.tripDateTime).format("hh:mm A")}
-                      </p>
-                    </td>
-                    <td>
-                      <p className=" mb-1">
-                        {`${ride.user.firstName} ${ride.user.lastName}`}
-                      </p>
-                    </td>
-                    <td>
-                      <p className="mb-0 text-capitalize">
-                        {ride.pickup.direction}
-                      </p>
-                    </td>
-                    <td>
-                      <p className="mb-1">{ride.pickup.locationName}</p>
-                    </td>
-                    <td>
-                      <p className="mb-1">{ride.destination.locationName}</p>
-                    </td>
-                    <td>
-                      <>
-                        {ride.status.toLowerCase() == RIDE_STATUSES.awaiting ? (
-                          <MDBBadge
-                            light
-                            color="warning"
-                            pill
-                            className="status"
-                          >
-                            <p className="mb-1 text-capitalize">
-                              {ride.status}
-                            </p>
-                          </MDBBadge>
-                        ) : ride.status.toLowerCase() ===
-                          RIDE_STATUSES.completed ? (
-                          <MDBBadge
-                            light
-                            color="success"
-                            pill
-                            className="status"
-                          >
-                            <p className="mb-1 text-capitalize">
-                              {ride.status}
-                            </p>
-                          </MDBBadge>
-                        ) : (
-                          <MDBBadge
-                            light
-                            color="secondary"
-                            pill
-                            className="status"
-                          >
-                            <p className="mb-1 text-capitalize">
-                              {ride.status}
-                            </p>
-                          </MDBBadge>
-                        )}
-                      </>
-                    </td>
-                    {userRole === driverRole ? (
-                      <td>
-                        {ride.status.toLowerCase() !==
-                        RIDE_STATUSES.completed ? (
-                          <MDBTooltip tag="a" title={"Mark ride as completed"}>
-                            <MDBSwitch
-                              defaultChecked={
-                                ride.status.toLowerCase() ===
-                                RIDE_STATUSES.completed
-                              }
-                              onChange={(e: any) => {
-                                setShowRideCompleteModal(true);
+								<th className='fw-bold text-white h6'>Actions</th>
+							</tr>
+						</MDBTableHead>
+						<MDBTableBody
+							style={{
+								verticalAlign: 'middle',
+							}}
+						>
+							{rideReducer.rides.length === 0 ? (
+								<tr className='items'>
+									<td colSpan={8}>There are no rides to show...</td>
+								</tr>
+							) : (
+								rideReducer.rides.map((ride: Ride, index: any) => (
+									<tr key={ride?.id} className='items'>
+										<td onClick={() => handleRideDetail(ride?.id)}>
+											<MDBRow className='d-flex align-items-center'>
+												<MDBCol className='ms-0'>
+													<p className='fw-bold mb-1'>
+														{dayjs(ride?.tripDateTime).format(
+															'D MMM, YYYY'
+														)}
+													</p>
+												</MDBCol>
+											</MDBRow>
+										</td>
+										<td>
+											<p className=' mb-1'>
+												{dayjs(ride?.tripDateTime).format('hh:mm A')}
+											</p>
+										</td>
+										<td>
+											<p className=' mb-1'>
+												{`${ride.user.firstName} ${ride.user.lastName}`}
+											</p>
+										</td>
+										<td>
+											<p className='mb-0 text-capitalize'>
+												{ride.pickup.direction}
+											</p>
+										</td>
+										<td>
+											<p className='mb-1'>
+												{ride.pickup.locationName}
+											</p>
+										</td>
+										<td>
+											<p className='mb-1'>
+												{ride.destination.locationName}
+											</p>
+										</td>
+										<td>
+											<>
+												{ride.status.toLowerCase() ==
+												RIDE_STATUSES.awaiting ? (
+													<MDBBadge
+														light
+														color='warning'
+														pill
+														className='status'
+													>
+														<p className='mb-1 text-capitalize'>
+															{ride.status}
+														</p>
+													</MDBBadge>
+												) : ride.status.toLowerCase() ===
+												  RIDE_STATUSES.completed ? (
+													<MDBBadge
+														light
+														color='success'
+														pill
+														className='status'
+													>
+														<p className='mb-1 text-capitalize'>
+															{ride.status}
+														</p>
+													</MDBBadge>
+												) : (
+													<MDBBadge
+														light
+														color='secondary'
+														pill
+														className='status'
+													>
+														<p className='mb-1 text-capitalize'>
+															{ride.status}
+														</p>
+													</MDBBadge>
+												)}
+											</>
+										</td>
+										{userRole === driverRole &&
+										ride.status.toLowerCase() !==
+											RIDE_STATUSES.cancelled ? (
+											<td>
+												<MDBSwitch
+													defaultChecked={
+														ride.status.toLowerCase() ===
+														RIDE_STATUSES.completed
+													}
+													id='flexSwitchCheckChecked'
+													// label='Change status'
+													onChange={(e: any) =>
+														// handleChangeRideStatus(e, ride.id)
+
+														setShowRideCompleteModal(true);
                                 setRideStatusEvent(e);
                                 setRideCompleteId(ride.id);
-                              }}
-                            />
-                          </MDBTooltip>
-                        ) : (
-                          <MDBSwitch
-                            defaultChecked={
-                              ride.status.toLowerCase() ===
-                              RIDE_STATUSES.completed
-                            }
-                            disabled={
-                              ride.status.toLowerCase() ===
-                              RIDE_STATUSES.completed
-                            }
-                            id="flexSwitchCheckChecked"
-                            // label='Change status'
-                          />
-                        )}
-                      </td>
-                    ) : userRole === RoleOfUser ? (
-                      <td>
-                        {authReducer.user.isActive
-                          ? ride.status.toLowerCase() !==
-                              RIDE_STATUSES.completed && (
-                              <MDBTooltip tag="a" title={"Edit"}>
-                                <MDBBtn
-                                  key={ride?.id}
-                                  className="fs-6 p-2"
-                                  color="light"
-                                  size="sm"
-                                  rippleColor="dark"
-                                  onClick={() => {
-                                    handleRideEdit(ride.id);
-                                  }}
-                                >
-                                  <MDBIcon icon="edit" />
-                                </MDBBtn>
-                              </MDBTooltip>
-                            )
-                          : null}
+													}
+												/>
+											</td>
+										) : userRole === RoleOfUser ? (
+											<td>
+												{authReducer.user.isActive
+													? ride.status.toLowerCase() !==
+															RIDE_STATUSES.completed &&
+													  ride.status.toLowerCase() !==
+															RIDE_STATUSES.cancelled && (
+															<>
+																<MDBTooltip
+																	tag='a'
+																	title={'Cancel Ride'}
+																>
+																	<MDBBtn
+																		key={ride?.id}
+																		className='fs-6 p-2'
+																		color='light'
+																		size='sm'
+																		rippleColor='dark'
+																		onClick={() => {
+																			/* setShowCancelConfirmBox(true)
+																			setCancelRideData({
+																				rideId: ride.id,
+																				rideStatus:
+																					RIDE_STATUSES.cancelled,
+																			}) */
+																			handleCancelRide(
+																				ride.id,
+																				RIDE_STATUSES.cancelled
+																			)
+																		}}
+																	>
+																		<MDBIcon icon='ban' />
+																	</MDBBtn>
+																</MDBTooltip>
+																<MDBTooltip tag='a' title={'Edit'}>
+																	<MDBBtn
+																		key={ride?.id}
+																		className='fs-6 p-2'
+																		color='light'
+																		size='sm'
+																		rippleColor='dark'
+																		onClick={() => {
+																			handleRideEdit(ride.id)
+																		}}
+																	>
+																		<MDBIcon icon='edit' />
+																	</MDBBtn>
+																</MDBTooltip>
+																<MDBTooltip tag='a' title={'Delete'}>
+																	<MDBBtn
+																		key={ride?.id}
+																		className='fs-6 p-2'
+																		color='light'
+																		size='sm'
+																		rippleColor='dark'
+																		onClick={() => {
+																			setShowConfirBox(true)
+																			setDeleteRideId(ride.id)
+																		}}
+																	>
+																		<MDBIcon icon='trash' />
+																	</MDBBtn>
+																</MDBTooltip>
+															</>
+													  )
+													: null}
 
-                        {authReducer.user.isActive ? (
-                          ride.status.toLowerCase() !==
-                            RIDE_STATUSES.completed && (
-                            <MDBTooltip tag="a" title={"Delete"}>
-                              <MDBBtn
-                                key={ride?.id}
-                                className="fs-6 p-2"
-                                color="light"
-                                size="sm"
-                                rippleColor="dark"
-                                onClick={() => {
-                                  setShowConfirBox(true);
-                                  setDeleteRideId(ride.id);
-                                }}
-                              >
-                                <MDBIcon icon="trash" />
-                              </MDBBtn>
-                            </MDBTooltip>
-                          )
-                        ) : (
-                          <MDBTooltip
-                            tag="a"
-                            title={"You are currently inactive"}
-                          >
-                            <MDBIcon
-                              className="ms-3"
-                              icon="exclamation-triangle"
-                              size="lg"
-                              color="warning"
-                            />
-                          </MDBTooltip>
-                        )}
-                      </td>
-                    ) : (
-                      <td></td>
-                    )}
-                  </tr>
-                ))
-              )}
-            </MDBTableBody>
-            <tfoot>
-              <tr>
-                <td colSpan={8}>
-                  <MDBRow>
-                    <MDBCol className="d-flex justify-content-end align-items-end p-1">
-                      <ReactPaginate
-                        breakLabel="..."
-                        nextLabel="next >"
-                        onPageChange={handlePageChange}
-                        pageRangeDisplayed={5}
-                        pageCount={Math.ceil(
-                          rideReducer.totalRides / perPageItems
-                        )}
-                        previousLabel="< previous"
-                        // renderOnZeroPageCount={3}
-                        // forcePage={perPageItems && 0}
-                        pageClassName="page-item"
-                        pageLinkClassName="page-link"
-                        previousClassName="page-item"
-                        previousLinkClassName="page-link"
-                        nextClassName="page-item"
-                        nextLinkClassName="page-link"
-                        breakClassName="page-item"
-                        breakLinkClassName="page-link"
-                        containerClassName="pagination"
-                        activeClassName="active"
-                      />
-                    </MDBCol>
-                  </MDBRow>
-                </td>
-              </tr>
-            </tfoot>
-            {showRideDetail && (
-              <RideDetails
-                show={showRideDetail}
-                setShow={() => setShowRideDetail(!showRideDetail)}
-              />
-            )}
+												{!authReducer.user.isActive &&
+													ride.status.toLowerCase() !==
+														RIDE_STATUSES.completed && (
+														<MDBTooltip
+															tag='a'
+															title={'You are currently inactive'}
+														>
+															<MDBIcon
+																className='ms-3'
+																icon='exclamation-triangle'
+																size='lg'
+																color='warning'
+															/>
+														</MDBTooltip>
+													)}
+											</td>
+										) : (
+											<td></td>
+										)}
+									</tr>
+								))
+							)}
+						</MDBTableBody>
+						<tfoot>
+							<tr>
+								<td colSpan={8}>
+									<MDBRow>
+										<MDBCol className='d-flex justify-content-end align-items-end p-1'>
+											<ReactPaginate
+												breakLabel='...'
+												nextLabel='next >'
+												onPageChange={handlePageChange}
+												pageRangeDisplayed={5}
+												pageCount={Math.ceil(
+													rideReducer.totalRides / perPageItems
+												)}
+												previousLabel='< previous'
+												// renderOnZeroPageCount={3}
+												// forcePage={perPageItems && 0}
+												pageClassName='page-item'
+												pageLinkClassName='page-link'
+												previousClassName='page-item'
+												previousLinkClassName='page-link'
+												nextClassName='page-item'
+												nextLinkClassName='page-link'
+												breakClassName='page-item'
+												breakLinkClassName='page-link'
+												containerClassName='pagination'
+												activeClassName='active'
+											/>
+										</MDBCol>
+									</MDBRow>
+								</td>
+							</tr>
+						</tfoot>
+						{showRideDetail && (
+							<RideDetails
+								show={showRideDetail}
+								setShow={() => setShowRideDetail(!showRideDetail)}
+							/>
+						)}
 
-            {showConfirmBox && (
-              <DeleteModal
-                show={showConfirmBox}
-                message={"Are you sure you want to delete this ride?"}
-                onDelete={handleDeleteRide}
-                deleteData={deleteRideId}
-                handleOnClose={() => setShowConfirBox(false)}
-                setShow={() => setShowConfirBox(!showConfirmBox)}
-              />
-            )}
+						{/* {showCancelConfirmBox && (
+							<DeleteModal
+								show={showCancelConfirmBox}
+								message={'Are you sure you want to cancel this ride?'}
+								onDelete={() => handleCancelRide()}
+								deleteData={cancelRideData}
+								handleOnClose={() => setShowConfirBox(false)}
+								setShow={() => setShowConfirBox(!showConfirmBox)}
+							/>
+						)} */}
 
-            {showRideCompleteModal && (
+						{showConfirmBox && (
+							<DeleteModal
+								show={showConfirmBox}
+								message={'Are you sure you want to delete this ride?'}
+								onDelete={handleDeleteRide}
+								deleteData={deleteRideId}
+								handleOnClose={() => setShowConfirBox(false)}
+								setShow={() => setShowConfirBox(!showConfirmBox)}
+							/>
+						)}
+
+						{showRideCompleteModal && (
               <DeleteModal
                 show={showRideCompleteModal}
                 message={
@@ -388,11 +431,11 @@ function Listings({
                 setShow={() => setShowRideCompleteModal(!showRideCompleteModal)}
               />
             )}
-          </MDBTable>
-        </div>
-      </section>
-    </MDBContainer>
-  );
+					</MDBTable>
+				</div>
+			</section>
+		</MDBContainer>
+	)
 }
 
 export default Listings;
