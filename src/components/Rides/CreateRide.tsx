@@ -340,6 +340,7 @@ export default function CreateRide({
 											setShuttleDirection(e.target.value)
 											setErr({ ...err, direction: '' })
 										}}
+										value='South'
 									/>
 									<label className='fw-normal'>South</label>
 								</div>
@@ -421,26 +422,32 @@ export default function CreateRide({
 										name='time'
 										onChange={handleTimeChange}
 									>
-										<option value=''>Select Shift Time</option>
+										<option key={1} value=''>
+											Select Shift Time
+										</option>
 										<option
+											key={2}
 											selected={tripTime === '8:00'}
 											value='8:00'
 										>
 											8:00 AM
 										</option>
 										<option
+											key={3}
 											selected={tripTime === '10:00'}
 											value='10:00'
 										>
 											10:00 AM
 										</option>
 										<option
+											key={4}
 											selected={tripTime === '20:00'}
 											value='20:00'
 										>
 											8:00 PM
 										</option>
 										<option
+											key={5}
 											selected={tripTime === '22:00'}
 											value='22:00'
 										>
