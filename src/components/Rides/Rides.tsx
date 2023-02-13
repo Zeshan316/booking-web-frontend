@@ -185,12 +185,13 @@ export default function Rides(): JSX.Element {
 		await getRides()
 	}
 
-	const userRole = authReducer.user.role.name.toLowerCase()
-	const driverRole = USER_ROLES.Driver.toLowerCase()
+	const currentUserRole = authReducer.user.role.name.toLowerCase()
+	// const driverRole = USER_ROLES.Driver.toLowerCase()
+	const userRole = USER_ROLES.User.toLowerCase()
 
 	return (
 		<Layout>
-			{userRole !== driverRole &&
+			{currentUserRole == userRole &&
 				Boolean(authReducer.user.isActive) && (
 					<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
 						<MDBCol className=''>
