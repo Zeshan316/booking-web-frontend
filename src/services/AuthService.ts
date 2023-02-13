@@ -14,9 +14,10 @@ export default class AuthService {
 				password,
 			})
 
-			const { data = {} } = response
+			const { data = {}, status } = response
 
-			notify("You're logged in!", 'success')
+			if (status === 200 || status === 201)
+				notify("You're logged in!", 'success')
 
 			const authData = this.formatResponse(data)
 
@@ -52,20 +53,6 @@ export default class AuthService {
 			console.log('error', error)
 			if (error?.response?.status === 401) {
 			}
-			return error?.response?.data?.message
-		}
-	}
-
-	public static async getFakeUser(): Promise<any> {
-		try {
-			const response: any = await TicketingAxios.get(
-				'https://fakerapi.it/api/v1/users?_quantity=1&_gender=male'
-			)
-
-			const data = response?.data.data[0]
-
-			return data
-		} catch (error: any) {
 			return error?.response?.data?.message
 		}
 	}

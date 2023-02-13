@@ -269,6 +269,7 @@ export default function CreateRide({
     setDestinationLocations([]);
   };
 
+<<<<<<< HEAD
   console.log("destinationLocationName", destinationLocationName);
 
   return (
@@ -288,6 +289,27 @@ export default function CreateRide({
                   {" "}
                   Shuttle Direction
                 </label>
+=======
+	return (
+		<>
+			<ModalButton
+				setIsOpen={setIsModelOpen}
+				isOpen={showRideFormModel}
+				handleOpenModal={() => handleRideFormModel(true)}
+				handleOnClose={handleOnClose}
+				modalTitle={
+					formType === 'update' ? 'Update Ride' : 'Create Ride'
+				}
+				iconname={'bus'}
+				modalBody={
+					<MDBModalBody className='mx-3'>
+						<form className='mb-4'>
+							<div className='fw-bold'>
+								<label className='form-check-label py-1 d-block mt-2'>
+									{' '}
+									Shuttle Direction
+								</label>
+>>>>>>> ea437e8 (login msg handled, ride shift time shown selected in update)
 
                 <div className="form-check form-check-inline mb-2">
                   <input
@@ -379,6 +401,7 @@ export default function CreateRide({
                   value={tripDate}
                 />
 
+<<<<<<< HEAD
                 <label className="form-check-label py-1 ">Shift Time</label>
                 {destinationLocationName === companyName ? (
                   <select
@@ -405,6 +428,54 @@ export default function CreateRide({
                     onChange={handleTimeChange}
                   />
                 )}
+=======
+								<label className='form-check-label py-1 '>
+									Shift Time
+								</label>
+								{destinationLocationName === companyName ? (
+									<select
+										className='form-select mb-2'
+										aria-label='Default select example'
+										name='time'
+										onChange={handleTimeChange}
+									>
+										<option value=''>Select Shift Time</option>
+										<option
+											selected={tripTime === '8:00'}
+											value='8:00'
+										>
+											8:00 AM
+										</option>
+										<option
+											selected={tripTime === '10:00'}
+											value='10:00'
+										>
+											10:00 AM
+										</option>
+										<option
+											selected={tripTime === '20:00'}
+											value='20:00'
+										>
+											8:00 PM
+										</option>
+										<option
+											selected={tripTime === '22:00'}
+											value='22:00'
+										>
+											10:00 PM
+										</option>
+									</select>
+								) : (
+									<input
+										type='time'
+										name='time'
+										className='form-control mb-2'
+										placeholder='Enter Time'
+										value={tripTime}
+										onChange={handleTimeChange}
+									/>
+								)}
+>>>>>>> ea437e8 (login msg handled, ride shift time shown selected in update)
 
                 {error && <span className="error_msg">{error}</span>}
               </div>
