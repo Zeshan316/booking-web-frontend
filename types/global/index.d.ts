@@ -98,6 +98,8 @@ type UserFormProps = {
 	oldPassword?: string
 	newPassword?: string
 	profileImg?: any
+
+	
 }
 
 type RideFormProps = {

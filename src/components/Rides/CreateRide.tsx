@@ -1,436 +1,437 @@
-import React, { useEffect, useState } from 'react'
-import {
-	MDBBtn,
-	MDBModalBody,
-	MDBModalFooter,
-} from 'mdb-react-ui-kit'
-import ModalButton from '../Toolbar/ModalButton'
-import './CreateRide.css'
-import dayjs from 'dayjs'
-import LocationService from '../../services/LocationService'
-import { setLocations } from '../../store/reducers/locations-reducer'
-import { clearRideDetail } from '../../store/reducers/rides-reducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store'
-import RideService from '../../services/RideService'
-import { notify } from '../../common/utils'
-import { CURRENT_COMPANY_NAME } from '../../common/constants'
+import React, { useEffect, useState } from "react";
+import { MDBBtn, MDBModalBody, MDBModalFooter } from "mdb-react-ui-kit";
+import ModalButton from "../Toolbar/ModalButton";
+import "./CreateRide.css";
+import dayjs from "dayjs";
+import LocationService from "../../services/LocationService";
+import { setLocations } from "../../store/reducers/locations-reducer";
+import { clearRideDetail } from "../../store/reducers/rides-reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import RideService from "../../services/RideService";
+import { notify } from "../../common/utils";
+import { CURRENT_COMPANY_NAME } from "../../common/constants";
 
 interface RideProps {
-	getRides: () => void
-	showRideFormModel: boolean
-	formType: string
-	handleFormType: (type: string) => void
-	handleRideFormModel: (e: boolean) => void
+  getRides: () => void;
+  showRideFormModel: boolean;
+  formType: string;
+  handleFormType: (type: string) => void;
+  handleRideFormModel: (e: boolean) => void;
+}
+
+interface Errors {
+  direction?: string;
+  dropoff?: string;
+  pickup?: string;
 }
 
 export default function CreateRide({
-	getRides,
-	showRideFormModel,
-	formType,
-	handleFormType,
-	handleRideFormModel,
+  getRides,
+  showRideFormModel,
+  formType,
+  handleFormType,
+  handleRideFormModel,
 }: RideProps): JSX.Element {
-	const dispatch = useDispatch()
-	const locations = useSelector(
-		(state: RootState) => state.locationReducer.locations
-	)
-	const rideDetail = useSelector(
-		(state: RootState) => state.ride.ride
-	)
+  const dispatch = useDispatch();
+  const locations = useSelector(
+    (state: RootState) => state.locationReducer.locations
+  );
+  const rideDetail = useSelector((state: RootState) => state.ride.ride);
 
-	const [tripDate, setTripDate] = useState<string>(
-		dayjs(new Date()).format('YYYY-MM-DD')
-	)
+  const [tripDate, setTripDate] = useState<string>(
+    dayjs(new Date()).format("YYYY-MM-DD")
+  );
 
-	const [tripTime, setTripTime] = useState<string>(
-		dayjs(new Date()).format('HH:mm')
-	)
-	const [shuttleDirection, setShuttleDirection] = useState<string>('')
-	const [selectedLocations, setSelectedLocations] = useState<
-		Pickup[] | Destination[]
-	>([])
-	const [pickup, setPickup] = useState<string>('')
-	const [destinationLocations, setDestinationLocations] = useState<
-		GenericObject[]
-	>([])
-	const [destination, setDestination] = useState<string>('')
-	const [isModelOpen, setIsModelOpen] = useState<boolean>(false)
-	const [companyName, setCompanyName] = useState<string>(
-		CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
-	)
-	const [destinationLocationName, setDestinationLocationName] =
-		useState<string>('')
+  const [tripTime, setTripTime] = useState<string>(
+    dayjs(new Date()).format("HH:mm")
+  );
+  const [shuttleDirection, setShuttleDirection] = useState<string>("");
+  const [selectedLocations, setSelectedLocations] = useState<
+    Pickup[] | Destination[]
+  >([]);
+  const [pickup, setPickup] = useState<string>("");
+  const [destinationLocations, setDestinationLocations] = useState<
+    GenericObject[]
+  >([]);
+  const [destination, setDestination] = useState<string>("");
+  const [isModelOpen, setIsModelOpen] = useState<boolean>(false);
+  const [companyName, setCompanyName] = useState<string>(
+    CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
+  );
+  const [destinationLocationName, setDestinationLocationName] =
+    useState<string>("");
 
-	const now = new Date()
-	const [error, setError] = useState('')
+  const now = new Date();
+  const [error, setError] = useState("");
 
-	async function getLocations() {
-		const locations = await LocationService.getLocations()
-		getSelectedLocations()
-		dispatch(setLocations(locations))
-	}
+  const [err, setErr] = useState<Errors>({});
 
-	const getSelectedLocations = () => {
-		const selectedDirection = shuttleDirection
-			? shuttleDirection
-			: rideDetail.direction
+  async function getLocations() {
+    const locations = await LocationService.getLocations();
+    getSelectedLocations();
+    dispatch(setLocations(locations));
+  }
 
-		const currentLocations = locations.filter(
-			(location) =>
-				location.direction.toLocaleLowerCase() ===
-				selectedDirection.toLocaleLowerCase()
-		)
+  const getSelectedLocations = () => {
+    const selectedDirection = shuttleDirection
+      ? shuttleDirection
+      : rideDetail.direction;
 
-		setSelectedLocations(currentLocations)
+    const currentLocations = locations.filter(
+      (location) =>
+        location.direction.toLocaleLowerCase() ===
+        selectedDirection.toLocaleLowerCase()
+    );
 
-		return currentLocations
-	}
+    setSelectedLocations(currentLocations);
 
-	useEffect(() => {
-		if (formType !== 'update') {
-			dispatch(clearRideDetail())
-			setTripDate(dayjs().format('YYYY-MM-DD'))
-			setTripTime(dayjs().format('HH:mm'))
-		}
-	}, [formType])
+    return currentLocations;
+  };
 
-	useEffect(() => {
-		getSelectedLocations()
-	}, [shuttleDirection])
+  useEffect(() => {
+    if (formType !== "update") {
+      dispatch(clearRideDetail());
+      setTripDate(dayjs().format("YYYY-MM-DD"));
+      setTripTime(dayjs().format("HH:mm"));
+    }
+  }, [formType]);
 
-	useEffect(() => {
-		getLocations()
-		if (formType !== 'update') return
+  useEffect(() => {
+    getSelectedLocations();
+  }, [shuttleDirection]);
 
-		const dt = dayjs(rideDetail.tripDateTime)
-		if (rideDetail.tripDateTime) {
-			setTripDate(dt.format('YYYY-MM-DD'))
-			setTripTime(dt.format('HH:mm'))
-		}
-		setShuttleDirection(rideDetail.direction)
-		setPickup(rideDetail.pickupId as string)
-		setDestination(rideDetail.destinationId as string)
-		getDesinationsList(rideDetail?.pickupId as string)
-		toggleShiftTimeInputTime(rideDetail.destinationId as string)
-	}, [rideDetail, formType])
+  useEffect(() => {
+    getLocations();
+    if (formType !== "update") return;
 
-	const handlePickupChange = (
-		e: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		const pickupId = e.target.value
-		setPickup(pickupId)
-		setDestination('')
-		setDestinationLocations([])
-		getDesinationsList(pickupId)
-	}
+    const dt = dayjs(rideDetail.tripDateTime);
+    if (rideDetail.tripDateTime) {
+      setTripDate(dt.format("YYYY-MM-DD"));
+      setTripTime(dt.format("HH:mm"));
+    }
+    setShuttleDirection(rideDetail.direction);
+    setPickup(rideDetail.pickupId as string);
+    setDestination(rideDetail.destinationId as string);
+    getDesinationsList(rideDetail?.pickupId as string);
+    toggleShiftTimeInputTime(rideDetail.destinationId as string);
+  }, [rideDetail, formType]);
 
-	const handleDestinationChange = (
-		e: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		const destinationId = e.target.value
-		setDestination(destinationId)
-		toggleShiftTimeInputTime(destinationId)
-	}
+  const handlePickupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const pickupId = e.target.value;
+    setPickup(pickupId);
+    setDestination("");
+    setDestinationLocations([]);
+    getDesinationsList(pickupId);
+    setErr({ ...err, pickup: "" });
+  };
 
-	const toggleShiftTimeInputTime = (destinationId: string) => {
-		const selectedLocations = getSelectedLocations()
-		const location = selectedLocations.find(
-			(location) => location.id === destinationId
-		)
+  const handleDestinationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const destinationId = e.target.value;
+    setDestination(destinationId);
+    toggleShiftTimeInputTime(destinationId);
+    setErr({ ...err, dropoff: "" });
+  };
 
-		console.log('loc', location)
+  const toggleShiftTimeInputTime = (destinationId: string) => {
+    const selectedLocations = getSelectedLocations();
+    const location = selectedLocations.find(
+      (location) => location.id === destinationId
+    );
 
-		if (location?.locationName.toLowerCase() === companyName) {
-			setDestinationLocationName('dna')
-			return
-		}
+    console.log("loc", location);
 
-		setDestinationLocationName(
-			location?.locationName.toLowerCase() as string
-		)
-	}
+    if (location?.locationName.toLowerCase() === companyName) {
+      setDestinationLocationName("dna");
+      return;
+    }
 
-	const getDesinationsList = (pickupId: string) => {
-		const selectedLocations = getSelectedLocations()
-		const pickupLocation: Pickup | undefined = selectedLocations.find(
-			(location) => location.id === pickupId
-		)
+    setDestinationLocationName(location?.locationName.toLowerCase() as string);
+  };
 
-		const pickupLocationName = pickupLocation?.locationName
-			.toLowerCase()
-			.trim()
-		// const companyName =
-		// CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
+  const getDesinationsList = (pickupId: string) => {
+    const selectedLocations = getSelectedLocations();
+    const pickupLocation: Pickup | undefined = selectedLocations.find(
+      (location) => location.id === pickupId
+    );
 
-		if (
-			pickupLocationName !== companyName &&
-			pickupLocationName !== companyName
-		) {
-			const destinations = selectedLocations.filter(
-				(location) =>
-					location.locationName.toLowerCase() == companyName ||
-					location.locationName.toLowerCase() == companyName
-			)
+    const pickupLocationName = pickupLocation?.locationName
+      .toLowerCase()
+      .trim();
+    // const companyName =
+    // CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
 
-			setDestinationLocations(destinations)
-		} else if (
-			pickupLocationName == companyName ||
-			pickupLocationName == companyName
-		) {
-			const destinations = selectedLocations.filter(
-				(location) =>
-					location.locationName.toLowerCase() !== companyName &&
-					location.locationName.toLowerCase() !== companyName
-			)
+    if (
+      pickupLocationName !== companyName &&
+      pickupLocationName !== companyName
+    ) {
+      const destinations = selectedLocations.filter(
+        (location) =>
+          location.locationName.toLowerCase() == companyName ||
+          location.locationName.toLowerCase() == companyName
+      );
 
-			setDestinationLocations(destinations)
-		}
-	}
+      setDestinationLocations(destinations);
+    } else if (
+      pickupLocationName == companyName ||
+      pickupLocationName == companyName
+    ) {
+      const destinations = selectedLocations.filter(
+        (location) =>
+          location.locationName.toLowerCase() !== companyName &&
+          location.locationName.toLowerCase() !== companyName
+      );
 
-	const handleTimeChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	) => {
-		const time = e.target.value
-		setTripTime(time)
-		setError('')
-	}
+      setDestinationLocations(destinations);
+    }
+  };
 
-	const validateTime = (time: any) => {
-		const difference = dayjs(`${tripDate} ${time}`).diff(
-			dayjs(new Date())
-		)
+  const handleTimeChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const time = e.target.value;
+    setTripTime(time);
+    setError("");
+  };
 
-		if (difference < 1) {
-			setError(
-				'Invalid time, please select a time after the current time.'
-			)
-			return false
-		}
-		return true
-	}
+  const validateTime = (time: any) => {
+    const difference = dayjs(`${tripDate} ${time}`).diff(dayjs(new Date()));
 
-	const handleSaveDate = async (formData: RideFormProps) => {
-		await RideService.createRide(formData)
-		await getRides()
-	}
+    if (difference < 1) {
+      setError("Invalid time, please select a time after the current time.");
+      return false;
+    }
+    return true;
+  };
 
-	const handleUpdateDate = async (
-		rideId: string,
-		formData: RideFormProps
-	) => {
-		await RideService.updateRide(rideId, formData)
-		await getRides()
-	}
+  const handleSaveDate = async (formData: RideFormProps) => {
+    await RideService.createRide(formData);
+    await getRides();
+  };
 
-	const handleOnClose = () => {
-		handleRideFormModel(false)
-		handleFormType('')
-		resetForm()
-	}
+  const handleUpdateDate = async (rideId: string, formData: RideFormProps) => {
+    await RideService.updateRide(rideId, formData);
+    await getRides();
+  };
 
-	const submitRide = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		if (!validateTime(tripTime)) return
+  const handleOnClose = () => {
+    handleRideFormModel(false);
+    handleFormType("");
+    resetForm();
+  };
 
-		if (error) {
-			notify('Please resolve error first', 'warning')
-			return
-		}
-		if (shuttleDirection === '') {
-			alert('Please select shuttle direction')
-			return
-		}
+  const validateForm = (): Errors => {
+    const errors: Errors = {};
+    if (!shuttleDirection) {
+      errors.direction = "Shuttle direction is required";
+    }
+    if (!destination) {
+      errors.dropoff = "Dropoff location is required";
+    }
+    if (!pickup) {
+      errors.pickup = "Pickup location is required";
+    }
+    return errors;
+  };
 
-		const rideData = {
-			tripDate: tripDate,
-			tripTime: tripTime,
-			direction: shuttleDirection.toLocaleLowerCase(),
-			pickupId: pickup,
-			destinationId: destination,
-		}
+  const submitRide = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-		if (formType === 'update') {
-			handleUpdateDate(rideDetail.id, rideData)
-		} else {
-			handleSaveDate(rideData)
-		}
+    const errors = validateForm();
+    setErr(errors);
+    if (Object.keys(errors).length === 0 && validateTime(tripTime)) {
+      const rideData = {
+        tripDate: tripDate,
+        tripTime: tripTime,
+        direction: shuttleDirection.toLocaleLowerCase(),
+        pickupId: pickup,
+        destinationId: destination,
+      };
 
-		handleOnClose()
-	}
+      if (formType === "update") {
+        handleUpdateDate(rideDetail.id, rideData);
+      } else {
+        handleSaveDate(rideData);
+      }
+      handleOnClose();
+    } else {
+      notify("Please resolve error first", "warning");
+      return;
+    }
+  };
 
-	const resetForm = () => {
-		setError('')
-		setShuttleDirection('')
-		setPickup('')
-		setDestination('')
-		setDestinationLocations([])
-	}
+  const resetForm = () => {
+    setError("");
+    setErr({});
+    setShuttleDirection("");
+    setPickup("");
+    setDestination("");
+    setDestinationLocations([]);
+  };
 
-	console.log('destinationLocationName', destinationLocationName)
+  console.log("destinationLocationName", destinationLocationName);
 
-	return (
-		<>
-			<ModalButton
-				setIsOpen={setIsModelOpen}
-				isOpen={showRideFormModel}
-				handleOpenModal={() => handleRideFormModel(true)}
-				handleOnClose={handleOnClose}
-				modalTitle={
-					formType === 'update' ? 'Update Ride' : 'Create Ride'
-				}
-				iconname={'bus'}
-				modalBody={
-					<MDBModalBody className='mx-3'>
-						<form className='mb-4'>
-							<div className='fw-bold'>
-								<label className='form-check-label py-1 d-block mt-2'>
-									{' '}
-									Shuttle Direction
-								</label>
+  return (
+    <>
+      <ModalButton
+        setIsOpen={setIsModelOpen}
+        isOpen={showRideFormModel}
+        handleOpenModal={() => handleRideFormModel(true)}
+        handleOnClose={handleOnClose}
+        modalTitle={formType === "update" ? "Update Ride" : "Create Ride"}
+        iconname={"bus"}
+        modalBody={
+          <MDBModalBody className="mx-3">
+            <form className="mb-4">
+              <div className="fw-bold">
+                <label className="form-check-label py-1 d-block mt-2">
+                  {" "}
+                  Shuttle Direction
+                </label>
 
-								<div className='form-check form-check-inline mb-2'>
-									<input
-										type='radio'
-										className='form-check-input'
-										name='direction'
-										checked={
-											rideDetail.direction?.toLocaleLowerCase() ===
-												'north' ||
-											shuttleDirection.toLowerCase() === 'north'
-										}
-										onChange={(e) =>
-											setShuttleDirection(e.target.value)
-										}
-										value='North'
-									/>
-									<label className='fw-normal'>North</label>
-								</div>
-								<div className='form-check form-check-inline mb-2'>
-									<input
-										type='radio'
-										className='form-check-input'
-										name='direction'
-										checked={
-											rideDetail?.direction?.toLocaleLowerCase() ===
-												'south' ||
-											shuttleDirection.toLowerCase() === 'south'
-										}
-										onChange={(e) =>
-											setShuttleDirection(e.target.value)
-										}
-										value='South'
-									/>
-									<label className='fw-normal'>South</label>
-								</div>
+                <div className="form-check form-check-inline mb-2">
+                  <input
+                    type="radio"
+                    className="form-check-input"
+                    name="direction"
+                    checked={
+                      rideDetail.direction?.toLocaleLowerCase() === "north" ||
+                      shuttleDirection.toLowerCase() === "north"
+                    }
+                    onChange={(e) => {
+                      setShuttleDirection(e.target.value);
+                      setErr({ ...err, direction: "" });
+                    }}
+                    value="North"
+                  />
+                  <label className="fw-normal">North</label>
+                </div>
+                <div className="form-check form-check-inline mb-2">
+                  <input
+                    type="radio"
+                    className="form-check-input"
+                    name="direction"
+                    checked={
+                      rideDetail?.direction?.toLocaleLowerCase() === "south" ||
+                      shuttleDirection.toLowerCase() === "south"
+                    }
+                    onChange={(e) => {
+                      setShuttleDirection(e.target.value);
+                      setErr({ ...err, direction: "" });
+                    }}
+                  />
+                  <label className="fw-normal">South</label>
+                </div>
+                {err.direction && (
+                  <span className="error_msg d-block">{err.direction}</span>
+                )}
 
-								<label className='fw-bold py-1 d-block'>
-									{' '}
-									Pick-up
-								</label>
-								<select
-									className='form-select mb-2'
-									aria-label='Default select example'
-									value={pickup}
-									onChange={(e) => handlePickupChange(e)}
-									defaultValue={pickup}
-								>
-									<option value=''>Select Pick up</option>
-									{selectedLocations?.length &&
-										selectedLocations.map((location) => (
-											<option key={location.id} value={location.id}>
-												{location.locationName}
-											</option>
-										))}
-								</select>
+                <label className="fw-bold py-1 d-block"> Pick-up</label>
+                <select
+                  className="form-select mb-2"
+                  aria-label="Default select example"
+                  value={pickup}
+                  onChange={(e) => handlePickupChange(e)}
+                  defaultValue={pickup}
+                >
+                  <option value="">Select Pick up</option>
+                  {selectedLocations?.length &&
+                    selectedLocations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.locationName}
+                      </option>
+                    ))}
+                </select>
+                {err.pickup && (
+                  <span className="error_msg d-block">{err.pickup}</span>
+                )}
 
-								<label className='fw-bold py-1'> Destination</label>
-								{
-									<select
-										className='form-select'
-										aria-label='Default select example'
-										value={destination}
-										onChange={(e) => handleDestinationChange(e)}
-									>
-										<option value=''>Select Destination</option>
-										{destinationLocations.map((location) => (
-											<option key={location.id} value={location.id}>
-												{location.locationName}
-											</option>
-										))}
-									</select>
-								}
-								<label className='fw-bold py-2'>Trip Date</label>
-								<input
-									type='date'
-									name='date'
-									min={dayjs().format('YYYY-MM-DD')}
-									max={dayjs().add(1, 'day').format('YYYY-MM-DD')}
-									onChange={(e) =>
-										setTripDate(
-											dayjs(e.target.value).format('YYYY-MM-DD')
-										)
-									}
-									className='form-control mb-2 '
-									placeholder='Enter Date'
-									value={tripDate}
-								/>
+                <label className="fw-bold py-1"> Destination</label>
+                {
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    value={destination}
+                    onChange={(e) => handleDestinationChange(e)}
+                  >
+                    <option value="">Select Destination</option>
+                    {destinationLocations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.locationName}
+                      </option>
+                    ))}
+                  </select>
+                }
+                {err.dropoff && (
+                  <span className="error_msg d-block">{err.dropoff}</span>
+                )}
+                <label className="fw-bold py-2">Trip Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  min={dayjs().format("YYYY-MM-DD")}
+                  max={dayjs().add(1, "day").format("YYYY-MM-DD")}
+                  onChange={(e) =>
+                    setTripDate(dayjs(e.target.value).format("YYYY-MM-DD"))
+                  }
+                  className="form-control mb-2 "
+                  placeholder="Enter Date"
+                  value={tripDate}
+                />
 
-								<label className='form-check-label py-1 '>
-									Shift Time
-								</label>
-								{destinationLocationName === companyName ? (
-									<select
-										className='form-select mb-2'
-										aria-label='Default select example'
-										name='time'
-										onChange={handleTimeChange}
-									>
-										<option value=''>Select Shift Time</option>
-										<option value='8:00 AM'>8:00 AM</option>
-										<option value='10:00 AM'>10:00 AM</option>
-										<option value='8:00 PM'>8:00 PM</option>
-										<option value='10:00 PM'>10:00 PM</option>
-									</select>
-								) : (
-									<input
-										type='time'
-										name='time'
-										className='form-control mb-2'
-										placeholder='Enter Time'
-										value={tripTime}
-										onChange={handleTimeChange}
-									/>
-								)}
+                <label className="form-check-label py-1 ">Shift Time</label>
+                {destinationLocationName === companyName ? (
+                  <select
+                    className="form-select mb-2"
+                    aria-label="Default select example"
+                    name="time"
+                    onChange={handleTimeChange}
+                  >
+                    <option value="">Select Shift Time</option>
+                    <option value="8:00 AM">8:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="10:00 AM">12:00 AM</option>
+                    <option value="8:00 PM">2:00 PM</option>
+                    <option value="10:00 PM">4:00 PM</option>
+                    <option value="10:00 PM">6:00 PM</option>
+                  </select>
+                ) : (
+                  <input
+                    type="time"
+                    name="time"
+                    className="form-control mb-2"
+                    placeholder="Enter Time"
+                    value={tripTime}
+                    onChange={handleTimeChange}
+                  />
+                )}
 
-								{error && <span className='error_msg'>{error}</span>}
-							</div>
-						</form>
-						<MDBModalFooter>
-							<MDBBtn
-								color='secondary'
-								className='button_style px-4 border-0'
-								onClick={handleOnClose}
-							>
-								Close
-							</MDBBtn>
-							<MDBBtn
-								color='info'
-								className='button_style px-4'
-								onClick={(e: any) => {
-									submitRide(e)
-								}}
-							>
-								{formType === 'update' ? 'Update' : 'Save'}
-							</MDBBtn>
-						</MDBModalFooter>
-					</MDBModalBody>
-				}
-			>
-				<span onClick={() => handleFormType('create')}>
-					Create Ride
-				</span>
-			</ModalButton>
-		</>
-	)
+                {error && <span className="error_msg">{error}</span>}
+              </div>
+            </form>
+            <MDBModalFooter>
+              <MDBBtn
+                color="secondary"
+                className="button_style px-4 border-0"
+                onClick={handleOnClose}
+              >
+                Close
+              </MDBBtn>
+              <MDBBtn
+                color="info"
+                className="button_style px-4"
+                onClick={(e: any) => {
+                  submitRide(e);
+                }}
+              >
+                {formType === "update" ? "Update" : "Save"}
+              </MDBBtn>
+            </MDBModalFooter>
+          </MDBModalBody>
+        }
+      >
+        <span onClick={() => handleFormType("create")}>Create Ride</span>
+      </ModalButton>
+    </>
+  );
 }
