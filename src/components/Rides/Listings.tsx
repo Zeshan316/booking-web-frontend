@@ -174,7 +174,7 @@ function Listings({
 										</td>
 										<td>
 											<p className=' mb-1'>
-												{`${ride.user.firstName} ${ride.user.firstName}`}
+												{`${ride.user.firstName} ${ride.user.lastName}`}
 											</p>
 										</td>
 										<td>
