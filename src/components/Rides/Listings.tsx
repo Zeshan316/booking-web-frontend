@@ -1,37 +1,37 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from 'react'
 import {
-  MDBContainer,
-  MDBTable,
-  MDBTableHead,
-  MDBTableBody,
-  MDBBtn,
-  MDBIcon,
-  MDBTooltip,
-  MDBBadge,
-  MDBRow,
-  MDBCol,
-  MDBSwitch,
-} from "mdb-react-ui-kit";
+	MDBContainer,
+	MDBTable,
+	MDBTableHead,
+	MDBTableBody,
+	MDBBtn,
+	MDBIcon,
+	MDBTooltip,
+	MDBBadge,
+	MDBRow,
+	MDBCol,
+	MDBSwitch,
+} from 'mdb-react-ui-kit'
 
-import ReactPaginate from "react-paginate";
-import dayjs from "dayjs";
+import ReactPaginate from 'react-paginate'
+import dayjs from 'dayjs'
 
-import { RootState } from "../../store";
-import { useSelector, useDispatch } from "react-redux";
-import RideDetails from "./RideDetails";
-import RideService from "../../services/RideService";
-import { setRideDetail } from "../../store/reducers/rides-reducer";
-import DeleteModal from "../Toolbar/DeleteModal";
-import { USER_ROLES,RIDE_STATUSES } from "../../common/constants";
-import { setRides } from "../../store/reducers/rides-reducer";
+import { RootState } from '../../store'
+import { useSelector, useDispatch } from 'react-redux'
+import RideDetails from './RideDetails'
+import RideService from '../../services/RideService'
+import { setRideDetail } from '../../store/reducers/rides-reducer'
+import DeleteModal from '../Toolbar/DeleteModal'
+import { USER_ROLES, RIDE_STATUSES } from '../../common/constants'
+import { setRides } from '../../store/reducers/rides-reducer'
 
 interface UserTableProps {
-  perPageItems: number;
-  handleFormType: (type: string) => void
-  handleRideFormModel: (e: any) => void
-  handleDeleteRide: (e: string) => void
-  handlePageChange: (e: any) => void;
-  handleChangeRideStatus: (e: any, rideId: string) => void;
+	perPageItems: number
+	handleFormType: (type: string) => void
+	handleRideFormModel: (e: any) => void
+	handleDeleteRide: (e: string) => void
+	handlePageChange: (e: any) => void
+	handleChangeRideStatus: (e: any, rideId: string) => void
 	handleCancelRide: (rideId: string, rideStatus: string) => void
 }
 
@@ -44,11 +44,11 @@ function Listings({
 	handlePageChange,
 	handleChangeRideStatus,
 }: UserTableProps): JSX.Element {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
-  const [selectedRideId, setSelectedRideId] = useState<string>("");
-  const [showRideDetail, setShowRideDetail] = useState<boolean>(false);
-  /* const [showRideUpdateModel, setShowRideUpdateModel] =
+	const [selectedRideId, setSelectedRideId] = useState<string>('')
+	const [showRideDetail, setShowRideDetail] = useState<boolean>(false)
+	/* const [showRideUpdateModel, setShowRideUpdateModel] =
 		useState<boolean>(false) */
 
 	const [showConfirmBox, setShowConfirBox] = useState<boolean>(false)
@@ -62,42 +62,44 @@ function Listings({
 		}
 	)
 
-  const [showRideCompleteModal, setShowRideCompleteModal] =
-    useState<boolean>(false);
-  const [rideCompleteId, setRideCompleteId] = useState<string | null>(null);
-  const [rideStatusEvent, setRideStatusEvent] = useState<string>("");
+	const [showRideCompleteModal, setShowRideCompleteModal] =
+		useState<boolean>(false)
+	const [rideCompleteId, setRideCompleteId] = useState<string | null>(
+		null
+	)
+	const [rideStatusEvent, setRideStatusEvent] = useState<string>('')
 
-  const rideReducer = useSelector((state: RootState) => state.ride);
-  const authReducer = useSelector((state: RootState) => state.auth);
+	const rideReducer = useSelector((state: RootState) => state.ride)
+	const authReducer = useSelector((state: RootState) => state.auth)
 
-  const userRole = authReducer?.user?.role?.name.toLowerCase();
-  const RoleOfUser = USER_ROLES.User.toLowerCase();
-  const driverRole = USER_ROLES.Driver.toLowerCase();
+	const userRole = authReducer?.user?.role?.name.toLowerCase()
+	const RoleOfUser = USER_ROLES.User.toLowerCase()
+	const driverRole = USER_ROLES.Driver.toLowerCase()
 
-  async function getRideDetail(rideId: string) {
-    const rideDetail = await RideService.getRide(rideId);
-    dispatch(setRideDetail(rideDetail));
-  }
+	async function getRideDetail(rideId: string) {
+		const rideDetail = await RideService.getRide(rideId)
+		dispatch(setRideDetail(rideDetail))
+	}
 
-  useEffect(() => {
-    if (selectedRideId) getRideDetail(selectedRideId);
-  }, [selectedRideId]);
+	useEffect(() => {
+		if (selectedRideId) getRideDetail(selectedRideId)
+	}, [selectedRideId])
 
-  function handleRideDetail(rideId: string | undefined) {
-    if (!rideId) return;
+	function handleRideDetail(rideId: string | undefined) {
+		if (!rideId) return
 
-    setShowRideDetail(!showRideDetail);
-    setSelectedRideId(rideId);
-  }
+		setShowRideDetail(!showRideDetail)
+		setSelectedRideId(rideId)
+	}
 
-  async function handleRideEdit(rideId: string | undefined) {
-    if (!rideId) return;
+	async function handleRideEdit(rideId: string | undefined) {
+		if (!rideId) return
 
-    await getRideDetail(rideId);
-    handleFormType("update");
-    handleRideFormModel(true);
-  }
-  
+		await getRideDetail(rideId)
+		handleFormType('update')
+		handleRideFormModel(true)
+	}
+
 	return (
 		<MDBContainer fluid>
 			<section>
@@ -111,49 +113,49 @@ function Listings({
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   /> */}
-                  Trip Date
-                </th>
-                <th className="fw-bold text-white h6">
-                  {/* <MDBIcon
+									Trip Date
+								</th>
+								<th className='fw-bold text-white h6'>
+									{/* <MDBIcon
                     icon={isAscending ? 'sort-up' : 'sort-down'}
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   /> */}
-                  Trip Time
-                </th>
-                <th className="fw-bold text-white h6">
-                  {/* <MDBIcon
+									Trip Time
+								</th>
+								<th className='fw-bold text-white h6'>
+									{/* <MDBIcon
                     icon={isAscending ? 'sort-up' : 'sort-down'}
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   /> */}
-                  Request By
-                </th>
-                <th className="fw-bold text-white h6">
-                  {/* <MDBIcon
+									Request By
+								</th>
+								<th className='fw-bold text-white h6'>
+									{/* <MDBIcon
                     icon={isAscending ? 'sort-up' : 'sort-down'}
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   /> */}
-                  Direction
-                </th>
-                <th className="fw-bold text-white h6">
-                  {/* <MDBIcon
+									Direction
+								</th>
+								<th className='fw-bold text-white h6'>
+									{/* <MDBIcon
                     icon={isAscending ? 'sort-up' : 'sort-down'}
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   /> */}
-                  Pick Up
-                </th>
-                <th className="fw-bold text-white h6">Destination</th>
-                <th className="fw-bold text-white h6">
-                  {/* <MDBIcon
+									Pick Up
+								</th>
+								<th className='fw-bold text-white h6'>Destination</th>
+								<th className='fw-bold text-white h6'>
+									{/* <MDBIcon
                     icon={isAscending ? 'sort-up' : 'sort-down'}
                     onClick={() => setIsAscending(!isAscending)}
                     className="sort-icon me-2"
                   /> */}
-                  Status
-                </th>
+									Status
+								</th>
 
 								<th className='fw-bold text-white h6'>Actions</th>
 							</tr>
@@ -257,13 +259,11 @@ function Listings({
 													}
 													id='flexSwitchCheckChecked'
 													// label='Change status'
-													onChange={(e: any) =>
-														// handleChangeRideStatus(e, ride.id)
-
-														setShowRideCompleteModal(true);
-                                setRideStatusEvent(e);
-                                setRideCompleteId(ride.id);
-													}
+													onChange={(e: any) => {
+														setShowRideCompleteModal(true)
+														setRideStatusEvent(e)
+														setRideCompleteId(ride.id)
+													}}
 												/>
 											</td>
 										) : userRole === RoleOfUser ? (
@@ -418,19 +418,21 @@ function Listings({
 						)}
 
 						{showRideCompleteModal && (
-              <DeleteModal
-                show={showRideCompleteModal}
-                message={
-                  "Are you sure you want to mark this ride as completed?"
-                }
-                message2={"Note: This action cannot be undone."}
-                onDelete={handleChangeRideStatus}
-                statusEvent={rideStatusEvent}
-                deleteData={rideCompleteId}
-                handleOnClose={() => setShowRideCompleteModal(false)}
-                setShow={() => setShowRideCompleteModal(!showRideCompleteModal)}
-              />
-            )}
+							<DeleteModal
+								show={showRideCompleteModal}
+								message={
+									'Are you sure you want to mark this ride as completed?'
+								}
+								message2={'Note: This action cannot be undone.'}
+								onDelete={handleChangeRideStatus}
+								statusEvent={rideStatusEvent}
+								deleteData={rideCompleteId}
+								handleOnClose={() => setShowRideCompleteModal(false)}
+								setShow={() =>
+									setShowRideCompleteModal(!showRideCompleteModal)
+								}
+							/>
+						)}
 					</MDBTable>
 				</div>
 			</section>
@@ -438,4 +440,4 @@ function Listings({
 	)
 }
 
-export default Listings;
+export default Listings
