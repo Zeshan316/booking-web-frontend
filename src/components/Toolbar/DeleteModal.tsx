@@ -10,9 +10,11 @@ interface ModalProps {
   title?: string;
   icon?: string;
   handleOnClose: () => void;
-  onDelete: (e: any) => void;
+  onDelete: (e: any, data?: any) => void;
+  statusEvent?: any;
   deleteData?: any;
   message?: string;
+  message2?: string;
 }
 function DeleteModal({
   show,
@@ -21,8 +23,10 @@ function DeleteModal({
   setShow,
   handleOnClose,
   onDelete,
+  statusEvent,
   deleteData,
   message,
+  message2,
 }: ModalProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,8 +35,13 @@ function DeleteModal({
   };
 
   const handleDelete = () => {
-    onDelete(deleteData);
-    setShow();
+    if (statusEvent) {
+      onDelete(statusEvent, deleteData);
+      setShow();
+    } else {
+      onDelete(deleteData);
+      setShow();
+    }
   };
 
   return (
@@ -46,11 +55,16 @@ function DeleteModal({
       modalBody={
         <MDBModalBody>
           <MDBCol className="mb-2 mx-1">
-            <span className="fs-5 ">
-              {message
-                ? message
-                : "Are you sure you want to delete this record?"}
-            </span>
+            <>
+              <span className="fs-5 ">
+                {message
+                  ? message
+                  : "Are you sure you want to delete this record?"}
+              </span>
+              {message2 && (
+                <p className="mt-2 fw-bold text-danger fs-6 ">{message2}</p>
+              )}
+            </>
           </MDBCol>
 
           <MDBModalFooter>
