@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+	MDBCol,
 	MDBBtn,
 	MDBModalBody,
 	MDBModalFooter,
@@ -281,6 +282,7 @@ export default function CreateRide({
 		setShuttleDirection('')
 		setPickup('')
 		setDestination('')
+		setForHomeTimeView('')
 		setDestinationLocations([])
 	}
 
@@ -438,23 +440,34 @@ export default function CreateRide({
 									value={tripDate}
 								/>
 
-								<label className='form-check-label py-1 '>
-									Shift Time {forHomeTimeView}
-									<MDBBtn
-										className='btn-sm btn-outline btn-rounded'
-										title='custom time'
-										onClick={() => setForHomeTimeView('custom')}
-									>
-										Custom time
-									</MDBBtn>
-									<MDBBtn
-										className='btn-sm btn-outline btn-rounded'
-										title='Shift time'
-										onClick={() => setForHomeTimeView('shift')}
-									>
-										Defined Shift Time
-									</MDBBtn>
+								<label className='form-check-label py-1 d-block'>
+									Shift Time{' '}
 								</label>
+								{/* {forHomeTimeView} */}
+								<MDBCol>
+									<input
+										type='radio'
+										className='form-check-input mb-2'
+										name='shifttime'
+										checked={forHomeTimeView === 'custom'}
+										onClick={() => setForHomeTimeView('custom')}
+										value='custom'
+									/>
+									<label className='fw-normal'>Custom Time</label>
+
+									<input
+										type='radio'
+										className='form-check-input ms-3 mb-2'
+										name='shifttime'
+										checked={forHomeTimeView === 'shift'}
+										onClick={() => setForHomeTimeView('shift')}
+										value='shift'
+									/>
+									<label className='fw-normal'>
+										Defined Shift Time
+									</label>
+								</MDBCol>
+
 								{destinationLocationName === companyName &&
 									forHomeTimeView === 'shift' && (
 										<select

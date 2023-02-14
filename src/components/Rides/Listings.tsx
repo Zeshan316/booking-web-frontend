@@ -55,12 +55,7 @@ function Listings({
 	const [deleteRideId, setDeleteRideId] = useState<string>('')
 	const [showCancelConfirmBox, setShowCancelConfirmBox] =
 		useState<boolean>(false)
-	const [cancelRideData, setCancelRideData] = useState<GenericObject>(
-		{
-			rideId: '',
-			rideStatus: '',
-		}
-	)
+	const [cancelRideData, setCancelRideData] = useState<string>('')
 
 	const [showRideCompleteModal, setShowRideCompleteModal] =
 		useState<boolean>(false)
@@ -68,6 +63,8 @@ function Listings({
 		null
 	)
 	const [rideStatusEvent, setRideStatusEvent] = useState<string>('')
+	const [cancelStatusEvent, setCancelStatusEvent] =
+		useState<string>('')
 
 	const rideReducer = useSelector((state: RootState) => state.ride)
 	const authReducer = useSelector((state: RootState) => state.auth)
@@ -218,7 +215,7 @@ function Listings({
 														pill
 														className='status'
 													>
-														<p className='mb-1 text-capitalize'>
+														<p className='my-1 text-capitalize'>
 															{ride.status}
 														</p>
 													</MDBBadge>
@@ -230,41 +227,60 @@ function Listings({
 														pill
 														className='status'
 													>
-														<p className='mb-1 text-capitalize'>
+														<p className='my-1 text-capitalize'>
 															{ride.status}
 														</p>
 													</MDBBadge>
 												) : (
 													<MDBBadge
 														light
-														color='secondary'
+														color='danger'
 														pill
 														className='status'
 													>
-														<p className='mb-1 text-capitalize'>
+														<p className='my-1 text-capitalize'>
 															{ride.status}
 														</p>
 													</MDBBadge>
 												)}
 											</>
 										</td>
-										{userRole === driverRole &&
-										ride.status.toLowerCase() !==
-											RIDE_STATUSES.cancelled ? (
+										{userRole === driverRole ? (
 											<td>
-												<MDBSwitch
-													defaultChecked={
-														ride.status.toLowerCase() ===
-														RIDE_STATUSES.completed
-													}
-													id='flexSwitchCheckChecked'
-													// label='Change status'
-													onChange={(e: any) => {
-														setShowRideCompleteModal(true)
-														setRideStatusEvent(e)
-														setRideCompleteId(ride.id)
-													}}
-												/>
+												{ride.status.toLowerCase() ==
+												RIDE_STATUSES.awaiting ? (
+													<MDBTooltip
+														tag='a'
+														title={'Mark ride as completed'}
+													>
+														<MDBSwitch
+															defaultChecked={
+																ride.status.toLowerCase() ===
+																RIDE_STATUSES.completed
+															}
+															onChange={(e: any) => {
+																setShowRideCompleteModal(true)
+																setRideStatusEvent(e)
+																setRideCompleteId(ride.id)
+															}}
+														/>
+													</MDBTooltip>
+												) : (
+													<MDBSwitch
+														defaultChecked={
+															ride.status.toLowerCase() ===
+															RIDE_STATUSES.completed
+														}
+														disabled={
+															ride.status.toLowerCase() ===
+																RIDE_STATUSES.completed ||
+															ride.status.toLowerCase() ===
+																RIDE_STATUSES.cancelled
+														}
+														id='flexSwitchCheckChecked'
+														// label='Change status'
+													/>
+												)}
 											</td>
 										) : userRole === RoleOfUser ? (
 											<td>
@@ -285,14 +301,9 @@ function Listings({
 																		size='sm'
 																		rippleColor='dark'
 																		onClick={() => {
-																			/* setShowCancelConfirmBox(true)
-																			setCancelRideData({
-																				rideId: ride.id,
-																				rideStatus:
-																					RIDE_STATUSES.cancelled,
-																			}) */
-																			handleCancelRide(
-																				ride.id,
+																			setShowCancelConfirmBox(true)
+																			setCancelStatusEvent(ride.id)
+																			setCancelRideData(
 																				RIDE_STATUSES.cancelled
 																			)
 																		}}
@@ -395,16 +406,20 @@ function Listings({
 							/>
 						)}
 
-						{/* {showCancelConfirmBox && (
+						{showCancelConfirmBox && (
 							<DeleteModal
+								title={'Cancel Ride'}
 								show={showCancelConfirmBox}
 								message={'Are you sure you want to cancel this ride?'}
-								onDelete={() => handleCancelRide()}
+								onDelete={handleCancelRide}
+								statusEvent={cancelStatusEvent}
 								deleteData={cancelRideData}
-								handleOnClose={() => setShowConfirBox(false)}
-								setShow={() => setShowConfirBox(!showConfirmBox)}
+								handleOnClose={() => setShowCancelConfirmBox(false)}
+								setShow={() =>
+									setShowCancelConfirmBox(!showCancelConfirmBox)
+								}
 							/>
-						)} */}
+						)}
 
 						{showConfirmBox && (
 							<DeleteModal
