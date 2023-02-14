@@ -29,9 +29,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 	const authData = useSelector((state: RootState) => state.auth)
 	const token = sessionStorage.getItem('token') as string
 
-	// console.info('tokentokentoken', token)
 	if (!token?.length || token === null || token === undefined) {
-		console.error('no token found')
 		dispatch(clearUserData())
 		return (
 			<Navigate
@@ -44,7 +42,6 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
 	const decodedToken: GenericObject = jwtDecode(token)
 
-	// console.log(decodedToken, 'decodedToken', authData?.isLoggedIn)
 	if (decodedToken?.exp < Math.floor(Date.now() / 1000)) {
 		notify('Your token has been expired', 'info')
 		dispatch(clearUserData())

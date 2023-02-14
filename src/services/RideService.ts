@@ -16,14 +16,12 @@ export default class RideService {
 		}
 	): Promise<Ride[]> {
 		try {
-			// console.log(RIDE_ROUTES.getRides(tableFilters))
 			const response = await TicketingAxios.get(
 				RIDE_ROUTES.getRides(tableFilters)
 			)
 
 			const { data: { data } = {} } = response
 
-			// console.log('data', data)
 			return data
 		} catch (error: any) {
 			console.log(error)

@@ -33,7 +33,6 @@ const userSlicer = createSlice({
 		},
 		setUserDetail: (state, action: PayloadAction<any>) => {
 			const { payload } = action
-			console.log('payload', payload)
 			return {
 				...state,
 				user: payload,

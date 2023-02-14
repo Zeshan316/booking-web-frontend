@@ -16,7 +16,6 @@ export default class UserService {
 		}
 	): Promise<User[]> {
 		try {
-			console.log(USER_ROUTES.getUsers(tableFilters))
 			const response = await TicketingAxios.get(
 				USER_ROUTES.getUsers(tableFilters)
 			)

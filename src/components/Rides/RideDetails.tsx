@@ -27,8 +27,6 @@ function RideDetails({
 		(state: RootState) => state.ride.ride
 	)
 
-	console.log('rideDetail', rideDetail)
-
 	return (
 		<>
 			<ModalButton
