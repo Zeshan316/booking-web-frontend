@@ -15,6 +15,7 @@ import {
 } from '../../common/constants'
 import { RootState } from '../../store'
 import NotFound from 'src/components/NotFound/NotFound'
+import LoadingBar from 'react-top-loading-bar'
 
 const initialTableFilters: GenericObject = {
 	order: LISTING_ORDER,
@@ -61,9 +62,10 @@ export default function UserDashboard(): JSX.Element {
 	const [showUserFormModel, setShowUserFormModel] =
 		useState<boolean>(false)
 	const [formType, setFormType] = useState<string>('create')
-	// const [updateUserId, setUpdateUserId] = useState<string>('')
+	const [showLoader, setShowLoader] = useState<boolean>(false)
 
 	async function getUsers() {
+		setShowLoader(true)
 		const data = await UserService.getUsers(tableFilters)
 		dispatch(setUsers(data))
 	}
@@ -153,6 +155,15 @@ export default function UserDashboard(): JSX.Element {
 
 	return (
 		<Layout>
+			{showLoader && (
+				<LoadingBar
+					color='#f11946'
+					progress={100}
+					waitingTime={1000}
+					onLoaderFinished={() => setShowLoader(false)}
+				/>
+			)}
+
 			{userRole === sysAdminRole ? (
 				<></>
 			) : (

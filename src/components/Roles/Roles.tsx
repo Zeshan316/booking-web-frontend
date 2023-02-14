@@ -14,6 +14,7 @@ import {
 } from '../../common/constants'
 import { setRoles } from '../../store/reducers/roles-reducer'
 import { RootState } from '../../store'
+import LoadingBar from 'react-top-loading-bar'
 
 const initialTableFilters: GenericObject = {
 	order: LISTING_ORDER,
@@ -27,8 +28,10 @@ export default function Rides(): JSX.Element {
 	const [tableFilters, setTableFilters] = useState<GenericObject>(
 		initialTableFilters
 	)
+	const [showLoader, setShowLoader] = useState<boolean>(false)
 
 	async function getRoles() {
+		setShowLoader(true)
 		const allRoles = await RoleService.getRoles(tableFilters)
 		await dispatch(setRoles(allRoles))
 	}
@@ -48,6 +51,14 @@ export default function Rides(): JSX.Element {
 
 	return (
 		<Layout>
+			{showLoader && (
+				<LoadingBar
+					color='#f11946'
+					progress={100}
+					waitingTime={1000}
+					onLoaderFinished={() => setShowLoader(false)}
+				/>
+			)}
 			<MDBInputGroup className='mb-3 d-flex justify-content-center mt-3 p-3'>
 				<Listings />
 			</MDBInputGroup>

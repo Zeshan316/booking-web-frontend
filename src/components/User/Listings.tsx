@@ -26,7 +26,7 @@ import UserDetails from './UserDetails'
 import UserService from '../../services/UserService'
 import { setUserDetail } from '../../store/reducers/users-reducer'
 import DeleteModal from '../Toolbar/DeleteModal'
-import { Audio } from 'react-loader-spinner'
+import LoadingBar from 'react-top-loading-bar'
 
 interface UserTableProps {
 	perPageItems: number
@@ -57,6 +57,7 @@ function Listings({
 	const [deleteData, setDeleteData] = useState<string>('')
 	const [showUserUpdateModel, setShowUserUpdateModel] =
 		useState<boolean>(false)
+	const [showLoader, setShowLoader] = useState<boolean>(false)
 
 	const userReducer = useSelector((state: RootState) => state.user)
 	const authUser = useSelector((state: RootState) => state.auth.user)
@@ -104,7 +105,7 @@ function Listings({
 
 	function handleUserEdit(userId: string | undefined) {
 		if (!userId) return
-
+		setShowLoader(true)
 		setShowUserDetail(false)
 		setShowUserUpdateModel(true)
 		setSelectedUserId(userId)
@@ -112,6 +113,15 @@ function Listings({
 
 	return (
 		<MDBContainer fluid>
+			{showLoader && (
+				<LoadingBar
+					color='#f11946'
+					progress={100}
+					waitingTime={1000}
+					onLoaderFinished={() => setShowLoader(false)}
+				/>
+			)}
+
 			<section>
 				<div className='shadow-4 mb-5 rounded-4 overflow-hidden bg-light'>
 					<MDBTable hover>

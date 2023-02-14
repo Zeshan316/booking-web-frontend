@@ -100,6 +100,7 @@ function Listings({
 			dayjs(),
 			'minute'
 		)
+
 		if (rideMinutesDiff < 59) {
 			alert(
 				'Rides can be updated at least one hour before the scheduled time.'

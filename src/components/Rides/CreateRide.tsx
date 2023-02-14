@@ -108,6 +108,9 @@ export default function CreateRide({
 
 	useEffect(() => {
 		getSelectedLocations()
+		setDestination('')
+		setDestinationLocationName('')
+		setDestinationLocations([])
 	}, [shuttleDirection])
 
 	useEffect(() => {
@@ -119,11 +122,12 @@ export default function CreateRide({
 			setTripDate(dt.format('YYYY-MM-DD'))
 			setTripTime(dt.format('HH:mm'))
 		}
-		setShuttleDirection(rideDetail.direction)
+		setShuttleDirection(rideDetail.direction.toLocaleLowerCase())
 		setPickup(rideDetail.pickupId as string)
 		setDestination(rideDetail.destinationId as string)
 		getDesinationsList(rideDetail?.pickupId as string)
 		toggleShiftTimeInputTime(rideDetail.destinationId as string)
+		setForHomeTimeView('custom')
 	}, [rideDetail, formType])
 
 	const handlePickupChange = (
@@ -343,15 +347,13 @@ export default function CreateRide({
 										className='form-check-input'
 										name='direction'
 										checked={
-											rideDetail.direction?.toLocaleLowerCase() ===
-												'north' ||
 											shuttleDirection.toLowerCase() === 'north'
 										}
 										onChange={(e) => {
 											setShuttleDirection(e.target.value)
 											setErr({ ...err, direction: '' })
 										}}
-										value='North'
+										value='north'
 									/>
 									<label className='fw-normal'>North</label>
 								</div>
@@ -361,15 +363,13 @@ export default function CreateRide({
 										className='form-check-input'
 										name='direction'
 										checked={
-											rideDetail?.direction?.toLocaleLowerCase() ===
-												'south' ||
 											shuttleDirection.toLowerCase() === 'south'
 										}
 										onChange={(e) => {
 											setShuttleDirection(e.target.value)
 											setErr({ ...err, direction: '' })
 										}}
-										value='South'
+										value='south'
 									/>
 									<label className='fw-normal'>South</label>
 								</div>
@@ -404,7 +404,7 @@ export default function CreateRide({
 									</span>
 								)}
 
-								<label className='fw-bold py-1'> Destination</label>
+								<label className='fw-bold py-1'>Destination</label>
 								{
 									<select
 										className='form-select'

@@ -15,6 +15,7 @@ import {
 	USER_ROLES,
 	RIDE_STATUSES,
 } from '../../common/constants'
+import LoadingBar from 'react-top-loading-bar'
 import { setRides } from '../../store/reducers/rides-reducer'
 import { RootState } from '../../store'
 import dayjs from 'dayjs'
@@ -52,6 +53,7 @@ export default function Rides(): JSX.Element {
 	const [formType, setFormType] = useState<string>('create')
 	const [showRideFormModel, setShowRideFormModel] =
 		useState<boolean>(false)
+	const [showLoader, setShowLoader] = useState<boolean>(false)
 
 	const [tableFilters, setTableFilters] = useState<GenericObject>({
 		...initialTableFilters,
@@ -64,6 +66,7 @@ export default function Rides(): JSX.Element {
 	})
 
 	async function getRides(reqTableFilters = tableFilters) {
+		setShowLoader(true)
 		const allRides = await RideService.getRides(reqTableFilters)
 		await dispatch(setRides(allRides))
 	}
@@ -78,13 +81,7 @@ export default function Rides(): JSX.Element {
 		getRides()
 	}, [tableFilters.to, pageOffset])
 
-	function handleOption(event: React.ChangeEvent<any>) {
-		/* setSelectedOptionValue(event.target.value)
-		setTableFilters({
-			...initialTableFilters,
-			[selectedOptionValue]: searchValue,
-		}) */
-	}
+	function handleOption(event: React.ChangeEvent<any>) {}
 
 	function handleStartDateTime(e: any) {
 		setRidesStartDateTime(dayjs(e).toDate())
@@ -136,20 +133,9 @@ export default function Rides(): JSX.Element {
 		event: React.ChangeEvent<HTMLInputElement>
 	) {
 		event.preventDefault()
-		// setSearchValue(event.target.value)
-		// setTableFilters({
-		// 	...tableFilters,
-		// 	[selectedOptionValue]: searchValue,
-		// })
-
-		// if (!event.target.value.length)
-		// 	setTableFilters({ ...initialTableFilters })
 	}
 
-	async function handleSearchClick() {
-		// if (!searchValue || !selectedOptionValue) return
-		// await getUsers()
-	}
+	async function handleSearchClick() {}
 
 	function handleItemsPerPage(event: React.ChangeEvent<any>): void {
 		setItemsPerPage(event.target.value)
@@ -193,11 +179,18 @@ export default function Rides(): JSX.Element {
 	}
 
 	const currentUserRole = authReducer.user.role.name.toLowerCase()
-	// const driverRole = USER_ROLES.Driver.toLowerCase()
 	const userRole = USER_ROLES.User.toLowerCase()
 
 	return (
 		<Layout>
+			{showLoader && (
+				<LoadingBar
+					color='#f11946'
+					progress={100}
+					waitingTime={1000}
+					onLoaderFinished={() => setShowLoader(false)}
+				/>
+			)}
 			{currentUserRole == userRole &&
 				Boolean(authReducer.user.isActive) && (
 					<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
