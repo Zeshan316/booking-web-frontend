@@ -116,11 +116,11 @@ export default function Rides(): JSX.Element {
 	}
 
 	async function handleChangeRideStatus(
-		e: React.ChangeEvent<HTMLInputElement>,
+		checked: boolean,
 		rideId: string
 	) {
 		//await RideServe
-		const rideStatus = e.target.checked
+		const rideStatus = checked
 			? RIDE_STATUSES.completed
 			: RIDE_STATUSES.awaited
 

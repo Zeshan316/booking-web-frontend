@@ -254,13 +254,13 @@ function Listings({
 														title={'Mark ride as completed'}
 													>
 														<MDBSwitch
-															defaultChecked={
+															checked={
 																ride.status.toLowerCase() ===
 																RIDE_STATUSES.completed
 															}
 															onChange={(e: any) => {
 																setShowRideCompleteModal(true)
-																setRideStatusEvent(e)
+																setRideStatusEvent(e.target.checked)
 																setRideCompleteId(ride.id)
 															}}
 														/>
@@ -435,6 +435,8 @@ function Listings({
 						{showRideCompleteModal && (
 							<DeleteModal
 								show={showRideCompleteModal}
+								icon={'car-side'}
+								title={'Mark as Complete'}
 								message={
 									'Are you sure you want to mark this ride as completed?'
 								}
