@@ -20,7 +20,7 @@ const Sidebar = () => {
 	})
 
 	const userlinks: Item[] = [
-		{ text: 'Rides', to: '/rides', icon: 'car-side' },
+		{ text: 'My Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
@@ -28,15 +28,15 @@ const Sidebar = () => {
 		{ text: 'Users', to: '/users', icon: 'users' },
 		{ text: 'Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'Locations', to: '/locations', icon: 'location-arrow' },
-		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 		{ text: 'Roles', to: '/roles', icon: 'user-cog' },
+		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
 	const sysadminlinks: Item[] = [
 		{ text: 'Users', to: '/users', icon: 'users' },
 		{ text: 'Rides', to: '/rides', icon: 'car-side' },
-		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 		{ text: 'Roles', to: '/roles', icon: 'user-cog' },
+		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
 	const driverlinks: Item[] = [
