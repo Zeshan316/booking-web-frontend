@@ -62,7 +62,8 @@ export default function CreateRide({
 		GenericObject[]
 	>([])
 	const [destination, setDestination] = useState<string>('')
-	const [forHomeTimeView, setForHomeTimeView] = useState<string>('')
+	const [forHomeTimeView, setForHomeTimeView] =
+		useState<string>('custom')
 	const [isModelOpen, setIsModelOpen] = useState<boolean>(false)
 	const [companyName, setCompanyName] = useState<string>(
 		CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
@@ -443,30 +444,31 @@ export default function CreateRide({
 								<label className='form-check-label py-1 d-block'>
 									Shift Time{' '}
 								</label>
-								{/* {forHomeTimeView} */}
-								<MDBCol>
-									<input
-										type='radio'
-										className='form-check-input mb-2'
-										name='shifttime'
-										checked={forHomeTimeView === 'custom'}
-										onClick={() => setForHomeTimeView('custom')}
-										value='custom'
-									/>
-									<label className='fw-normal'>Custom Time</label>
+								{destinationLocationName === companyName && (
+									<MDBCol>
+										<input
+											type='radio'
+											className='form-check-input mb-2'
+											name='shifttime'
+											checked={forHomeTimeView === 'custom'}
+											onClick={() => setForHomeTimeView('custom')}
+											value='custom'
+										/>
+										<label className='fw-normal'>Custom Time</label>
 
-									<input
-										type='radio'
-										className='form-check-input ms-3 mb-2'
-										name='shifttime'
-										checked={forHomeTimeView === 'shift'}
-										onClick={() => setForHomeTimeView('shift')}
-										value='shift'
-									/>
-									<label className='fw-normal'>
-										Defined Shift Time
-									</label>
-								</MDBCol>
+										<input
+											type='radio'
+											className='form-check-input ms-3 mb-2'
+											name='shifttime'
+											checked={forHomeTimeView === 'shift'}
+											onClick={() => setForHomeTimeView('shift')}
+											value='shift'
+										/>
+										<label className='fw-normal'>
+											Defined Shift Time
+										</label>
+									</MDBCol>
+								)}
 
 								{destinationLocationName === companyName &&
 									forHomeTimeView === 'shift' && (
@@ -500,6 +502,17 @@ export default function CreateRide({
 											onChange={handleTimeChange}
 										/>
 									)}
+
+								{destinationLocationName !== companyName && (
+									<input
+										type='time'
+										name='time'
+										className='form-control mb-2'
+										placeholder='Enter Time'
+										value={tripTime}
+										onChange={handleTimeChange}
+									/>
+								)}
 
 								{error && <span className='error_msg'>{error}</span>}
 							</div>

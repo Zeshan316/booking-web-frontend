@@ -68,7 +68,6 @@ export default function CreateUser({
 		setDirection(e.target.value)
 	}
 
-	console.log('formType', formType)
 	useEffect(() => {
 		if (formType === 'update') {
 			setDefaultValues({

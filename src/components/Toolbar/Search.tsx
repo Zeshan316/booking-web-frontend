@@ -159,7 +159,7 @@ function Search({
 							className='form-selectt border-1 border-info bg-light text-info ms-3 me-1 f flex-end'
 							onChange={handleDirectionFilter}
 						>
-							<option className='options' defaultValue=''>
+							<option className='options' value=''>
 								Select Ride Direction
 							</option>
 							<option
