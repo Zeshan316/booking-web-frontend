@@ -1,6 +1,11 @@
 import React from 'react'
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {
+	BrowserRouter,
+	HashRouter,
+	Routes,
+	Route,
+} from 'react-router-dom'
 import AuthService from './services/AuthService'
 import Login from './pages/Login'
 // import NoInternetToast from './components/NoInternetToast'
@@ -54,6 +59,7 @@ function App(): JSX.Element {
 	return (
 		<BrowserRouter>
 			<Routes>
+				{/* <Route path='/' element={<span>Loading....</span>} /> */}
 				<Route
 					path='/rides'
 					element={
