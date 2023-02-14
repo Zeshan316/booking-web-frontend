@@ -14,6 +14,7 @@ import {
 	setLocationDetail,
 } from '../../store/reducers/locations-reducer'
 import { match } from 'assert'
+import { getValue } from '@testing-library/user-event/dist/utils'
 
 interface ModelProps {
 	showModal?: boolean
@@ -39,10 +40,12 @@ export default function CreateUser({
 		register,
 		handleSubmit,
 		reset,
+		getValues,
 		formState: { errors },
 	} = useForm<LocationFormProps>(defaultValues)
 
 	const [modalstate, setModalstate] = useState<boolean>(false)
+	const [direction, setDirection] = useState<string>('')
 
 	const locationDetail = useSelector(
 		(state: RootState) => state.locationReducer.location
@@ -55,9 +58,17 @@ export default function CreateUser({
 			direction: '',
 			locationName: '',
 		})
+		setDirection('')
 		handleFormType('')
 	}
 
+	function handleDirectionChange(
+		e: React.ChangeEvent<HTMLSelectElement>
+	) {
+		setDirection(e.target.value)
+	}
+
+	console.log('formType', formType)
 	useEffect(() => {
 		if (formType === 'update') {
 			setDefaultValues({
@@ -66,8 +77,11 @@ export default function CreateUser({
 					locationName: locationDetail.locationName,
 				},
 			})
+
+			setDirection(locationDetail.direction)
 		} else if (formType === 'create') {
 			dispatch(clearLocationDetail())
+
 			setDefaultValues({
 				values: {
 					direction: '',
@@ -129,6 +143,8 @@ export default function CreateUser({
 									{...register('direction', {
 										required: true,
 									})}
+									value={direction}
+									onChange={(e) => handleDirectionChange(e)}
 								>
 									<option value=''>Select Direction</option>
 									<option
