@@ -8,10 +8,8 @@ import {
 } from 'mdb-react-ui-kit'
 import { useForm, Controller } from 'react-hook-form'
 import ModalButton from '../Toolbar/ModalButton'
-// import '../Toolbar/CreateRide.css'
 import UserService from '../../services/UserService'
 import RoleService from '../../services/RoleService'
-// import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
@@ -229,7 +227,8 @@ export default function CreateUser({
 
 								{errors.email && (
 									<span className='error_msg'>
-										Please enter user's email
+										{errors.email.message ||
+											'Please enter an email address'}
 									</span>
 								)}
 
@@ -260,8 +259,8 @@ export default function CreateUser({
 												: {
 														...register('password', {
 															required: true,
-															// pattern:
-															// 	/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
+															pattern:
+																/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
 														}),
 												  })}
 										/>
@@ -306,6 +305,8 @@ export default function CreateUser({
 											? {
 													...register('newPassword', {
 														required: false,
+														pattern:
+															/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
 													}),
 											  }
 											: {
@@ -327,7 +328,8 @@ export default function CreateUser({
 								{formType === 'update'
 									? errors.newPassword && (
 											<span className='error_msg'>
-												{errors.newPassword.message}
+												{errors.newPassword.message ||
+													'Please follow the correct format for new password'}
 											</span>
 									  )
 									: errors.repeatPassword && (
@@ -339,6 +341,7 @@ export default function CreateUser({
 								<label className='fw-bold py-1 d-block'>
 									Phone No.
 								</label>
+
 								<input
 									placeholder='Enter phone number'
 									type='tel'
@@ -346,31 +349,15 @@ export default function CreateUser({
 									{...register('phoneNumber', {
 										required: false,
 										maxLength: 12,
-										// pattern: /^\+63[0-9]{4}[0-9]{4}[0-9]{2}$/,
+										pattern: /^(\+?\d{1,2})?\d{10}$/,
 									})}
 								/>
 								{errors.phoneNumber && (
-									<p>{errors.phoneNumber.message}</p>
+									<p className='error_msg'>
+										{errors.phoneNumber.message ||
+											'please enter a valid phone number format'}
+									</p>
 								)}
-
-								{/* <PhoneInput
-                  country="ph"
-                  // value={phoneNumber}
-                  // onChange={setPhoneNumber}
-                  inputProps={{
-                    name: "phoneNumber",
-                    required: false,
-                    maxLength: 12,
-                  }}
-                />
-                <input
-                  type="hidden"
-                  // value={getValues("phoneNumber") || "0000"}
-                  {...register("phoneNumber", {
-                    required: false,
-                    maxLength: 12,
-                  })}
-                /> */}
 
 								<label className='fw-bold py-1 d-block'>
 									Role
