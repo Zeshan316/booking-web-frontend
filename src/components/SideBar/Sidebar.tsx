@@ -20,31 +20,27 @@ const Sidebar = () => {
 	})
 
 	const userlinks: Item[] = [
-		{ text: 'Your Rides', to: '/rides', icon: 'car-side' },
+		{ text: 'Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 
 	const adminlinks: Item[] = [
-		{ text: 'All Users', to: '/users', icon: 'users' },
-		{ text: 'All Rides', to: '/rides', icon: 'car-side' },
-		{ text: 'All Roles', to: '/roles', icon: 'user-cog' },
-		{
-			text: 'All Location',
-			to: '/locations',
-			icon: 'location-arrow',
-		},
+		{ text: 'Users', to: '/users', icon: 'users' },
+		{ text: 'Rides', to: '/rides', icon: 'car-side' },
+		{ text: 'Locations', to: '/locations', icon: 'location-arrow' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
+		{ text: 'Roles', to: '/roles', icon: 'user-cog' },
 	]
 
 	const sysadminlinks: Item[] = [
-		{ text: 'All Users', to: '/users', icon: 'users' },
-		{ text: 'All Rides', to: '/rides', icon: 'car-side' },
-		{ text: 'All Roles', to: '/roles', icon: 'user-cog' },
+		{ text: 'Users', to: '/users', icon: 'users' },
+		{ text: 'Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
+		{ text: 'Roles', to: '/roles', icon: 'user-cog' },
 	]
 
 	const driverlinks: Item[] = [
-		{ text: 'All Rides', to: '/rides', icon: 'car-side' },
+		{ text: 'Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 

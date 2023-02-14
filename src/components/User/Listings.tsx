@@ -194,10 +194,14 @@ function Listings({
 												</div>
 											</div>
 										</td>
-										<td>
+										<td
+											onClick={() => handleUserDetail(user?.userId)}
+										>
 											<p className=' mb-1'>{user?.firstName}</p>
 										</td>
-										<td>
+										<td
+											onClick={() => handleUserDetail(user?.userId)}
+										>
 											<p className='mb-0'>{user?.email}</p>
 										</td>
 										<td>
@@ -223,7 +227,9 @@ function Listings({
 												)}
 											</p>
 										</td>
-										<td>
+										<td
+											onClick={() => handleUserDetail(user?.userId)}
+										>
 											<p className='mb-1'>
 												{user?.phoneNumber || 'N/A'}
 											</p>

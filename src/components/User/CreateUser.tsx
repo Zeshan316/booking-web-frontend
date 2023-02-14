@@ -245,7 +245,7 @@ export default function CreateUser({
 									tag='span'
 									title='Password must be 6-15 characters long, contain at least one numeric digit, one uppercase and one lowercase letter'
 								>
-									<div className='d-flex align-items-center form-control'>
+									<div className='d-flex align-items-center form-control mb-2'>
 										<input
 											placeholder='Password'
 											type={type}
@@ -292,7 +292,7 @@ export default function CreateUser({
 										<span className='text-danger'>*</span>
 									)}
 								</label>
-								<div className='d-flex align-items-center form-control'>
+								<div className='d-flex align-items-center form-control mb-2'>
 									<input
 										type={typeRepeat}
 										className=' w-100 border-0'

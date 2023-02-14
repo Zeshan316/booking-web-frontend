@@ -194,17 +194,17 @@ function Listings({
 												</MDBCol>
 											</MDBRow>
 										</td>
-										<td>
+										<td onClick={() => handleRideDetail(ride?.id)}>
 											<p className=' mb-1'>
 												{dayjs(ride?.tripDateTime).format('hh:mm A')}
 											</p>
 										</td>
-										<td>
+										<td onClick={() => handleRideDetail(ride?.id)}>
 											<p className=' mb-1'>
 												{`${ride.user.firstName} ${ride.user.lastName}`}
 											</p>
 										</td>
-										<td>
+										<td onClick={() => handleRideDetail(ride?.id)}>
 											<p className='mb-0 text-capitalize'>
 												{ride.pickup.direction}
 											</p>
