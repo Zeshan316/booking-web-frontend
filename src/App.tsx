@@ -3,7 +3,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AuthService from './services/AuthService'
 import Login from './pages/Login'
-import NoInternetToast from './components/NoInternetToast'
+// import NoInternetToast from './components/NoInternetToast'
 import AdminDashboard from './components/Admin/AdminDashboard'
 import ProtectedRoute from './routes/ProtectedRoute'
 import UserProfile from './components/User/UserProfile'
@@ -16,10 +16,9 @@ import Rides from './components/Rides/Rides'
 import Roles from './components/Roles/Roles'
 import Locations from './components/Locations/Locations'
 import 'react-datetime/css/react-datetime.css'
-// import Users from './components/Admin/Users'
+import { notify } from './common/utils'
 
 function App(): JSX.Element {
-	;<NoInternetToast />
 	const dispatch = useDispatch()
 
 	const authData = useSelector((state: RootState) => {
@@ -34,7 +33,22 @@ function App(): JSX.Element {
 	}
 
 	React.useEffect(() => {
+		const showSuccessNotify = () => {
+			notify('You are online!', 'success')
+		}
+		const showErrorNotify = () => {
+			notify('You are offline!', 'error')
+		}
+
+		window.addEventListener('online', showSuccessNotify)
+		window.addEventListener('offline', showErrorNotify)
+
 		getCurrentUser()
+
+		return () => {
+			window.removeEventListener('online', showSuccessNotify)
+			window.removeEventListener('offline', showErrorNotify)
+		}
 	}, [])
 
 	return (
@@ -85,22 +99,7 @@ function App(): JSX.Element {
 					}
 				/>
 
-				{/* <Route path='rides' element={<AdminRides />} /> */}
-				{/* <Route path='users' element={<Users />} /> */}
-
-				{/* <Route path='profile' element={<UserProfile />} /> */}
-				{/* Ride History */}
-				{/* <Route path='history' element={<RideHistory />} /> */}
-
-				{/* <Route path="/users" element={<ProtectedRoute />}> */}
-				{/* Should show all users in a table */}
-
-				{/* this path is being rendered when Admin logs in: fix */}
-				{/* <Route path='' element={<AdminDashboard />} /> */}
-				{/* Should show form to create a user */}
-
 				<Route path='/login' element={<Login />} />
-
 				<Route path='*' element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
