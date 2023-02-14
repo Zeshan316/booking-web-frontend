@@ -26,6 +26,7 @@ import UserDetails from './UserDetails'
 import UserService from '../../services/UserService'
 import { setUserDetail } from '../../store/reducers/users-reducer'
 import DeleteModal from '../Toolbar/DeleteModal'
+import { Audio } from 'react-loader-spinner'
 
 interface UserTableProps {
 	perPageItems: number

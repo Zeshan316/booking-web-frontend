@@ -37,8 +37,16 @@ export default function UserDashboard(): JSX.Element {
 			readableValue: 'First Name',
 		},
 		{
+			filterVal: 'lastName',
+			readableValue: 'Last Name',
+		},
+		{
 			filterVal: 'email',
 			readableValue: 'Email',
+		},
+		{
+			filterVal: 'phoneNumber',
+			readableValue: 'Phone Number',
 		},
 	])
 	const [searchValue, setSearchValue] = useState<string>('')
@@ -79,6 +87,9 @@ export default function UserDashboard(): JSX.Element {
 		const option: any = options.find(
 			(option) => option.filterVal === event.target.value
 		)
+
+		if (!option) return
+
 		setSelecetedFilterOption({
 			optionValue: option.filterVal,
 			optionName: option.readableValue,
@@ -98,11 +109,16 @@ export default function UserDashboard(): JSX.Element {
 		setSearchValue(event.target.value)
 		setTableFilters({
 			...initialTableFilters,
-			[selectedOptionValue]: searchValue,
+			[selectedOptionValue]: event.target.value,
 		})
 
-		if (!event.target.value.length)
+		if (!event.target.value.length) {
+			setSelecetedFilterOption({
+				optionName: '',
+				optionValue: '',
+			})
 			setTableFilters({ ...initialTableFilters })
+		}
 	}
 
 	async function handleSearchClick() {
@@ -152,7 +168,6 @@ export default function UserDashboard(): JSX.Element {
 					</MDBCol>
 				</MDBRow>
 			)}
-
 			<Search
 				handleSearchClick={handleSearchClick}
 				handleOption={handleOption}

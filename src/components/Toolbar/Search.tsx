@@ -59,7 +59,7 @@ function Search({
 							onChange={handleOption}
 							value={selecetedFilterOption.optionValue}
 						>
-							<option className='options' defaultValue=''>
+							<option className='options' value=''>
 								Select Filter
 							</option>
 							{options.map((filter, index) => {

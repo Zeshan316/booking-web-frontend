@@ -101,8 +101,13 @@ export default function UserDashboard(): JSX.Element {
 			[selectedOptionValue]: event.target.value,
 		})
 
-		if (!event.target.value.length)
+		if (!event.target.value.length) {
+			setSelecetedFilterOption({
+				optionValue: '',
+				optionName: '',
+			})
 			setTableFilters({ ...initialTableFilters })
+		}
 	}
 
 	async function handleSearchClick() {
