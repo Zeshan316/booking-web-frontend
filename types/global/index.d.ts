@@ -98,8 +98,6 @@ type UserFormProps = {
 	oldPassword?: string
 	newPassword?: string
 	profileImg?: any
-
-	
 }
 
 type RideFormProps = {
@@ -108,4 +106,9 @@ type RideFormProps = {
 	direction: string
 	pickupId: string
 	destinationId: string
+}
+
+type LocationFormProps = {
+	direction: string
+	locationName: string
 }

@@ -49,7 +49,6 @@ export default class RideService {
 		formData: RideFormProps
 	): Promise<{ data: { message: string } }> {
 		try {
-			console.log(RIDE_ROUTES.createRide())
 			const response = await TicketingAxios.post(
 				RIDE_ROUTES.createRide(),
 				formData

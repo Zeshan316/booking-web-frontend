@@ -1,0 +1,49 @@
+.card-bg{
+    background-color: rgba(175, 244, 253, 0.904);
+}
+
+.text-style{
+    font-size: 1.12rem;
+    font-weight: 500;
+    color: #696767;
+    text-transform: none;
+    word-wrap: break-word;
+    width: 12rem;
+}
+
+
+.sort-icon{
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.back_btn{
+    font-size: 28px;
+    color: #4f4f4f;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 0.5rem;
+
+}
+
+.back_btn:hover{
+    opacity: 0.7;
+}
+
+.status{
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: #696767;
+    text-transform: none;
+}
+
+
+.items{
+font-weight: 500;
+font-size: 1.05rem;
+}
+
+
+.items:hover{
+    cursor: pointer;
+}

@@ -169,9 +169,6 @@ export default function CreateRide({
 		const pickupLocationName = pickupLocation?.locationName
 			.toLowerCase()
 			.trim()
-		// const companyName =
-		// CURRENT_COMPANY_NAME.toLocaleLowerCase().trim()
-
 		if (
 			pickupLocationName !== companyName &&
 			pickupLocationName !== companyName

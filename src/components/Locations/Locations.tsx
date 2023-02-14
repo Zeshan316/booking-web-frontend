@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { MDBCol, MDBRow } from 'mdb-react-ui-kit'
 import Layout from 'src/components/Layout/Layout'
-import Listings from '../User/Listings'
+import Listings from './Listings'
 import Search from 'src/components/Toolbar/Search'
-import CreateUser from '../User/CreateUser'
-import UserService from '../../services/UserService'
+import CreateLocation from './CreateLocation'
+import LocationService from '../../services/LocationService'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUsers } from '../../store/reducers/users-reducer'
+import { setLocations } from '../../store/reducers/locations-reducer'
 import {
 	LISTING_ORDER,
 	INITIAL_PAGE_OFFSET,
@@ -33,12 +33,12 @@ export default function UserDashboard(): JSX.Element {
 		useState<string>('')
 	const [options, setOptions] = useState<GenericObject[]>([
 		{
-			filterVal: 'firstName',
-			readableValue: 'First Name',
+			filterVal: 'locationName',
+			readableValue: 'Location Name',
 		},
 		{
-			filterVal: 'email',
-			readableValue: 'Email',
+			filterVal: 'direction',
+			readableValue: 'Direction',
 		},
 	])
 	const [searchValue, setSearchValue] = useState<string>('')
@@ -55,17 +55,17 @@ export default function UserDashboard(): JSX.Element {
 	const [formType, setFormType] = useState<string>('create')
 	// const [updateUserId, setUpdateUserId] = useState<string>('')
 
-	async function getUsers() {
-		const data = await UserService.getUsers(tableFilters)
-		dispatch(setUsers(data))
+	async function getLocations() {
+		const data = await LocationService.getLocations(tableFilters)
+		dispatch(setLocations(data))
 	}
 
 	React.useEffect(() => {
-		getUsers()
+		getLocations()
 	}, [tableFilters.to])
 
 	React.useEffect(() => {
-		if (!searchValue) getUsers()
+		if (!searchValue) getLocations()
 	}, [searchValue])
 
 	const userRole = authData.user.role.name?.toLowerCase()
@@ -98,7 +98,7 @@ export default function UserDashboard(): JSX.Element {
 		setSearchValue(event.target.value)
 		setTableFilters({
 			...initialTableFilters,
-			[selectedOptionValue]: searchValue,
+			[selectedOptionValue]: event.target.value,
 		})
 
 		if (!event.target.value.length)
@@ -108,7 +108,7 @@ export default function UserDashboard(): JSX.Element {
 	async function handleSearchClick() {
 		if (!searchValue || !selectedOptionValue) return
 
-		await getUsers()
+		await getLocations()
 	}
 
 	function handleItemsPerPage(event: React.ChangeEvent<any>): void {
@@ -117,7 +117,7 @@ export default function UserDashboard(): JSX.Element {
 		return
 	}
 
-	function handleUserFormModel(showHideModel: boolean) {
+	function handleLocationFormModel(showHideModel: boolean) {
 		setShowUserFormModel(showHideModel)
 	}
 
@@ -125,14 +125,9 @@ export default function UserDashboard(): JSX.Element {
 		setFormType(type)
 	}
 
-	async function handleDeleteUser(userId: string) {
-		await UserService.deleteUser(userId)
-		getUsers()
-	}
-
-	async function handleUserStatus(userId: string) {
-		await UserService.updateUserStatus(userId)
-		getUsers()
+	async function handleDeleteLocation(locationId: string) {
+		await LocationService.deleteLocation(locationId)
+		getLocations()
 	}
 
 	return (
@@ -142,10 +137,10 @@ export default function UserDashboard(): JSX.Element {
 			) : (
 				<MDBRow className='mt-5 px-3 py-2 text-start bg-light d-flex justify-content-start flex-1 '>
 					<MDBCol className=''>
-						<CreateUser
-							getUsers={getUsers}
+						<CreateLocation
+							getLocations={getLocations}
 							showUserModel={showUserFormModel}
-							handleUserFormModel={handleUserFormModel}
+							handleLocationFormModel={handleLocationFormModel}
 							formType={formType}
 							handleFormType={handleFormType}
 						/>
@@ -154,20 +149,19 @@ export default function UserDashboard(): JSX.Element {
 			)}
 
 			<Search
+				selecetedFilterOption={selecetedFilterOption}
 				handleSearchClick={handleSearchClick}
 				handleOption={handleOption}
 				options={options}
 				searchValue={searchValue}
 				handleSearchField={handleSearchField}
 				handleItemsPerPage={handleItemsPerPage}
-				selecetedFilterOption={selecetedFilterOption}
 			/>
 			<Listings
 				perPageItems={itemsPerPage}
 				handleFormType={handleFormType}
-				handleUserFormModel={handleUserFormModel}
-				handleDeleteUser={handleDeleteUser}
-				handleUserStatus={handleUserStatus}
+				handleLocationFormModel={handleLocationFormModel}
+				handleDeleteLocation={handleDeleteLocation}
 			/>
 		</Layout>
 	)

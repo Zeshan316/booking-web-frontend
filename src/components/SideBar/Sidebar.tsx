@@ -28,6 +28,11 @@ const Sidebar = () => {
 		{ text: 'All Users', to: '/users', icon: 'users' },
 		{ text: 'All Rides', to: '/rides', icon: 'car-side' },
 		{ text: 'All Roles', to: '/roles', icon: 'user-cog' },
+		{
+			text: 'All Location',
+			to: '/locations',
+			icon: 'location-arrow',
+		},
 		{ text: 'Profile', to: '/profile', icon: 'user-circle' },
 	]
 

@@ -111,8 +111,6 @@ export default class UserService {
 				USER_ROUTES.deleteUser(userId)
 			)
 
-			console.log(response)
-
 			const { data } = response
 
 			if (data?.message) notify(data?.message, 'success')
