@@ -76,6 +76,8 @@ function Listings({
 	async function getRideDetail(rideId: string) {
 		const rideDetail = await RideService.getRide(rideId)
 		dispatch(setRideDetail(rideDetail))
+
+		return rideDetail
 	}
 
 	useEffect(() => {
@@ -92,7 +94,19 @@ function Listings({
 	async function handleRideEdit(rideId: string | undefined) {
 		if (!rideId) return
 
-		await getRideDetail(rideId)
+		const rideDetail = await getRideDetail(rideId)
+
+		const rideMinutesDiff = dayjs(rideDetail.tripDateTime).diff(
+			dayjs(),
+			'minute'
+		)
+		if (rideMinutesDiff < 59) {
+			alert(
+				'Rides can be updated at least one hour before the scheduled time.'
+			)
+			return
+		}
+
 		handleFormType('update')
 		handleRideFormModel(true)
 	}
