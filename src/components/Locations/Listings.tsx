@@ -151,7 +151,7 @@ function Listings({
 											<td>
 												<div className='d-flex align-items-center'>
 													<div className='ms-3'>
-														<p className='fw-bold mb-1'>
+														<p className='fw-bold mb-1 text-capitalize'>
 															{location.direction || 'N/A'}
 														</p>
 													</div>
