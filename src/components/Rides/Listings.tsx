@@ -24,6 +24,7 @@ import { setRideDetail } from '../../store/reducers/rides-reducer'
 import DeleteModal from '../Toolbar/DeleteModal'
 import { USER_ROLES, RIDE_STATUSES } from '../../common/constants'
 import { setRides } from '../../store/reducers/rides-reducer'
+import { notify } from '../../common/utils'
 
 interface UserTableProps {
 	perPageItems: number
@@ -91,9 +92,7 @@ function Listings({
 		setSelectedRideId(rideId)
 	}
 
-	async function handleRideEdit(rideId: string | undefined) {
-		if (!rideId) return
-
+	async function getRideTimeDiff(rideId: string) {
 		const rideDetail = await getRideDetail(rideId)
 
 		const rideMinutesDiff = dayjs(rideDetail.tripDateTime).diff(
@@ -101,15 +100,41 @@ function Listings({
 			'minute'
 		)
 
+		return rideMinutesDiff
+	}
+
+	async function handleRideEdit(rideId: string | undefined) {
+		if (!rideId) return
+
+		const rideMinutesDiff = await getRideTimeDiff(rideId)
+
 		if (rideMinutesDiff < 59) {
-			alert(
-				'Rides can be updated at least one hour before the scheduled time.'
+			notify(
+				'Rides can be updated at least one hour before the scheduled time.',
+				'error'
 			)
 			return
 		}
 
 		handleFormType('update')
 		handleRideFormModel(true)
+	}
+
+	async function handleRideDelete(rideId: string) {
+		if (!rideId) return
+
+		const rideMinutesDiff = await getRideTimeDiff(rideId)
+
+		if (rideMinutesDiff < 59) {
+			notify(
+				'Rides can be deleted at least one hour before the scheduled time.',
+				'error'
+			)
+			return
+		}
+
+		setShowConfirBox(true)
+		setDeleteRideId(rideId)
 	}
 
 	return (
@@ -348,8 +373,7 @@ function Listings({
 																		size='sm'
 																		rippleColor='dark'
 																		onClick={() => {
-																			setShowConfirBox(true)
-																			setDeleteRideId(ride.id)
+																			handleRideDelete(ride.id)
 																		}}
 																	>
 																		<MDBIcon icon='trash' />
