@@ -158,7 +158,7 @@ function Listings({
 												</div>
 											</td>
 											<td>
-												<p className=' mb-1'>
+												<p className='mb-1 text-capitalize'>
 													{location.locationName}
 												</p>
 											</td>
