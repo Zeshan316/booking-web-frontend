@@ -89,7 +89,6 @@ export default function UserDashboard(): JSX.Element {
 		const option: any = options.find(
 			(option) => option.filterVal === event.target.value
 		)
-
 		if (!option) return
 
 		setSelecetedFilterOption({
@@ -100,7 +99,7 @@ export default function UserDashboard(): JSX.Element {
 		setSelectedOptionValue(event.target.value)
 		setTableFilters({
 			...initialTableFilters,
-			[selectedOptionValue]: searchValue,
+			[selectedOptionValue]: event.target.value,
 		})
 	}
 

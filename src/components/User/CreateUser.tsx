@@ -40,6 +40,7 @@ export default function CreateUser({
 		watch,
 		reset,
 		getValues,
+		setValue,
 		control,
 		formState: { errors },
 	} = useForm<UserFormProps>(defaultValues)
@@ -81,7 +82,7 @@ export default function CreateUser({
 
 	useEffect(() => {
 		getRoles()
-	}, [])
+	}, [formType])
 
 	useEffect(() => {
 		if (formType === 'update') {
@@ -98,7 +99,7 @@ export default function CreateUser({
 			})
 			//   getRoles();
 		} else if (formType === 'create') {
-			const userRole = roles.find((role: Role) => role.level === 2)
+			const userRole = roles?.find((role: Role) => role.level === 2)
 			setDefaultValues({
 				values: {
 					firstName: '',
@@ -259,8 +260,8 @@ export default function CreateUser({
 												: {
 														...register('password', {
 															required: true,
-															pattern:
-																/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
+															// pattern:
+															// /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
 														}),
 												  })}
 										/>
@@ -305,8 +306,8 @@ export default function CreateUser({
 											? {
 													...register('newPassword', {
 														required: false,
-														pattern:
-															/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
+														// pattern:
+														// /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/,
 													}),
 											  }
 											: {
@@ -349,7 +350,7 @@ export default function CreateUser({
 									{...register('phoneNumber', {
 										required: false,
 										maxLength: 12,
-										pattern: /^(\+?\d{1,2})?\d{10}$/,
+										// pattern: /^(\+?\d{1,2})?\d{10}$/,
 									})}
 								/>
 								{errors.phoneNumber && (
